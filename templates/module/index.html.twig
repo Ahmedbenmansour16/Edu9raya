@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modules{% endblock %}
+
+{% block body %}
+    <h1>Liste des Modules</h1>
+    <a href="{{ path('module_new') }}">Créer un module</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Enseignant</th>
+                <th>Durée</th>
+                <th>Coefficient</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+                <tr>
+                    <td>{{ module.nom }}</td>
+                    <td>{{ module.enseignant }}</td>
+                    <td>{{ module.duree }} h</td>
+                    <td>{{ module.coefficient }}</td>
+                    <td>
+                        <a href="{{ path('module_show', {id: module.id}) }}">Voir</a>
+                        <a href="{{ path('module_edit', {id: module.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('module_delete', {id: module.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.id) }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

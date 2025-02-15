@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Module{% endblock %}
+
+{% block body %}
+    <h1>{{ module.nom }}</h1>
+    <p><strong>Enseignant :</strong> {{ module.enseignant }}</p>
+    <p><strong>Durée :</strong> {{ module.duree }} heures</p>
+    <p><strong>Coefficient :</strong> {{ module.coefficient }}</p>
+
+    <a href="{{ path('module_index') }}">Retour à la liste</a>
+    <a href="{{ path('module_edit', {id: module.id}) }}">Modifier</a>
+    <form method="post" action="{{ path('module_delete', {id: module.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.id) }}">
+        <button type="submit">Supprimer</button>
+    </form>
+{% endblock %}
