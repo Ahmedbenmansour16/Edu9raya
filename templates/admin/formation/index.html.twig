@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Liste des Formations{% endblock %}
+{% block body %}
+<div class="head-title">
+    <div class="left">
+        <h1>Liste des Formations</h1>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Dashboard</a>
+            </li>
+            <li><i class='bx bx-chevron-right'></i></li>
+            <li>
+                <a class="active" href="#">Formations</a>
+            </li>
+        </ul>
+    </div>
+    <a href="{{ path('admin_formation_new') }}" class="btn-download">
+        <i class='bx bxs-file-plus'></i>
+        <span class="text">Nouvelle Formation</span>
+    </a>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>Liste des Formations</h3>
+            <i class='bx bx-search'></i>
+            <i class='bx bx-filter'></i>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Date de création</th>
+                    <th>Catégorie</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for formation in formations %}
+                <tr>
+                    <td>{{ formation.nom }}</td>
+                    <td>{{ formation.description|slice(0, 50) ~ '...' }}</td>
+                    <td>{{ formation.image }}</td>
+                    <td>{{ formation.dateCreation|date('Y-m-d') }}</td>
+                    <td>{{ formation.categorie.nom }}</td>
+                    <td>
+                        <a href="{{ path('admin_formation_show', { id: formation.id }) }}" class="btn btn-info btn-sm"><i class='bx bx-show'></i></a>
+                        <a href="{{ path('admin_formation_edit', { id: formation.id }) }}" class="btn btn-warning btn-sm"><i class='bx bx-edit'></i></a>
+                        <form method="post" action="{{ path('admin_formation_delete', { id: formation.id }) }}" style="display:inline-block;" onsubmit="return confirm('Confirmez-vous la suppression ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ formation.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm"><i class='bx bx-trash'></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">Aucune formation trouvée.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

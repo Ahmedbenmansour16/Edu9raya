@@ -1,0 +1,136 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Test{% endblock %}
+
+{% block stylesheets %}
+<style>
+  /* Container principal avec un fond dégradé subtil */
+  .test-container {
+    background: linear-gradient(135deg, #f6f9fc, #e9eff5);
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 30px;
+  }
+
+  /* Titre principal du test */
+  .test-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1c7ed6;
+    margin-bottom: 30px;
+  }
+
+  /* Carte pour chaque question */
+  .question-card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .question-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+
+  /* Texte de la question */
+  .question-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Styles des boutons radio */
+  .form-check {
+    margin-bottom: 12px;
+  }
+  .form-check-input {
+    /* Pour les navigateurs compatibles, accent-color permet de changer la couleur */
+    accent-color: #1c7ed6;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 10px;
+  }
+  .form-check-label {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+  }
+
+  /* Bouton de validation */
+  .btn-submit {
+    background: #1c7ed6;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  .btn-submit:hover {
+    background: #0c5fb0;
+  }
+
+  /* Bouton de retour */
+  .btn-back {
+    background: #6c757d;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+  .btn-back:hover {
+    background: #5a6268;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-4 test-container">
+  <h1 class="test-title">Test de la formation</h1>
+  <form method="POST">
+    {% for question in test.questions %}
+      <div class="question-card">
+        <div class="question-text">
+          Question {{ loop.index }} : {{ question.enonce }}
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_1" value="1">
+          <label class="form-check-label" for="q{{ question.id }}_1">
+            {{ question.answer1 }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_2" value="2">
+          <label class="form-check-label" for="q{{ question.id }}_2">
+            {{ question.answer2 }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_3" value="3">
+          <label class="form-check-label" for="q{{ question.id }}_3">
+            {{ question.answer3 }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_4" value="4">
+          <label class="form-check-label" for="q{{ question.id }}_4">
+            {{ question.answer4 }}
+          </label>
+        </div>
+      </div>
+    {% endfor %}
+    <div class="text-center">
+      <button type="submit" class="btn btn-submit">Valider le test</button>
+    </div>
+  </form>
+  <div class="mt-4 text-center">
+    <a href="{{ path('student_formation_show', { id: test.getFormation().id }) }}" class="btn btn-back">Retour à la formation</a>
+  </div>
+</div>
+{% endblock %}

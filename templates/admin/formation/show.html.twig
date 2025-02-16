@@ -1,0 +1,268 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Détails Formation{% endblock %}
+{% block stylesheets %}
+<style>
+  .formation-details {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  /* En-tête de la formation */
+  .formation-header {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 32px;
+  }
+  
+  .formation-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 24px;
+  }
+  
+  .formation-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .meta-label {
+    font-weight: 600;
+    color: #6B7280;
+    font-size: 14px;
+  }
+  
+  .meta-value {
+    color: #111827;
+    font-size: 15px;
+  }
+  
+  .formation-image {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Section des niveaux */
+  .niveau-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+  }
+  
+  .niveau-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #E5E7EB;
+  }
+  
+  .niveau-card {
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .niveau-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .niveau-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3B82F6;
+  }
+  
+  /* Contenu des niveaux */
+  .contenu-item {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #E5E7EB;
+  }
+  
+  .contenu-type {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6B7280;
+    margin-bottom: 8px;
+  }
+  
+  .contenu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #3B82F6;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: #EFF6FF;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .contenu-link:hover {
+    background: #DBEAFE;
+  }
+  
+  /* Section du test */
+  .test-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+  }
+  
+  .question-card {
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .question-number {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3B82F6;
+    margin-bottom: 12px;
+  }
+  
+  .question-text {
+    font-size: 16px;
+    color: #1F2937;
+    margin-bottom: 16px;
+  }
+  
+  .answers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .answer-item {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    border: 1px solid #E5E7EB;
+  }
+  
+  .correct-answer {
+    color: #059669;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  
+  /* Bouton de retour */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #F3F4F6;
+    color: #374151;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin-top: 32px;
+  }
+  
+  .back-button:hover {
+    background: #E5E7EB;
+  }
+</style>
+{% endblock %}
+{% block body %}
+<div class="formation-details">
+  <div class="formation-header">
+    <h1 class="formation-title">{{ formation.nom }}</h1>
+    {% if formation.image %}
+    <img class="formation-image" style="margin-left: 350px;" src="{{ asset('uploads/' ~ formation.image) }}" alt="{{ formation.nom }}">
+  {% endif %}
+  <p class="formation-description">{{ formation.description }}</p>
+    <div class="formation-meta">
+      <div class="meta-item">
+        <span class="meta-label">Catégorie:</span>
+        <span class="meta-value">{{ formation.categorie.nom }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Date de création:</span>
+        <span class="meta-value">{{ formation.dateCreation|date('d/m/Y') }}</span>
+      </div>
+    </div>
+  
+
+  </div>
+
+  <div class="niveau-section">
+    <h2 class="niveau-title">Niveaux de la formation</h2>
+    {% for niveau in formation.niveaux %}
+      <div class="niveau-card">
+        <div class="niveau-header">
+          <h3 class="niveau-number">Niveau {{ niveau.ordre }}</h3>
+        </div>
+        {% for contenu in niveau.contenus %}
+          <div class="contenu-item">
+            <div class="contenu-type">{{ contenu.type|upper }}</div>
+            {% if contenu.type == 'description' %}
+              <p>{{ contenu.description }}</p>
+            {% else %}
+              <a href="{{ asset('uploads/' ~ contenu.fichier) }}" class="contenu-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i>
+                Voir le fichier
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if formation.test %}
+    <div class="test-section">
+      <h2 class="niveau-title">Test de validation</h2>
+      {% for question in formation.test.questions %}
+        <div class="question-card">
+          <div class="question-number">Question {{ loop.index }}</div>
+          <div class="question-text">{{ question.enonce }}</div>
+          <ul class="answers-list">
+            <li class="answer-item">A: {{ question.answer1 }}</li>
+            <li class="answer-item">B: {{ question.answer2 }}</li>
+            <li class="answer-item">C: {{ question.answer3 }}</li>
+            <li class="answer-item">D: {{ question.answer4 }}</li>
+          </ul>
+          <div class="correct-answer">Réponse correcte: {{ question.correctAnswer }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <a href="{{ path('admin_formation_index') }}" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+    Retour à la liste
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,413 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer une Formation{% endblock %}
+
+{% block stylesheets %}
+<style>
+.wizard-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.wizard-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.wizard-tabs::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grey);
+  z-index: 1;
+}
+
+.wizard-tab {
+  width: 150px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.wizard-tab-circle {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: var(--light);
+  color: var(--dark);
+  margin: 0 auto 10px;
+  font-weight: bold;
+  position: relative;
+  border: 2px solid var(--grey);
+}
+
+.wizard-tab.active .wizard-tab-circle {
+  background: var(--blue);
+  color: var(--light);
+  border-color: var(--blue);
+}
+
+.wizard-tab.completed .wizard-tab-circle {
+  background: var(--light-blue);
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.wizard-tab-label {
+  font-size: 14px;
+  color: var(--dark-grey);
+}
+
+.wizard-tab.active .wizard-tab-label {
+  color: var(--blue);
+  font-weight: 600;
+}
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  border: 2px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.form-control-file {
+  padding: 12px;
+  background: #F9FAFB;
+  border: 2px dashed #E5E7EB;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #3B82F6;
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+/* Style pour le titre principal */
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 32px;
+}
+
+/* Style pour les sous-titres */
+h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 24px;
+}
+.wizard-step {
+  display: none;
+  background: var(--light);
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+.wizard-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.contenu-block {
+  background: var(--grey);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.question-block {
+  background: var(--grey);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.btn-secondary {
+  background-color: var(--grey);
+  color: var(--dark);
+}
+
+.btn-light {
+  background-color: var(--light);
+  color: var(--dark);
+  border: 1px solid var(--grey);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container wizard-container">
+  <h1 class="mb-4">Créer une Formation</h1>
+  
+  <div class="wizard-tabs">
+    <div class="wizard-tab active" id="tab1">
+      <div class="wizard-tab-circle">1</div>
+      <div class="wizard-tab-label">Informations de la Formation</div>
+    </div>
+    {% for i in 1..5 %}
+    <div class="wizard-tab" id="tab{{ i+1 }}">
+      <div class="wizard-tab-circle">{{ i+1 }}</div>
+      <div class="wizard-tab-label">Niveau {{ i }}</div>
+    </div>
+    {% endfor %}
+    <div class="wizard-tab" id="tab7">
+      <div class="wizard-tab-circle">7</div>
+      <div class="wizard-tab-label">Test</div>
+    </div>
+  </div>
+
+  <form id="formationForm" method="POST" enctype="multipart/form-data">
+    <!-- Étape 1 : Infos Formation -->
+    <div class="wizard-step active" id="step1">
+      <h4 class="mb-3">Informations de la Formation</h4>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" class="form-control" required rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="imageFile">Image (upload)</label>
+        <input type="file" name="imageFile" id="imageFile" class="form-control-file">
+      </div>
+      <div class="form-group">
+        <label for="categorie">Catégorie</label>
+        <select name="categorie" id="categorie" class="form-control" required>
+          <option value="">-- Choisir --</option>
+          {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="wizard-navigation">
+        <div></div>
+        <button type="button" class="btn btn-primary" onclick="goToStep(2)">Suivant</button>
+      </div>
+    </div>
+
+    <!-- Étapes 2 à 6 : Les 5 niveaux -->
+    {% for i in 1..5 %}
+      <div class="wizard-step" id="step{{ i+1 }}">
+        <h4 class="mb-3">Niveau {{ i }}</h4>
+        <p>Ajouter un ou plusieurs contenus :</p>
+        <div id="contenus-container-{{ i }}">
+          <!-- On insérera dynamiquement des blocs de contenu -->
+        </div>
+        <button type="button" class="btn btn-secondary mb-3" onclick="addContenu({{ i }})">
+          <i class='bx bx-plus'></i> Ajouter un Contenu
+        </button>
+        <div class="wizard-navigation">
+          <button type="button" class="btn btn-light" onclick="goToStep({{ i }})">Précédent</button>
+          {% if i < 5 %}
+            <button type="button" class="btn btn-primary" onclick="goToStep({{ i+2 }})">Suivant</button>
+          {% else %}
+            <button type="button" class="btn btn-primary" onclick="goToStep(7)">Suivant (Test)</button>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <!-- Étape 7 : Le Test (10 questions) -->
+    <div class="wizard-step" id="step7">
+      <h4 class="mb-3">Test (10 Questions)</h4>
+      <div id="questions-container">
+        {% for q in 1..10 %}
+          <div class="question-block mb-3">
+            <h5>Question {{ q }}</h5>
+            <div class="form-group">
+              <label>Énoncé</label>
+              <textarea name="test[questions][{{ q }}][enonce]" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Réponse 1</label>
+              <input type="text" name="test[questions][{{ q }}][answer1]" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Réponse 2</label>
+              <input type="text" name="test[questions][{{ q }}][answer2]" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Réponse 3</label>
+              <input type="text" name="test[questions][{{ q }}][answer3]" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Réponse 4</label>
+              <input type="text" name="test[questions][{{ q }}][answer4]" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Bonne réponse (1,2,3,4)</label>
+              <input type="number" name="test[questions][{{ q }}][correct]" class="form-control" value="1" min="1" max="4">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="wizard-navigation">
+        <button type="button" class="btn btn-light" onclick="goToStep(6)">Précédent</button>
+        <button type="submit" class="btn btn-success">Enregistrer la Formation</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// Gestion des étapes
+function goToStep(stepNumber) {
+  // Masquer toutes les étapes
+  const steps = document.querySelectorAll('.wizard-step');
+  steps.forEach(step => step.classList.remove('active'));
+  
+  // Afficher l'étape demandée
+  document.getElementById('step' + stepNumber).classList.add('active');
+  
+  // Mettre à jour les onglets
+  updateTabs(stepNumber);
+}
+
+function updateTabs(activeStep) {
+  // Réinitialiser tous les onglets
+  const tabs = document.querySelectorAll('.wizard-tab');
+  tabs.forEach((tab, index) => {
+    tab.classList.remove('active', 'completed');
+    if (index + 1 < activeStep) {
+      tab.classList.add('completed');
+    }
+    if (index + 1 === activeStep) {
+      tab.classList.add('active');
+    }
+  });
+}
+
+// Ajout dynamique de contenu pour un niveau
+let contenuIndex = {};
+{% for i in 1..5 %}
+  contenuIndex[{{ i }}] = 0;
+{% endfor %}
+
+function addContenu(niveauNumber) {
+  const container = document.getElementById('contenus-container-' + niveauNumber);
+  const idx = contenuIndex[niveauNumber]++;
+  
+  // On crée un bloc HTML
+  const html = `
+    <div class="contenu-block">
+      <div class="form-group">
+        <label>Type de contenu</label>
+        <select name="niveaux[${niveauNumber}][contenus][${idx}][type]" class="form-control type-select" onchange="onTypeChange(this, ${niveauNumber}, ${idx})">
+          <option value="video">Vidéo</option>
+          <option value="pdf">PDF</option>
+          <option value="image">Image</option>
+          <option value="description">Description</option>
+        </select>
+      </div>
+      <div class="mt-2" id="contenu-fields-${niveauNumber}-${idx}">
+        <!-- Par défaut, on suppose un upload -->
+        <div class="form-group">
+          <label>Fichier</label>
+          <input type="file" name="niveaux[${niveauNumber}][contenus][${idx}][file]" class="form-control-file">
+        </div>
+      </div>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+function onTypeChange(selectEl, niveauNumber, idx) {
+  const val = selectEl.value;
+  const fieldsDiv = document.getElementById(`contenu-fields-${niveauNumber}-${idx}`);
+  
+  if (val === 'description') {
+    fieldsDiv.innerHTML = `
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="niveaux[${niveauNumber}][contenus][${idx}][description]" class="form-control" rows="3"></textarea>
+      </div>
+    `;
+  } else {
+    fieldsDiv.innerHTML = `
+      <div class="form-group">
+        <label>Fichier</label>
+        <input type="file" name="niveaux[${niveauNumber}][contenus][${idx}][file]" class="form-control-file">
+      </div>
+    `;
+  }
+}
+
+// Initialiser le premier contenu pour chaque niveau
+window.addEventListener('DOMContentLoaded', () => {
+  {% for i in 1..5 %}
+    addContenu({{ i }});
+  {% endfor %}
+});
+</script>
+{% endblock %}
