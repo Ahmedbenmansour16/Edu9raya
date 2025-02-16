@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+
+
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/script.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+    <nav class="sidebar locked">
+        <div class="logo_items flex">
+            <span class="nav_image">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
+            </span>
+            <span class="logo_name">Edu9raya</span>
+            <i class="bx bx-lock-alt" id="lock-icon" title="Unlock Sidebar"></i>
+            <i class="bx bx-x" id="sidebar-close"></i>
+        </div>
+
+        <div class="menu_container">
+            <ul class="menu_item">
+              <li class="item"><a href="{{ path('app_ajjouter') }}" class="link flex"><i class="bx bx-home-alt"></i><span>Ajouter livre</span></a></li>
+                <li class="item"><a href="{{ path('table_book') }}" class="link flex"><i class="bx bx-user"></i><span>Liste book</span></a></li>
+                 <li class="item"><a href="{{ path('add_categorie') }}" class="link flex"><i class="bx bx-plus"></i><span>Ajouter une Catégorie</span></a></li>
+    <li class="item"><a href="{{ path('list_categorie') }}" class="link flex"><i class="bx bx-list-ul"></i><span>Liste des Catégories</span></a></li>   
+                <li class="item"><a href="#" class="link flex"><i class="bx bx-book"></i><span>Liste cours</span></a></li>
+                <li class="item"><a href="#" class="link flex"><i class="bx bx-message"></i><span>Liste réclamations</span></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar_profile flex">
+            <span class="nav_image">
+                <img src="{{ asset('images/profile.jpg') }}" alt="Profile Image">
+            </span>
+            <div class="data_text">
+                <span class="name">David Oliva</span>
+                <span class="email">david@gmail.com</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <h1>Ajouter une Catégorie</h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+
+        <a href="{{ path('list_categorie') }}" class="btn-secondary">Retour</a>
+    </div>
+{% endblock %}

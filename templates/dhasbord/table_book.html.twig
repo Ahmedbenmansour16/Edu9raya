@@ -1,0 +1,288 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Livre{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+    .resized-logoimage {
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+  }
+    .btn-primary {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #4070f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #62b6cb;
+    box-shadow: 0px 0px 10px rgba(98, 182, 203, 0.5);
+}
+
+
+/* ✅ Table Styling */
+.book-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--light);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Table Header */
+.book-table thead {
+    background: var(--blue);
+    color: var(--light);
+}
+
+.book-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* ✅ Table Body */
+.book-table tbody tr {
+    border-bottom: 1px solid var(--grey);
+    transition: all 0.3s ease-in-out;
+}
+
+.book-table tbody tr:hover {
+    background: var(--light-blue);
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Table Cells */
+.book-table td {
+    padding: 10px;
+    color: var(--dark);
+}
+
+/* ✅ Action Buttons */
+.btn-danger, .btn-update {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+}
+
+/* ✅ Update Button */
+.btn-update {
+    background-color: var(--yellow);
+    color: var(--dark);
+}
+
+.btn-update:hover {
+    background-color: #e0a800;
+}
+
+/* ✅ Delete Button */
+.btn-danger {
+    background-color: var(--red);
+    color: var(--light);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* ✅ Responsive Design */
+@media screen and (max-width: 768px) {
+    .book-table {
+        font-size: 12px;
+    }
+
+    .btn-danger, .btn-update {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+}
+
+
+</style>
+{% endblock %}
+
+
+{% block javascripts %}
+    
+    <script src="{{ asset('js/script2.js') }}" defer></script>
+
+ 
+{% endblock %}
+
+{% block body %}
+    <!-- ✅ Sidebar Navigation -->
+    	<section id="sidebar">
+		<div class="logo_items flex">
+            <span class="nav_image">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
+            </span>
+            <span class="logo_name">Edu9raya</span>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('table_book') }}">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My books</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('list_categorie') }}">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">List categoories</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_ajjouter') }}">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Ajjouter Books</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('add_categorie') }}">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Ajjouter Categories</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link">List</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">8</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="img/people.png">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+		
+		</main>
+          <table border="1" class="book-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Special ID</th>
+                    <th>Nom du Livre</th>
+                    <th>Catégorie</th>
+                    <th>Disponibilité</th>
+                    <th>update</th>
+                      <th>delete</th>
+                       <th>file</th>
+                </tr>
+            </thead>
+       <tbody>
+<tbody>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.idBook }}</td>
+            <td>{{ book.nomBook }}</td>
+            <td>{{ book.getCategoryName() }}</td>  {# ✅ Fix: Use getCategoryName() to avoid errors #}
+            <td>{{ book.dispoBook}}</td>
+            <td>
+                <a href="{{ path('update_book', { 'id': book.id }) }}" class="btn-danger">
+                    <button class="btn-danger">Modifier</button>
+                </a>
+            </td>
+            <td>
+                <form action="{{ path('delete_book', { 'id': book.id }) }}" method="post" class="delete-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+                    <button type="submit" class="btn-danger">Supprimer</button>
+                </form>
+            </td>
+            <td>
+    {% if book.pdfFile %}
+        <a href="{{ asset('uploads/pdf/' ~ book.pdfFile) }}" target="_blank">📄 Télécharger</a>
+    {% else %}
+        Aucun fichier
+    {% endif %}
+</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6" style="text-align: center;">Aucun livre trouvé.</td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+
+            </tbody>
+        </table>
+</div>
+
+<!-- Message de confirmation caché par défaut -->
+
+
+
+
+
+{% endblock %}

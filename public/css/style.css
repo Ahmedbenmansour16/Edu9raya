@@ -1,0 +1,315 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+
+body {
+  min-height: 100vh;
+  background: #eef5fe;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 270px;
+  background: #fff;
+  padding: 15px 10px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+}
+
+.sidebar.close {
+  width: 75px;
+}
+
+.logo_items {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo_name {
+  font-size: 22px;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.sidebar.close .logo_name,
+.sidebar.close #lock-icon,
+.sidebar.close #sidebar-close {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#lock-icon,
+#sidebar-close {
+  padding: 10px;
+  color: #4070f4;
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu_container {
+  margin-top: 40px;
+  height: calc(100% - 80px);
+  overflow-y: auto;
+}
+
+.menu_container::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #707070;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: #fff;
+  background-color: #4070f4;
+}
+
+.link i {
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.sidebar_profile {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.sidebar_profile .name {
+  font-size: 18px;
+  color: #333;
+}
+
+.sidebar_profile .email {
+  font-size: 15px;
+  color: #555;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 270px;
+  padding: 20px;
+  transition: margin-left 0.4s ease;
+  
+}
+
+.sidebar.close ~ .main-content {
+  margin-left: 75px;
+}
+
+/* Responsive */
+@media screen and (max-width: 800px) {
+  .sidebar {
+    left: -100%;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar.close ~ .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Style du logo */
+.resized-logoimage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+/* Style Card */
+/* From Uiverse.io by Sourcesketch */ 
+
+
+
+
+.card_biblo {
+  display: flex;
+  height: 280px;
+  width: 200px;
+  background-color: #1a3b5d; /* Dark Blue */
+  border-radius: 10px;
+  box-shadow: -1rem 0 3rem rgba(0, 0, 0, 0.25);
+  margin-left: -80px;
+  transition: 0.4s ease-out;
+  position: relative;
+  left: 0px;
+}
+
+.card_biblo:not(:first-child) {
+  margin-left: -50px;
+}
+
+.card_biblo:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+  text-shadow: 2px 2px 8px #3a6ea5; /* Light Blue Glow */
+}
+
+.card_biblo:hover ~ .card {
+  position: relative;
+  left: 50px;
+  transform: rotateX(-15deg) rotateY(10deg);
+  transition: 0.4s ease-out;
+}
+
+/* Title */
+.title-1 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  position: absolute;
+  left: 20px;
+  top: 15px;
+}
+
+/* Button */
+.btn {
+  position: absolute;
+  top: 195px;
+  margin: 0 20px;
+  width: 120px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2978b5; /* Medium Blue */
+  color: #fff;
+  transition: 0.4s ease-out;
+}
+
+.btn:hover {
+  transition: 0.4s ease-out;
+  background-color: #62b6cb; /* Light Blue */
+  color: #ffffff;
+  box-shadow: 0px 0px 20px rgba(98, 182, 203, 0.5),
+    0px 5px 5px -1px rgba(57, 139, 189, 0.25),
+    inset 4px 4px 8px rgba(98, 182, 203, 0.5),
+    inset -4px -4px 8px rgba(28, 93, 166, 0.35);
+}
+
+/* Progress Bar */
+.bar {
+  position: relative;
+  top: 250px;
+  height: 5px;
+  width: 100%;
+}
+
+.emptybar {
+  background-color: #142f4d; /* Darker Blue */
+  width: 100%;
+  height: 100%;
+}
+
+.filledbar {
+  position: absolute;
+  top: 0px;
+  z-index: 3;
+  width: 0px;
+  height: 100%;
+  background: linear-gradient(90deg, #2978b5, #62b6cb 100%);
+  transition: 0.6s ease-out;
+}
+
+.card:hover .filledbar {
+  width: 100%;
+  transition: 0.4s ease-out;
+}
+
+/* Content */
+.content {
+  position: absolute;
+  padding: 20px;
+  top: 60px;
+  color: #dbe9f4; /* Light Blue-Gray */
+  font-size: 0.7rem;
+}
+
+/* Stroke Effect */
+.stroke {
+  stroke: white;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  transition: 0.6s ease-out;
+}
+
+.card_biblo:hover .stroke {
+  stroke-dashoffset: 100;
+  transition: 0.6s ease-out;
+}
+/* Style the Select Dropdown */
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 2px solid #4070f4;
+  border-radius: 8px;
+  background-color: white;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+/* Hover and Focus Effects */
+select:hover, select:focus {
+  border-color: #62b6cb;
+  box-shadow: 0 0 10px rgba(98, 182, 203, 0.5);
+}
+
+/* Style the Dropdown Arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* Custom Arrow for Chrome, Safari, Edge */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%234070f4" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 30px;
+}
+
+/* Option Styling */
+select option {
+  padding: 10px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+}

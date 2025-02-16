@@ -1,0 +1,277 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Livre{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+       .resized-logoimage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* ✅ Form Container */
+.form-container {
+    background: var(--light);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Form Header */
+.form-container h1 {
+    text-align: center;
+    font-size: 24px;
+    color: var(--dark);
+    margin-bottom: 20px;
+}
+
+/* ✅ Form Fields */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 5px;
+}
+
+/* ✅ Input Fields */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--grey);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+/* ✅ Input Focus Effect */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0px 0px 10px rgba(98, 182, 203, 0.5);
+}
+
+/* ✅ File Upload Styling */
+.form-group input[type="file"] {
+    border: none;
+    background: var(--grey);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Submit Button */
+.form-submit {
+    width: 100%;
+    padding: 12px;
+    background: var(--blue);
+    color: var(--light);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-submit:hover {
+    background: var(--light-blue);
+    color: var(--dark);
+}
+
+/* ✅ Responsive Design */
+@media screen and (max-width: 576px) {
+    .form-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+}
+
+    </style>
+{% endblock %}
+
+
+{% block javascripts %}
+    
+    <script src="{{ asset('js/script2.js') }}" defer></script>
+
+ 
+{% endblock %}
+
+{% block body %}
+   <!-- ✅ Sidebar Navigation -->
+    	<section id="sidebar">
+		<div class="logo_items flex">
+            <span class="nav_image">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
+            </span>
+            <span class="logo_name">Edu9raya</span>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('table_book') }}">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My books</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('list_categorie') }}">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">List categoories</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_ajjouter') }}">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Ajjouter Books</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('add_categorie') }}">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Ajjouter Categories</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link">List</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">8</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="img/people.png">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+		
+		</main>
+
+ <div class="form-container">
+    <h1>Ajouter un Livre 📚</h1>
+
+    {{ form_start(form, {'attr': {'class': 'book-form'}}) }}
+
+    <div class="form-group">
+        {{ form_label(form.id_book) }}
+        {{ form_widget(form.id_book, {'attr': {'class': 'input'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.nom_book) }}
+        {{ form_widget(form.nom_book, {'attr': {'class': 'input'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.cat_book) }}
+        {{ form_widget(form.cat_book, {'attr': {'class': 'input'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.dispo_book) }}
+        {{ form_widget(form.dispo_book, {'attr': {'class': 'input'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'input', 'rows': '4'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.file_id) }}
+        {{ form_widget(form.file_id, {'attr': {'class': 'input', 'placeholder': 'Entrez l\'ID du fichier Google Drive...'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.pdfFile) }}
+        {{ form_widget(form.pdfFile) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.pictureFile) }}
+        {{ form_widget(form.pictureFile) }}
+    </div>
+
+    <button type="submit" class="form-submit">Ajouter 📥</button>
+
+    {{ form_end(form) }}
+</div>
+</div>
+
+<!-- Message de confirmation caché par défaut -->
+
+
+
+
+
+{% endblock %}

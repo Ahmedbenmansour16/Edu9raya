@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .details-table {
+            flex: 1;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .details-table th, .details-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-table th {
+            background-color: #f4f4f4;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .book-image {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4070f4;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #62b6cb;
+            box-shadow: 0px 0px 10px rgba(98, 182, 203, 0.5);
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <!-- LEFT: Details Table -->
+        <table class="details-table">
+            <tr>
+                <th>ID</th>
+                <td>{{ book.id }}</td>
+            </tr>
+            <tr>
+                <th>ID Book</th>
+                <td>{{ book.idBook }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ book.nomBook }}</td>
+            </tr>
+            <tr>
+                <th>Catégorie</th>
+                <td>{{ book.catBook.nomCat }}</td>
+            </tr>
+            <tr>
+                <th>Disponibilité</th>
+                <td>{{ book.dispoBook == 'oui' ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ book.description|default('Aucune description disponible') }}</td>
+            </tr>
+            {% if book.pdfFile %}
+            <tr>
+                <th>Fichier PDF</th>
+                <td>
+                    <a href="{{ asset('uploads/pdf/' ~ book.pdfFile) }}" download >📄 Télécharger</a>
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <!-- RIGHT: Image & QR Code -->
+        <div class="image-container">
+            {% if book.picture %}
+                <img src="{{ asset('uploads/pictures/' ~ book.picture) }}" alt="Image du livre" class="book-image">
+            {% else %}
+                <p><em>Aucune image disponible</em></p>
+            {% endif %}
+
+            {% if book.pdfFile %}
+                <div class="qr-container">
+                    <button id="showQR" >📱 Afficher QR Code</button>
+                    <div id="qrCode"></div>
+                </div>
+
+                <script>
+                    document.getElementById('showQR').addEventListener('click', function() {
+                        const qrContainer = document.getElementById('qrCode');
+                        qrContainer.innerHTML = ''; // Clear previous QR code
+
+                        const fileId = "{{ book.fileId }}"; // Get file ID from the database
+                        const directDownloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+
+                        console.log("Generated QR Code URL:", directDownloadLink); // ✅ Debugging Step
+
+                        new QRCode(qrContainer, {
+                            text: directDownloadLink,
+                            width: 200,
+                            height: 200
+                        });
+
+                        qrContainer.style.display = 'block';
+                    });
+                </script>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_dashboard') }}">Retour à la liste</a>
+    </div>
+{% endblock %}
