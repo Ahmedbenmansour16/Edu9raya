@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Feedbacks</h3>
+						<i class='bx bx-search' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Id Feedback</th>
+								<th>Id Participant</th>
+								<th>Note</th>
+								<th>Remarque</th>
+								<th>Date Feedback</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for feedback in feedback %}
+            <tr>
+                <td>{{ feedback.id }}</td>
+                <td>{{ feedback.idParticipant }}</td>
+                <td>{{ feedback.note }}</td>
+                <td>{{ feedback.remarque }}</td>
+                <td>{{ feedback.dateFeedback ? feedback.dateFeedback|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_feedback_show', {'id': feedback.id}) }}">show</a>
+                    <a href="{{ path('app_feedback_edit', {'id': feedback.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+							
+						</tbody>
+					</table>
+                    <a href="{{ path('app_feedback_new') }}">Create new</a>
+{% endblock %}
