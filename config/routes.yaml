@@ -1,6 +1,0 @@
-# config/routes.yaml
-
-# Route par défaut (homepage)
-app_home:
-    path: /
-    controller: App\Controller\HomeController::index
