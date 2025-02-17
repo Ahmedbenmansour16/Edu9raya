@@ -225,7 +225,7 @@ label {
     <div class="wizard-step active" id="step1">
       <h4 class="mb-3">Informations de la Formation</h4>
       <div class="form-group">
-        <label for="nom">Nom</label>
+        <label for="nom">Nom de Formation</label>
         <input type="text" name="nom" id="nom" class="form-control" required>
       </div>
       <div class="form-group">
@@ -381,7 +381,226 @@ function addContenu(niveauNumber) {
   `;
   container.insertAdjacentHTML('beforeend', html);
 }
+// Validation des informations de la formation
+function validateFormationInfo() {
+    const nom = document.getElementById('nom').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const categorie = document.getElementById('categorie').value;
+    const imageFile = document.getElementById('imageFile').files[0];
+    
+    let isValid = true;
+    let errors = [];
 
+    // Validation du nom
+    if (nom.length < 3) {
+        errors.push("Le nom doit contenir au moins 3 caractères");
+        isValid = false;
+    }
+    if (nom.length > 255) {
+        errors.push("Le nom ne peut pas dépasser 255 caractères");
+        isValid = false;
+    }
+
+    // Validation de la description
+    if (description.length < 10) {
+        errors.push("La description doit contenir au moins 10 caractères");
+        isValid = false;
+    }
+
+    // Validation de la catégorie
+    if (!categorie) {
+        errors.push("Veuillez sélectionner une catégorie");
+        isValid = false;
+    }
+
+    // Validation de l'image
+    if (imageFile) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!allowedTypes.includes(imageFile.type)) {
+            errors.push("Le format d'image doit être JPG, PNG ou GIF");
+            isValid = false;
+        }
+        if (imageFile.size > maxSize) {
+            errors.push("L'image ne doit pas dépasser 5MB");
+            isValid = false;
+        }
+    }
+
+    return { isValid, errors };
+}
+
+// Validation d'un niveau
+function validateNiveau(niveauNumber) {
+    const contenusContainer = document.getElementById(`contenus-container-${niveauNumber}`);
+    const contenuBlocks = contenusContainer.querySelectorAll('.contenu-block');
+    
+    let isValid = true;
+    let errors = [];
+
+    if (contenuBlocks.length === 0) {
+        errors.push(`Le niveau ${niveauNumber} doit contenir au moins un contenu`);
+        isValid = false;
+    }
+
+    contenuBlocks.forEach((block, index) => {
+        const typeSelect = block.querySelector('.type-select');
+        const type = typeSelect.value;
+
+        if (type === 'description') {
+            const description = block.querySelector('textarea').value.trim();
+            if (description.length < 10) {
+                errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: La description doit contenir au moins 10 caractères`);
+                isValid = false;
+            }
+        } else {
+            const fileInput = block.querySelector('input[type="file"]');
+            if (fileInput.files.length === 0) {
+                errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Veuillez sélectionner un fichier`);
+                isValid = false;
+            } else {
+                const file = fileInput.files[0];
+                const maxSize = 50 * 1024 * 1024; // 50MB
+
+                if (file.size > maxSize) {
+                    errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Le fichier ne doit pas dépasser 50MB`);
+                    isValid = false;
+                }
+
+                // Validation spécifique selon le type
+                if (type === 'video') {
+                    const allowedTypes = ['video/mp4', 'video/webm'];
+                    if (!allowedTypes.includes(file.type)) {
+                        errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Format vidéo non supporté (MP4 ou WebM uniquement)`);
+                        isValid = false;
+                    }
+                } else if (type === 'pdf') {
+                    if (file.type !== 'application/pdf') {
+                        errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Le fichier doit être au format PDF`);
+                        isValid = false;
+                    }
+                } else if (type === 'image') {
+                    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                    if (!allowedTypes.includes(file.type)) {
+                        errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Format d'image non supporté (JPG, PNG ou GIF uniquement)`);
+                        isValid = false;
+                    }
+                }
+            }
+        }
+    });
+
+    return { isValid, errors };
+}
+
+// Validation du test
+function validateTest() {
+    const questions = document.querySelectorAll('.question-block');
+    let isValid = true;
+    let errors = [];
+
+    questions.forEach((question, index) => {
+        const enonce = question.querySelector('textarea').value.trim();
+        const answers = question.querySelectorAll('input[type="text"]');
+        const correctAnswer = question.querySelector('input[type="number"]').value;
+
+        // Validation de l'énoncé
+        if (enonce.length < 5) {
+            errors.push(`Question ${index + 1}: L'énoncé doit contenir au moins 5 caractères`);
+            isValid = false;
+        }
+
+        // Validation des réponses
+        let emptyAnswers = 0;
+        answers.forEach((answer, answerIndex) => {
+            if (answer.value.trim().length === 0) {
+                emptyAnswers++;
+            }
+            if (answer.value.trim().length > 255) {
+                errors.push(`Question ${index + 1}, Réponse ${answerIndex + 1}: La réponse ne peut pas dépasser 255 caractères`);
+                isValid = false;
+            }
+        });
+
+        if (emptyAnswers > 0) {
+            errors.push(`Question ${index + 1}: Toutes les réponses doivent être remplies`);
+            isValid = false;
+        }
+
+        // Validation de la bonne réponse
+        if (correctAnswer < 1 || correctAnswer > 4) {
+            errors.push(`Question ${index + 1}: La bonne réponse doit être entre 1 et 4`);
+            isValid = false;
+        }
+    });
+
+    return { isValid, errors };
+}
+
+// Fonction pour afficher les erreurs
+function showErrors(errors) {
+    // Supprimer l'ancien message d'erreur s'il existe
+    const existingAlert = document.querySelector('.alert-danger');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+
+    // Créer et afficher le nouveau message d'erreur
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger';
+    alertDiv.innerHTML = '<h5>Erreurs de validation:</h5><ul>' + 
+        errors.map(error => `<li>${error}</li>`).join('') + '</ul>';
+    
+    const wizardContainer = document.querySelector('.wizard-container');
+    wizardContainer.insertBefore(alertDiv, wizardContainer.firstChild);
+}
+
+// Modification de la fonction goToStep pour inclure la validation
+function goToStep(stepNumber) {
+    let currentStep = document.querySelector('.wizard-step.active');
+    let currentStepNumber = parseInt(currentStep.id.replace('step', ''));
+    
+    // Validation lors du passage à l'étape suivante
+    if (stepNumber > currentStepNumber) {
+        let validationResult;
+        
+        if (currentStepNumber === 1) {
+            validationResult = validateFormationInfo();
+        } else if (currentStepNumber >= 2 && currentStepNumber <= 6) {
+            validationResult = validateNiveau(currentStepNumber - 1);
+        }
+        
+        if (validationResult && !validationResult.isValid) {
+            showErrors(validationResult.errors);
+            return false;
+        }
+    }
+
+    // Si la validation passe ou si on revient en arrière
+    const steps = document.querySelectorAll('.wizard-step');
+    steps.forEach(step => step.classList.remove('active'));
+    document.getElementById('step' + stepNumber).classList.add('active');
+    updateTabs(stepNumber);
+    
+    // Scroll vers le haut de la page
+    window.scrollTo(0, 0);
+}
+
+// Modification du submit du formulaire
+document.getElementById('formationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Valider le test final
+    const testValidation = validateTest();
+    if (!testValidation.isValid) {
+        showErrors(testValidation.errors);
+        return;
+    }
+    
+    // Si tout est valide, soumettre le formulaire
+    this.submit();
+});
 function onTypeChange(selectEl, niveauNumber, idx) {
   const val = selectEl.value;
   const fieldsDiv = document.getElementById(`contenu-fields-${niveauNumber}-${idx}`);

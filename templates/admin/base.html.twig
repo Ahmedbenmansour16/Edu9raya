@@ -46,13 +46,17 @@
         html {
             overflow-x: hidden;
         }
-
+        .resized-logoimage {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
         body.dark {
             --light: #0C0C1E;
             --grey: #060714;
             --dark: #FBFBFB;
         }
-
         body {
             background: var(--grey);
             overflow-x: hidden;
@@ -645,8 +649,10 @@
     <!-- SIDEBAR -->
     <section id="sidebar">
         <a href="{{ path('admin_formation_index') }}" class="brand">
-            <i class='bx bxs-smile'></i>
-            <span class="text">AdminHub</span>
+            <span class="nav_image">
+                <img src="{{ asset('logo.jpg') }}" alt="Logo" class="resized-logoimage">
+            </span>
+            <span class="text">Edu9raya</span>
         </a>
         <ul class="side-menu top">
             <li class="active">
