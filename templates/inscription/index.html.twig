@@ -1,0 +1,15 @@
+{# templates/inscription/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <h1>Inscription</h1>
+
+    <p>Choisissez votre type d'utilisateur :</p>
+
+    <ul>
+        <li><a href="{{ path('app_inscription_type', { 'type': 'prof' }) }}">Je suis un Prof</a></li>
+        <li><a href="{{ path('app_inscription_type', { 'type': 'etudiant' }) }}">Je suis un Étudiant</a></li>
+    </ul>
+{% endblock %}
