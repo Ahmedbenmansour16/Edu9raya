@@ -15,7 +15,7 @@ class NiveauType extends AbstractType
         $builder
           ->add('ordre', IntegerType::class, [
               'label' => 'Ordre du niveau',
-              'disabled' => true,  // Ce champ est auto-définie par le wizard
+              'disabled' => true,  
           ])
           ->add('test', TestType::class, [
               'label' => 'Test associé',

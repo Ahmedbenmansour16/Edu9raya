@@ -1,25 +1,44 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Entity\Categorie;
-use App\Entity\Formation;
+use App\Entity\Test;
 use App\Entity\Niveau;
 use App\Entity\Contenu;
-use App\Entity\Test;
 use App\Entity\Question;
+use App\Entity\Categorie;
+use App\Entity\Formation;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/formation')]
 class FormationController extends AbstractController
 {
     #[Route('/', name: 'admin_formation_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $formations = $em->getRepository(Formation::class)->findAll();
+        $searchTerm = $request->query->get('search');
+        
+        if ($searchTerm) {
+            $queryBuilder = $em->createQueryBuilder();
+            $queryBuilder
+                ->select('f')
+                ->from(Formation::class, 'f')
+                ->leftJoin('f.categorie', 'c')
+                ->where('f.nom LIKE :search')
+                ->orWhere('f.description LIKE :search')
+                ->orWhere('c.nom LIKE :search')
+                ->setParameter('search', '%' . $searchTerm . '%')
+                ->orderBy('f.dateCreation', 'DESC');
+            
+            $formations = $queryBuilder->getQuery()->getResult();
+        } else {
+            $formations = $em->getRepository(Formation::class)->findBy([], ['dateCreation' => 'DESC']);
+        }
+
         return $this->render('admin/formation/index.html.twig', [
             'formations' => $formations,
         ]);
@@ -167,18 +186,16 @@ class FormationController extends AbstractController
             $nom = $request->request->get('nom');
             $description = $request->request->get('description');
             $categorieId = $request->request->get('categorie');
-            $imageFile = $request->files->get('imageFile'); // le fichier uploadé
-            // Niveaux (5) => on récupère en array
+            $imageFile = $request->files->get('imageFile');
             $niveauxData = $request->request->all('niveaux');
-            // Test => 10 questions
             $testData = $request->request->all('test');
-
+    
             // 2) Créer la Formation
             $formation = new Formation();
             $formation->setNom($nom);
             $formation->setDescription($description);
             $formation->setDateCreation(new \DateTime());
-
+    
             // Gérer la catégorie
             $cat = $em->getRepository(Categorie::class)->find($categorieId);
             if (!$cat) {
@@ -186,42 +203,41 @@ class FormationController extends AbstractController
                 return $this->redirectToRoute('admin_formation_new');
             }
             $formation->setCategorie($cat);
-
+    
             // Gérer l'upload de l'image
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
                 $imageFile->move($this->getParameter('uploads_dir'), $newFilename);
                 $formation->setImage($newFilename);
             }
-
+    
             // 3) Créer les 5 niveaux
             for ($i = 1; $i <= 5; $i++) {
                 if (!isset($niveauxData[$i])) {
                     continue;
                 }
+                
                 $niveauData = $niveauxData[$i];
                 $niveau = new Niveau();
                 $niveau->setOrdre($i);
                 $niveau->setFormation($formation);
-
+    
                 // Récupérer la liste des contenus
                 if (isset($niveauData['contenus']) && is_array($niveauData['contenus'])) {
-                    foreach ($niveauData['contenus'] as $contenuItem) {
+                    foreach ($niveauData['contenus'] as $idx => $contenuItem) {
                         $type = $contenuItem['type'] ?? null;
-                        $desc = $contenuItem['description'] ?? null;
-                        // Fichier uploadé
-                        $file = $request->files->get('niveaux')[$i]['contenus']['file'] ?? [];
-
+                        
                         $contenu = new Contenu();
                         $contenu->setType($type);
                         $contenu->setNiveau($niveau);
-
-                        // Si c'est "description", on met en base la description
-                        // Sinon, on gère l'upload
+    
                         if ($type === 'description') {
-                            $contenu->setDescription($desc);
+                            $contenu->setDescription($contenuItem['description'] ?? '');
                         } else {
-                            if (isset($file) && $file instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+                            // Correction ici : récupérer le fichier correctement
+                            $file = $request->files->get('niveaux')[$i]['contenus'][$idx]['file'] ?? null;
+                            
+                            if ($file instanceof UploadedFile) {
                                 $fileName = uniqid().'.'.$file->guessExtension();
                                 $file->move($this->getParameter('uploads_dir'), $fileName);
                                 $contenu->setFichier($fileName);
@@ -232,7 +248,7 @@ class FormationController extends AbstractController
                 }
                 $formation->addNiveau($niveau);
             }
-
+    
             // 4) Créer le Test et ses 10 questions
             $test = new Test();
             $test->setFormation($formation);
@@ -249,17 +265,16 @@ class FormationController extends AbstractController
                 }
             }
             $formation->setTest($test);
-
+    
             // 5) Sauvegarder
             $em->persist($formation);
             $em->flush();
-
+    
             $this->addFlash('success', 'Formation créée avec succès.');
             return $this->redirectToRoute('admin_formation_index');
         }
-
+    
         // Rendre la vue du wizard
-        // On envoie la liste des catégories pour le <select>
         $categories = $em->getRepository(Categorie::class)->findAll();
         return $this->render('admin/formation/new_wizard.html.twig', [
             'categories' => $categories,
