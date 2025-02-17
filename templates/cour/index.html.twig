@@ -1,0 +1,40 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Liste des cours{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code_cours</th>
+                <th>Titre</th>
+                <th>Niveau</th>
+                <th>Categorie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cour in cours %}
+            <tr>
+                <td>{{ cour.id }}</td>
+                <td>{{ cour.codeCours }}</td>
+                <td>{{ cour.Titre }}</td>
+                <td>{{ cour.Niveau }}</td>
+                <td>{{ cour.Categorie }}</td>
+                <td>
+                    <a href="{{ path('app_cour_edit', {'id': cour.id}) }}">Metre a jour</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">encore pas de cours creer</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('app_cour_new') }}">Ajouter nouveau cours</a>
+    <a class="btn btn-success" href="{{ path('app_module_index') }}">Retour vers modules</a>
+{% endblock %}

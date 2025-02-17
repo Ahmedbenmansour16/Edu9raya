@@ -1,14 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseback.html.twig' %}
 
-{% block title %}{{ module.id ? 'Modifier' : 'Nouveau' }} Module{% endblock %}
+{% block title %}Ajouter Module{% endblock %}
 
 {% block body %}
-    <h1>{{ module.id ? 'Modifier' : 'Créer' }} un Module</h1>
-    {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.enseignant) }}
-        {{ form_row(form.duree) }}
-        {{ form_row(form.coefficient) }}
-        <button type="submit">{{ module.id ? 'Modifier' : 'Créer' }}</button>
-    {{ form_end(form) }}
+
+    {{ include('module/_form.html.twig') }}
+    <br>
 {% endblock %}

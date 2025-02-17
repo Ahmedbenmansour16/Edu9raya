@@ -1,38 +1,43 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 
-{% block title %}Modules{% endblock %}
+{% block title %}Liste des modules{% endblock %}
 
 {% block body %}
-    <h1>Liste des Modules</h1>
-    <a href="{{ path('module_new') }}">Créer un module</a>
-    <table border="1">
+
+
+    <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Nom</th>
-                <th>Enseignant</th>
-                <th>Durée</th>
+                <th>Enseigant</th>
+                <th>Duree</th>
                 <th>Coefficient</th>
-                <th>Actions</th>
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for module in modules %}
-                <tr>
-                    <td>{{ module.nom }}</td>
-                    <td>{{ module.enseignant }}</td>
-                    <td>{{ module.duree }} h</td>
-                    <td>{{ module.coefficient }}</td>
-                    <td>
-                        <a href="{{ path('module_show', {id: module.id}) }}">Voir</a>
-                        <a href="{{ path('module_edit', {id: module.id}) }}">Modifier</a>
-                        <form method="post" action="{{ path('module_delete', {id: module.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.id) }}">
-                            <button type="submit">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
+        {% for module in modules %}
+            <tr>
+                <td>{{ module.id }}</td>
+                <td>{{ module.nom }}</td>
+                <td>{{ module.Enseigant }}</td>
+                <td>{{ module.Duree }}</td>
+                <td>{{ module.Coefficient }}</td>
+                <td>
+                    <a href="{{ path('app_module_edit', {'id': module.id}) }}">Metre a jour</a>
+                     || <a href="{{ path('module_cours', {'id': module.id}) }}" >
+                        Voir les Cours relative
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Encore pas de module ajouter</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
+    <br>
+    <a class="btn btn-success" href="{{ path('app_module_new') }}">Ajouter nouveau</a>
 {% endblock %}
-
