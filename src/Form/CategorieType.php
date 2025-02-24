@@ -14,22 +14,16 @@ class CategorieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id_cat', TextType::class, [
-                'label' => 'ID Catégorie',
-            ])
-            ->add('nom_cat', TextType::class, [
+            ->add('nomCat', TextType::class, [ // ✅ Vérifiez que ce nom est bien "nomCat"
                 'label' => 'Nom de la Catégorie',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer',
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['placeholder' => 'Entrez le nom de la catégorie...', 'class' => 'input']
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Categorie::class,
+            'data_class' => Categorie::class, // ✅ Assurez-vous que l'entité est bien associée
         ]);
     }
 }

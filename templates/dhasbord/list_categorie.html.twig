@@ -266,7 +266,6 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>ID Catégorie</th>
             <th>Nom Catégorie</th>
             <th>Update</th>
             <th>Delete</th>
@@ -276,7 +275,7 @@
         {% for categorie in categories %}
             <tr>
                 <td>{{ categorie.id }}</td>
-                <td>{{ categorie.idCat }}</td>
+  
                 <td>{{ categorie.nomCat }}</td>
                 <td>
                     <a href="{{ path('update_categorie', { 'id': categorie.id }) }}" class="btn-update">Modifier</a>

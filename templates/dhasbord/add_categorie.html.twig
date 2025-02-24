@@ -1,61 +1,196 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Ajouter une Catégorie{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <style>
+        /* ✅ Form Container */
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
 
+        /* ✅ Form Header */
+        .form-container h2 {
+            text-align: center;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
+        /* ✅ Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* ✅ Labels */
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        /* ✅ Input Fields */
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* ✅ Input Focus Effect */
+        .form-group input:focus {
+            border-color: #4070f4;
+            box-shadow: 0px 0px 8px rgba(64, 112, 244, 0.5);
+        }
+
+        /* ✅ Submit Button */
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            background: #4070f4;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-submit:hover {
+            background: #3055c7;
+        }
+
+        /* ✅ Cancel Button */
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            padding: 12px;
+            background: #ccc;
+            color: #333;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            background: #bbb;
+        }
+
+        /* ✅ Alert Messages */
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* ✅ Responsive Design */
+        @media screen and (max-width: 576px) {
+            .form-container {
+                padding: 20px;
+                max-width: 90%;
+            }
+        }
     </style>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/script.js') }}" defer></script>
+    <script src="{{ asset('js/script2.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
-    <nav class="sidebar locked">
+    <!-- ✅ Sidebar Navigation -->
+    <section id="sidebar">
         <div class="logo_items flex">
             <span class="nav_image">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
             </span>
             <span class="logo_name">Edu9raya</span>
-            <i class="bx bx-lock-alt" id="lock-icon" title="Unlock Sidebar"></i>
-            <i class="bx bx-x" id="sidebar-close"></i>
         </div>
 
-        <div class="menu_container">
-            <ul class="menu_item">
-              <li class="item"><a href="{{ path('app_ajjouter') }}" class="link flex"><i class="bx bx-home-alt"></i><span>Ajouter livre</span></a></li>
-                <li class="item"><a href="{{ path('table_book') }}" class="link flex"><i class="bx bx-user"></i><span>Liste book</span></a></li>
-                 <li class="item"><a href="{{ path('add_categorie') }}" class="link flex"><i class="bx bx-plus"></i><span>Ajouter une Catégorie</span></a></li>
-    <li class="item"><a href="{{ path('list_categorie') }}" class="link flex"><i class="bx bx-list-ul"></i><span>Liste des Catégories</span></a></li>   
-                <li class="item"><a href="#" class="link flex"><i class="bx bx-book"></i><span>Liste cours</span></a></li>
-                <li class="item"><a href="#" class="link flex"><i class="bx bx-message"></i><span>Liste réclamations</span></a></li>
-            </ul>
-        </div>
+        <ul class="side-menu top">
+            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i><span>Dashboard</span></a></li>
+            <li><a href="{{ path('table_book') }}"><i class='bx bxs-shopping-bag-alt'></i><span>My books</span></a></li>
+            <li><a href="{{ path('list_categorie') }}"><i class='bx bxs-doughnut-chart'></i><span>List catégories</span></a></li>
+            <li><a href="{{ path('app_ajjouter') }}"><i class='bx bxs-message-dots'></i><span>Ajouter Livres</span></a></li>
+            <li><a href="{{ path('add_categorie') }}"><i class='bx bxs-group'></i><span>Ajouter Catégories</span></a></li>
+        </ul>
+    </section>
 
-        <div class="sidebar_profile flex">
-            <span class="nav_image">
-                <img src="{{ asset('images/profile.jpg') }}" alt="Profile Image">
-            </span>
-            <div class="data_text">
-                <span class="name">David Oliva</span>
-                <span class="email">david@gmail.com</span>
+    <!-- ✅ Content -->
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <a href="#" class="nav-link">List</a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Rechercher...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Ajouter une Catégorie</h1>
+                </div>
             </div>
+        </main>
+
+        <!-- ✅ Form Container -->
+        <div class="form-container">
+            <h2>Ajouter une Nouvelle Catégorie 🏷️</h2>
+
+            <!-- ✅ Alert Messages -->
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            {% for error in form.vars.errors %}
+                <div class="alert alert-danger">{{ error.message }}</div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'class': 'category-form'}}) }}
+
+            <div class="form-group">
+                {{ form_label(form.nomCat) }}
+                {{ form_widget(form.nomCat, {'attr': {'class': 'input'}}) }}
+            </div>
+
+            <button type="submit" class="form-submit">Ajouter 📌</button>
+
+            {{ form_end(form) }}
+
+            <a href="{{ path('list_categorie') }}" class="btn-secondary">Retour</a>
         </div>
-    </nav>
-
-    <div class="main-content">
-
-        <h1>Ajouter une Catégorie</h1>
-
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-        {{ form_end(form) }}
-
-        <a href="{{ path('list_categorie') }}" class="btn-secondary">Retour</a>
-    </div>
+    </section>
 {% endblock %}

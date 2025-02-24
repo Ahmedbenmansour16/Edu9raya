@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Book;
 use App\Form\BookType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -87,6 +88,36 @@ final class BookController extends AbstractController
             'book' => $book,
         ]);
     }
+
+
+    #[Route('/search-book', name: 'search_book')]
+    public function searchBook(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $bookName = $request->query->get('name', '');
+    
+        if (empty($bookName)) {
+            return new JsonResponse(['found' => false]);
+        }
+    
+        $book = $entityManager->getRepository(Book::class)->findOneBy(['nom_book' => $bookName]);
+    
+        if ($book) {
+            return new JsonResponse([
+                'found' => true,
+                'url' => $this->generateUrl('book_detail', ['id' => $book->getId()]),
+            ]);
+        }
+    
+        return new JsonResponse(['found' => false]);
+    }
+    
+
+    #[Route('/not-found', name: 'not_found')]
+public function notFound(): Response
+{
+    return $this->render('dhasbord/404.html.twig', [], new Response('', 404));
+}
+
 
 }
 

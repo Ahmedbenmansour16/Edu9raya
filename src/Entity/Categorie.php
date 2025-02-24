@@ -5,50 +5,33 @@ namespace App\Entity;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategorieRepository::class)]
+
+
+
+#[ORM\Entity]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "integer")]
+    private ?int $id = null; // ✅ Use "id" instead of "idCat"
 
-    #[ORM\Column(length: 255)]
-    private ?string $id_cat = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $nom_cat = null;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $nomCat = null;
 
     public function getId(): ?int
     {
-        return $this->id;
-    }
-
-    public function getIdCat(): ?string
-    {
-        return $this->id_cat;
-    }
-
-    public function setIdCat(string $id_cat): static
-    {
-        $this->id_cat = $id_cat;
-        return $this;
+        return $this->id; // ✅ Use "getId()" instead of "getidCat()"
     }
 
     public function getNomCat(): ?string
     {
-        return $this->nom_cat;
+        return $this->nomCat;
     }
 
-    public function setNomCat(string $nom_cat): static
+    public function setNomCat(string $nomCat): self
     {
-        $this->nom_cat = $nom_cat;
+        $this->nomCat = $nomCat;
         return $this;
-    }
-
-    // ✅ Add this method to fix the error
-    public function __toString(): string
-    {
-        return $this->nom_cat;  // Return the category name when converted to a string
     }
 }

@@ -49,5 +49,41 @@ sidebar.addEventListener("mouseenter", showSidebar);
 sidebarCloseBtn.addEventListener("click", toggleSidebar);
 
 
+// search 
+document.addEventListener("DOMContentLoaded", function () {
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchBook");
+
+  if (!searchForm || !searchInput) {
+      console.error("❌ Formulaire ou champ de recherche introuvable !");
+      return;
+  }
+
+  searchForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Empêche l'envoi classique du formulaire
+
+      const bookName = searchInput.value.trim();
+      if (!bookName) {
+          alert("Veuillez entrer le nom d'un livre !");
+          return;
+      }
+
+      console.log("🔍 Recherche en cours pour :", bookName);
+
+      fetch(`/search-book?name=${encodeURIComponent(bookName)}`)
+          .then(response => response.json())
+          .then(data => {
+              if (data.found) {
+                  console.log("✅ Livre trouvé, redirection vers :", data.url);
+                  window.location.href = data.url; // 🔥 Redirige vers la page du livre trouvé
+              } else {
+                  console.log("❌ Livre non trouvé !");
+                  alert("❌ Livre non trouvé !");
+                  window.location.href = "/404"; // 🔥 Redirige vers une page 404
+              }
+          })
+          .catch(error => console.error("🚨 Erreur lors de la recherche :", error));
+  });
+});
 
 

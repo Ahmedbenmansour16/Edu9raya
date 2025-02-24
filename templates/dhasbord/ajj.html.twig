@@ -104,6 +104,11 @@
         max-width: 90%;
     }
 }
+       .form-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
 
     </style>
 {% endblock %}
@@ -225,53 +230,70 @@
     <div class="form-group">
         {{ form_label(form.id_book) }}
         {{ form_widget(form.id_book, {'attr': {'class': 'input'}}) }}
+        {% for error in form.id_book.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.nom_book) }}
         {{ form_widget(form.nom_book, {'attr': {'class': 'input'}}) }}
+        {% for error in form.nom_book.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.cat_book) }}
         {{ form_widget(form.cat_book, {'attr': {'class': 'input'}}) }}
+        {% for error in form.cat_book.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.dispo_book) }}
         {{ form_widget(form.dispo_book, {'attr': {'class': 'input'}}) }}
+        {% for error in form.dispo_book.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.description) }}
         {{ form_widget(form.description, {'attr': {'class': 'input', 'rows': '4'}}) }}
+        {% for error in form.description.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.file_id) }}
         {{ form_widget(form.file_id, {'attr': {'class': 'input', 'placeholder': 'Entrez l\'ID du fichier Google Drive...'}}) }}
+        {% for error in form.file_id.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.pdfFile) }}
         {{ form_widget(form.pdfFile) }}
+        {% for error in form.pdfFile.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form_label(form.pictureFile) }}
         {{ form_widget(form.pictureFile) }}
+        {% for error in form.pictureFile.vars.errors %}
+            <div class="form-error">{{ error.message }}</div>
+        {% endfor %}
     </div>
 
     <button type="submit" class="form-submit">Ajouter 📥</button>
 
     {{ form_end(form) }}
 </div>
-</div>
-
-<!-- Message de confirmation caché par défaut -->
-
-
-
-
 
 {% endblock %}
