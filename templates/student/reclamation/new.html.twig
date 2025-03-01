@@ -1,0 +1,27 @@
+{# templates/student/reclamation/new.html.twig #}
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Nouvelle réclamation{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Nouvelle réclamation</h1>
+
+    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.sujet) }}
+            {{ form_widget(form.sujet) }}
+            {{ form_errors(form.sujet) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.contenu) }}
+            {{ form_widget(form.contenu) }}
+            {{ form_errors(form.contenu) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+        <a href="{{ path('student_reclamation_index') }}" class="btn btn-secondary">Retour</a>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

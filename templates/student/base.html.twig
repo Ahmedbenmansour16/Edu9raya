@@ -11,7 +11,30 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
     <style>
-      /* ---------- RESET / BASE ---------- */
+      .nav-menu .drop-down > a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .nav-menu .drop-down > a i {
+        font-size: 1.2em;
+    }
+    
+    .nav-menu .drop-down ul li a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .nav-menu .drop-down ul li a i {
+        font-size: 1.1em;
+        color: #1c7ed6;
+    }
+    
+    .nav-menu .drop-down ul li:hover a i {
+        color: #0c5fb0;
+    }
       body {
         font-family: "Open Sans", sans-serif;
         color: #444;
@@ -207,8 +230,32 @@
           <ul>
             <li class="active"><a href="{{ path('student_index') }}">Home</a></li>
             <li><a href="#about">formation</a></li>
-            <li><a href="#courses">Cours</a></li>
+            <li class="active"><a href="{{ path('student_reclamation_index') }}">
+              Mes réclamations
+            </a></li>
+            {% if app.user %}
+              <li class="drop-down">
+                <a href="#">
+                  <i class="bx bx-user"></i>
+                  {{ app.user.fullName }}
+                </a>
+                <ul>
+                  <li><a href="#"><i class="bx bx-cog"></i> Mon profil</a></li>
+                  <li>
+                    <a href="{{ path('app_logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                      <i class="bx bx-log-out"></i> Déconnexion
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            {% endif %}
+          </ul>
         </nav>
+        <form id="logout-form" action="{{ path('app_logout') }}" method="POST" style="display: none;">
+          {% if csrf_token_intention is defined %}
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+          {% endif %}
+      </form>
       </div>
     </header>
     <!-- End Header -->

@@ -1,0 +1,118 @@
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des réclamations{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Gestion des réclamations</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.user.email }}</td>
+                    <td>{{ reclamation.sujet }}</td>
+                    <td>{{ reclamation.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        {% if reclamation.status == 'en_attente' %}
+                            <span class="badge bg-warning">En attente</span>
+                        {% else %}
+                            <span class="badge bg-success">Traité</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#reponseModal{{ reclamation.id }}">
+                            {% if reclamation.status == 'en_attente' %}
+                                Répondre
+                            {% else %}
+                                Voir/Modifier
+                            {% endif %}
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="reponseModal{{ reclamation.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Réclamation : {{ reclamation.sujet }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6>Message de l'étudiant :</h6>
+                                        <p>{{ reclamation.contenu }}</p>
+                                        {# templates/admin/reclamation/index.html.twig (suite) #}
+                                        <form action="{{ path('admin_reclamation_repondre', {'id': reclamation.id}) }}" method="post">
+                                            <div class="form-group">
+                                                <label for="reponse{{ reclamation.id }}">Votre réponse :</label>
+                                                <textarea class="form-control" 
+                                                          id="reponse{{ reclamation.id }}" 
+                                                          name="reponse" 
+                                                          rows="5" 
+                                                          required>{{ reclamation.reponse }}</textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                <button type="submit" class="btn btn-primary">Envoyer la réponse</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Activation des modales Bootstrap
+    var modals = document.querySelectorAll('.modal');
+    modals.forEach(function(modal) {
+        new bootstrap.Modal(modal);
+    });
+
+    // Validation du formulaire
+    var forms = document.querySelectorAll('form');
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            var textarea = form.querySelector('textarea');
+            if (!textarea.value.trim()) {
+                event.preventDefault();
+                alert('La réponse ne peut pas être vide.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

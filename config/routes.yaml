@@ -3,3 +3,13 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+student_reclamation:
+    resource: ../src/Controller/Student/ReclamationController.php
+    type: annotation
+    prefix: /student/reclamation
+
+admin_reclamation:
+    resource: ../src/Controller/Admin/ReclamationController.php
+    type: annotation
+    prefix: /admin/reclamation
