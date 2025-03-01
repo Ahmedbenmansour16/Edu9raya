@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {# Icônes (ex. boxicons) si vous souhaitez les utiliser #}
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-  {% block stylesheets %}
+
     <style>
     
       /* ---------- RESET / BASE ---------- */
@@ -285,72 +285,6 @@
     color: white;
     transform: scale(1.05);
 }
-.container {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: 30px;
-	padding: 20px;
-	max-width: 900px;
-	margin: auto;
-	background: #fff;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-}
-
-.details-table {
-	flex: 1;
-	border-collapse: collapse;
-	width: 100%;
-}
-
-.details-table th, .details-table td {
-	padding: 10px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
-}
-
-.details-table th {
-	background-color: #f4f4f4;
-}
-
-.image-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 15px;
-}
-
-.book-image {
-	width: 200px;
-	height: auto;
-	border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.qr-container {
-	text-align: center;
-	margin-top: 10px;
-}
-
-.btn {
-	display: inline-block;
-	padding: 10px 15px;
-	background-color: #4070f4;
-	color: white;
-	text-decoration: none;
-	border-radius: 5px;
-	font-weight: bold;
-	transition: background-color 0.3s ease, box-shadow 0.3s ease;
-	cursor: pointer;
-	margin-top: 10px;
-}
-
-.btn:hover {
-	background-color: #62b6cb;
-	box-shadow: 0px 0px 10px rgba(98, 182, 203, 0.5);
-}
 
 /* ✅ Responsive Design */
 @media screen and (max-width: 768px) {
@@ -364,17 +298,50 @@
     }
 }
 
+/* Sidebar Styling */
+.filter-sidebar {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-sidebar h4 {
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.filter-sidebar .form-group {
+    margin-bottom: 15px;
+}
+
+/* Adjusting Layout for Sidebar and Cards */
+.container-fluid {
+    margin-top: 20px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+
 
 
     </style>
-  {% endblock %}
-{% block javascripts %}
-    
-    <script src="{{ asset('js/script2.js') }}" defer></script>
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-{% endblock %}
+    {% block stylesheets %}{% endblock %}
   </head>
 
   <body>
@@ -413,84 +380,226 @@
           {% endfor %}
         {% endfor %}
 
-     
-
 {% block body %}
-    <div class="container">
-        <!-- LEFT: Details Table -->
-        <table class="details-table">
-            <tr>
-                <th>ID</th>
-                <td>{{ book.id }}</td>
-            </tr>
-            <tr>
-                <th>ID Book</th>
-                <td>{{ book.idBook }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ book.nomBook }}</td>
-            </tr>
-            <tr>
-                <th>Catégorie</th>
-                <td>{{ book.catBook.nomCat }}</td>
-            </tr>
-            <tr>
-                <th>Disponibilité</th>
-                <td>{{ book.dispoBook == 'oui' ? 'Oui' : 'Non' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ book.description|default('Aucune description disponible') }}</td>
-            </tr>
-            {% if book.pdfFile %}
-            <tr>
-                <th>Fichier PDF</th>
-                <td>
-                    <a href="{{ asset('uploads/pdf/' ~ book.pdfFile) }}" download >📄 Télécharger</a>
-                </td>
-            </tr>
-            {% endif %}
-        </table>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Filter -->
+<!-- Sidebar Filter -->
+<aside class="col-md-3">
+    <div class="filter-sidebar">
+        <h4>🔍 Filtrer les livres</h4>
 
-        <!-- RIGHT: Image & QR Code -->
-        <div class="image-container">
-            {% if book.picture %}
-                <img src="{{ asset('uploads/pictures/' ~ book.picture) }}" alt="Image du livre" class="book-image">
-            {% else %}
-                <p><em>Aucune image disponible</em></p>
-            {% endif %}
+{% if form is defined %}
+    {{ form_start(form, {'attr': {'id': 'book-filter-form'}}) }}
 
-            {% if book.pdfFile %}
-                <div class="qr-container">
-                    <button id="showQR" >📱 Afficher QR Code</button>
-                    <div id="qrCode"></div>
-                </div>
+    <!-- Disponibility Filter -->
+    <div class="form-group">
+        <label for="dispo_book">Disponibilité</label>
+   {{ form_widget(form.dispo_book, {'attr': {'class': 'form-control'}}) }} <!-- ✅ Change 'disponibility' → 'dispoBook' -->
 
-                <script>
-                    document.getElementById('showQR').addEventListener('click', function() {
-                        const qrContainer = document.getElementById('qrCode');
-                        qrContainer.innerHTML = ''; // Clear previous QR code
+    </div>
 
-                        const fileId = "{{ book.fileId }}"; // Get file ID from the database
-                        const directDownloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    <!-- Has PDF File -->
+    <div class="form-group">
+        <label for="pdf_file">Livres avec PDF</label>
+        {{ form_widget(form.pdf_file, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-                        console.log("Generated QR Code URL:", directDownloadLink); // ✅ Debugging Step
+    <!-- Category Filter -->
+    <div class="form-group">
+        <label for="category">Catégorie</label>
+        {{ form_widget(form.cat_book, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-                        new QRCode(qrContainer, {
-                            text: directDownloadLink,
-                            width: 200,
-                            height: 200
-                        });
+    <!-- Sorting Order -->
+    <div class="form-group">
+        <label for="nom_book">Trier par</label>
+        {{ form_widget(form.nom_book, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-                        qrContainer.style.display = 'block';
-                    });
-                </script>
-            {% endif %}
+    <button type="submit" class="btn btn-primary btn-block mt-2">Appliquer</button>
+
+    {{ form_end(form) }}
+{% else %}
+    <p>⚠️ Le formulaire n'est pas disponible.</p>
+{% endif %}
+
+
+
+    </div>
+</aside>
+
+
+        <!-- Books Display -->
+        <section class="col-md-9">
+            <div class="cards-container">
+                {% for book in books %}
+                    <div class="card">
+                        <div class="img">
+                            {% if book.picture %}
+                                <img src="{{ asset('uploads/pictures/' ~ book.picture) }}" alt="Image du livre" class="book-image">
+                            {% else %}
+                                <img src="{{ asset('uploads/pictures/default.jpg') }}" alt="Image non disponible" class="book-image">
+                            {% endif %}
+                        </div>
+                        <span>{{ book.nomBook }}</span>
+                        <p class="info">{{ book.description|default('Aucune description disponible') }}</p>
+                        <a href="{{ path('book_detail', { 'id': book.id }) }}">
+                            <button>Voir plus</button>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>Aucun livre trouvé.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+      
+   <div id="chat-container">
+    <h1>Ask Gemini AI</h1>
+    <textarea id="question" placeholder="Type your question..."></textarea>
+    <button id="askGemini" class="btn">Ask</button>
+    <div id="gemini-response" class="response"></div>
+</div>
+
+<style>
+    /* Chat Container */
+    #chat-container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Title */
+    h1 {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Textarea */
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: none;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Button */
+    .btn {
+        margin-top: 10px;
+        background: #4070f4;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+        background: #3055c7;
+    }
+
+    /* Response Box */
+    .response {
+        margin-top: 20px;
+        padding: 15px;
+        border-left: 4px solid #4070f4;
+        background: white;
+        font-size: 14px;
+        color: #333;
+        text-align: left;
+    }
+</style>
+
+<script>
+    document.getElementById("askGemini").addEventListener("click", function() {
+        const question = document.getElementById("question").value.trim();
+        if (!question) {
+            alert("Please enter a question!");
+            return;
+        }
+
+        fetch("/api/gemini", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: question })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById("gemini-response").innerText = "Error: " + data.error;
+            } else {
+                document.getElementById("gemini-response").innerText = data.candidates[0].content.parts[0].text;
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+</script>
+
+
+    </div>
+        
+        
+        {% endblock %}
+      </div>
+    </main>
+    <!-- Fin contenu principal -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container footer-top">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 footer-info">
+            <h3>Edu9raya</h3>
+            <p>
+              <strong>Phone:</strong> +216 12 345 678<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">formation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">cours</a></li>
+            </ul>
+          </div>
+
         </div>
-    </div>
+      </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{{ path('app_dashboard') }}">Retour à la liste</a>
-    </div>
-{% endblock %}
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong>Edu9raya</strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Scripts JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>

@@ -6,6 +6,40 @@
     <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <style>
+
+     #chat-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+        .btn {
+            margin-top: 10px;
+            background: #4070f4;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #3055c7;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            border-left: 4px solid #4070f4;
+            background: white;
+        }
     
 .card_biblo {
   display: flex;
@@ -172,6 +206,7 @@ select {
 
 {% block javascripts %}
     <script src="{{ asset('js/script2.js') }}" defer></script>
+    
 {% endblock %}
 
 {% block body %}
@@ -262,13 +297,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = data.url; // 🔥 Redirige vers la page du livre trouvé
                 } else {
                     console.log("❌ Livre non trouvé !");
-                    alert("❌ Livre non trouvé !");
+           
                     window.location.href = "/not-found";; // 🔥 Redirige vers une page 404
                 }
             })
             .catch(error => console.error("🚨 Erreur lors de la recherche :", error));
     });
 });
+
+
 
 
 </script>
@@ -342,6 +379,101 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         </div>
+
+
+      
+   <div id="chat-container">
+    <h1>Ask Gemini AI</h1>
+    <textarea id="question" placeholder="Type your question..."></textarea>
+    <button id="askGemini" class="btn">Ask</button>
+    <div id="gemini-response" class="response"></div>
+</div>
+
+<style>
+    /* Chat Container */
+    #chat-container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Title */
+    h1 {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Textarea */
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: none;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Button */
+    .btn {
+        margin-top: 10px;
+        background: #4070f4;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+        background: #3055c7;
+    }
+
+    /* Response Box */
+    .response {
+        margin-top: 20px;
+        padding: 15px;
+        border-left: 4px solid #4070f4;
+        background: white;
+        font-size: 14px;
+        color: #333;
+        text-align: left;
+    }
+</style>
+
+<script>
+    document.getElementById("askGemini").addEventListener("click", function() {
+        const question = document.getElementById("question").value.trim();
+        if (!question) {
+            alert("Please enter a question!");
+            return;
+        }
+
+        fetch("/api/gemini", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: question })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById("gemini-response").innerText = "Error: " + data.error;
+            } else {
+                document.getElementById("gemini-response").innerText = data.candidates[0].content.parts[0].text;
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+</script>
+
+
     </div>
     </section>
 {% endblock %}

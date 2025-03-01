@@ -14,7 +14,7 @@ final class DhasbordController extends AbstractController
     {
         $books = $bookRepository->findAll(); // Fetch books from the database
 
-        return $this->render('dhasbord/dhasbord.html.twig', [
+        return $this->render('dhasbord/front.html.twig', [
             'controller_name' => 'DhasbordController',
             'books' => $books, // Pass books to the template
         ]);
@@ -25,7 +25,7 @@ final class DhasbordController extends AbstractController
     {
         $books = $bookRepository->findAll(); // Fetch books
 
-        return $this->render('dhasbord/dhasbord.html.twig', [ // Ensure correct template
+        return $this->render('dhasbord/front.html.twig', [ // Ensure correct template
             'books' => $books,
         ]);
     }
