@@ -654,9 +654,7 @@
     <!-- SIDEBAR -->
     <section id="sidebar">
         <a href="{{ path('admin_formation_index') }}" class="brand">
-            <span class="nav_image">
-                <img src="{{ asset('logo.jpg') }}" alt="Logo" class="resized-logoimage">
-            </span>
+
             <span class="text">Edu9raya</span>
         </a>
         <ul class="side-menu top">
@@ -684,6 +682,30 @@
                     <span class="text">Gestion des réclamations</span>
                 </a>
             </li>
+            <li>
+				<a href="{{ path('table_book') }}">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My books</span>
+				</a>
+			</li>
+            <li>
+				<a href="{{ path('list_categorie') }}">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">List categoories</span>
+				</a>
+			</li>
+            <li>
+				<a href="{{ path('app_ajjouter') }}">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Ajjouter Books</span>
+				</a>
+			</li>
+            <li>
+				<a href="{{ path('add_categorie') }}">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Ajjouter Categories</span>
+				</a>
+			</li>
         </ul>
         <ul class="side-menu">
             <li>
