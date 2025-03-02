@@ -58,6 +58,6 @@ class AjjouterController extends AbstractController
             return $this->redirectToRoute('app_ajjouter');
         }
 
-        return $this->render('dhasbord/ajj.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/ajj.html.twig', ['form' => $form->createView()]);
     }
 }

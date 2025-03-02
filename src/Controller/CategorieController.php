@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Categorie;
-use App\Form\CategorieType;
+use App\Entity\Categoriebook;
+use App\Form\CategoriebookType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ final class CategorieController extends AbstractController
     #[Route('/categorie', name: 'app_categorie')]
     public function index(): Response
     {
-        return $this->render('categorie/index.html.twig', [
+        return $this->render('admin/index.html.twig', [
             'controller_name' => 'CategorieController',
         ]);
     }
@@ -23,10 +23,10 @@ final class CategorieController extends AbstractController
     public function addCategorie(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create a new category object
-        $categorie = new Categorie();
+        $categorie = new Categoriebook();
         
         // Create the form
-        $form = $this->createForm(CategorieType::class, $categorie);
+        $form = $this->createForm(CategoriebookType::class, $categorie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -41,7 +41,7 @@ final class CategorieController extends AbstractController
             return $this->redirectToRoute('list_categorie');
         }
 
-        return $this->render('dhasbord/add_categorie.html.twig', [
+        return $this->render('admin/add_categorie.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -51,18 +51,18 @@ final class CategorieController extends AbstractController
     #[Route('/categorie/list', name: 'list_categorie')]
     public function listCategories(EntityManagerInterface $entityManager): Response
     {
-        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        $categories = $entityManager->getRepository(Categoriebook::class)->findAll();
 
-        return $this->render('dhasbord/list_categorie.html.twig', [
+        return $this->render('admin/list_categorie.html.twig', [
             'categories' => $categories,
         ]);
     }
 
    
         #[Route('/categorie/update/{id}', name: 'update_categorie')]
-        public function updateCategory(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
+        public function updateCategory(Request $request, Categoriebook $categorie, EntityManagerInterface $entityManager): Response
         {
-            $form = $this->createForm(CategorieType::class, $categorie);
+            $form = $this->createForm(CategoriebookType::class, $categorie);
             $form->handleRequest($request);
     
             if ($form->isSubmitted() && $form->isValid()) {
@@ -71,7 +71,7 @@ final class CategorieController extends AbstractController
                 return $this->redirectToRoute('list_categorie');
             }
     
-            return $this->render('dhasbord/edit_categorie.html.twig', [
+            return $this->render('admin/edit_categorie.html.twig', [
                 'form' => $form->createView(),
             ]);
         }
@@ -93,7 +93,7 @@ final class CategorieController extends AbstractController
             }
     
             // Render a confirmation page (optional)
-            return $this->render('categorie/confirm_delete.html.twig', [
+            return $this->render('admin/confirm_delete.html.twig', [
                 'categorie' => $categorie,
             ]);
         }

@@ -25,7 +25,7 @@ final class BookController extends AbstractController
     #[Route('/book/{id}', name: 'book_detail')]
     public function show(Book $book): Response
     {
-        return $this->render('dhasbord/details.html.twig', [
+        return $this->render('student/details.html.twig', [
             'book' => $book,
         ]);
     }
@@ -36,7 +36,7 @@ final class BookController extends AbstractController
         // Fetch all books
         $books = $entityManager->getRepository(Book::class)->findAll();
 
-        return $this->render('dhasbord/table_book.html.twig', [
+        return $this->render('admin/table_book.html.twig', [
             'books' => $books,
         ]);
     }
@@ -71,7 +71,7 @@ final class BookController extends AbstractController
             return $this->redirectToRoute('table_book');
         }
 
-        return $this->render('dhasbord/update_book.html.twig', [
+        return $this->render('admin/update_book.html.twig', [
             'form' => $form->createView(),
             'book' => $book,
         ]);
@@ -101,7 +101,7 @@ final class BookController extends AbstractController
     #[Route('/not-found', name: 'not_found')]
     public function notFound(): Response
     {
-        return $this->render('dashboard/404.html.twig');
+        return $this->render('student/404.html.twig');
     }
 
     #[Route('/books', name: 'filtered_books_list', methods: ['GET'])]
@@ -142,7 +142,7 @@ final class BookController extends AbstractController
         // ✅ Fetch Books
         $books = $queryBuilder->getQuery()->getResult();
 
-        return $this->render('dhasbord/front.html.twig', [
+        return $this->render('student/front.html.twig', [
             'books' => $books,
             'form' => $form->createView(), // ✅ Correctly named as 'form'
         ]);
