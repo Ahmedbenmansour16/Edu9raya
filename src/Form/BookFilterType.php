@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Categorie;
+use App\Entity\Categoriebook;
 use App\Entity\Book;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -35,7 +35,7 @@ class BookFilterType extends AbstractType
                 'label' => 'Livres avec PDF',
             ])
             ->add('cat_book', EntityType::class, [
-                'class' => Categorie::class,
+                'class' => Categoriebook::class,
                 'choice_label' => 'nomCat',
                 'placeholder' => 'Toutes les catégories',
                 'required' => false,

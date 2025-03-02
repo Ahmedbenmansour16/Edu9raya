@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Book;
-use App\Entity\Categorie;
+use App\Entity\Categoriebook;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -41,7 +41,7 @@ class BookType extends AbstractType
                 ],
             ])
             ->add('cat_book', EntityType::class, [
-                'class' => Categorie::class,
+                'class' => Categoriebook::class,
                 'choice_label' => 'nom_cat',
                 'label' => 'Catégorie',
                 'placeholder' => 'Sélectionnez une catégorie',
