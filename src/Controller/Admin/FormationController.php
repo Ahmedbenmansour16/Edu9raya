@@ -7,6 +7,7 @@ use App\Entity\Contenu;
 use App\Entity\Question;
 use App\Entity\Categorie;
 use App\Entity\Formation;
+use App\Service\YouTubeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +58,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'admin_formation_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Formation $formation, EntityManagerInterface $em): Response
+    public function edit(Request $request, Formation $formation, EntityManagerInterface $em, YouTubeService $youtubeService): Response
     {
         if ($request->isMethod('POST')) {
             // 1. Mise à jour des informations de base
@@ -98,6 +99,11 @@ class FormationController extends AbstractController
                                 if ($contenu->getId() == $contenuId) {
                                     if ($contenu->getType() === 'description') {
                                         $contenu->setDescription($contenuData['description'] ?? '');
+                                    } elseif ($contenu->getType() === 'youtube') {
+                                        $youtubeValue = $contenuData['youtubeId'] ?? '';
+                                        // Extraire l'ID YouTube si une URL complète est fournie
+                                        $youtubeId = $youtubeService->getYoutubeIdFromUrl($youtubeValue) ?: $youtubeValue;
+                                        $contenu->setYoutubeId($youtubeId);
                                     } else {
                                         // Pour un contenu de type fichier, on vérifie si un nouveau fichier est uploadé
                                         $file = $request->files->get('niveaux')[$ordre]['contenus']['existing'][$contenuId]['file'] ?? null;
@@ -119,8 +125,14 @@ class FormationController extends AbstractController
                             $contenu = new Contenu();
                             $contenu->setType($type);
                             $contenu->setNiveau($niveau);
+                            
                             if ($type === 'description') {
                                 $contenu->setDescription($newItem['description'] ?? '');
+                            } elseif ($type === 'youtube') {
+                                $youtubeValue = $newItem['youtubeId'] ?? '';
+                                // Extraire l'ID YouTube si une URL complète est fournie
+                                $youtubeId = $youtubeService->getYoutubeIdFromUrl($youtubeValue) ?: $youtubeValue;
+                                $contenu->setYoutubeId($youtubeId);
                             } else {
                                 // Récupérer le fichier uploadé pour ce nouveau contenu
                                 $file = $request->files->get('niveaux')[$ordre]['contenus']['new'][$idx]['file'] ?? null;
@@ -169,6 +181,7 @@ class FormationController extends AbstractController
             'categories' => $em->getRepository(Categorie::class)->findAll(),
         ]);
     }
+    
     #[Route('/delete/{id}', name: 'admin_formation_delete', methods: ['POST'])]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $em): Response
     {
@@ -183,7 +196,7 @@ class FormationController extends AbstractController
     // Le "wizard" pour créer une nouvelle formation
     // -------------------------------------------------------------
     #[Route('/new', name: 'admin_formation_new', methods: ['GET','POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, YouTubeService $youtubeService): Response
     {
         if ($request->isMethod('POST')) {
             // 1) Récupérer les données POST
@@ -237,8 +250,13 @@ class FormationController extends AbstractController
     
                         if ($type === 'description') {
                             $contenu->setDescription($contenuItem['description'] ?? '');
+                        } elseif ($type === 'youtube') {
+                            $youtubeValue = $contenuItem['youtubeId'] ?? '';
+                            // Extraire l'ID YouTube si une URL complète est fournie
+                            $youtubeId = $youtubeService->getYoutubeIdFromUrl($youtubeValue) ?: $youtubeValue;
+                            $contenu->setYoutubeId($youtubeId);
                         } else {
-                            // Correction ici : récupérer le fichier correctement
+                            // Récupérer le fichier correctement
                             $file = $request->files->get('niveaux')[$i]['contenus'][$idx]['file'] ?? null;
                             
                             if ($file instanceof UploadedFile) {
@@ -284,6 +302,7 @@ class FormationController extends AbstractController
             'categories' => $categories,
         ]);
     }
+    
     #[Route('/stats', name: 'admin_formation_stats', methods: ['GET'])]
     public function stats(EntityManagerInterface $em): Response
     {
@@ -333,4 +352,19 @@ class FormationController extends AbstractController
         ]);
     }
     
+    #[Route('/youtube/search', name: 'admin_formation_youtube_search', methods: ['GET'])]
+    public function youtubeSearch(Request $request, YouTubeService $youtubeService): Response
+    {
+        $query = $request->query->get('q');
+        if (!$query) {
+            return $this->json(['error' => 'Le paramètre de recherche est requis'], Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $results = $youtubeService->searchVideos($query);
+            return $this->json($results);
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Erreur lors de la recherche YouTube: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
