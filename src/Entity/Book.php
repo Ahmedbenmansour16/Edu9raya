@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Categoriebook;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,10 +24,10 @@ class Book
     #[Assert\Length(min: 3, max: 255, minMessage: "Le nom doit contenir au moins 3 caractères.")]
     private ?string $nom_book = null;
 
-    #[ORM\ManyToOne(targetEntity: Categorie::class)]
+    #[ORM\ManyToOne(targetEntity: Categoriebook::class)]
     #[ORM\JoinColumn(name: "cat_book", referencedColumnName: "id", nullable: false)]
-    #[Assert\NotBlank(message: "Veuillez sélectionner une catégorie.")]
-    private ?Categorie $cat_book = null;
+    private ?Categoriebook $cat_book = null;
+    
 
     #[ORM\Column(length: 3)]
     #[Assert\NotBlank(message: "La disponibilité est obligatoire.")]
@@ -60,8 +61,8 @@ class Book
     public function getNomBook(): ?string { return $this->nom_book; }
     public function setNomBook(string $nom_book): static { $this->nom_book = $nom_book; return $this; }
 
-    public function getCatBook(): ?Categorie { return $this->cat_book; }
-    public function setCatBook(?Categorie $cat_book): static { $this->cat_book = $cat_book; return $this; }
+    public function getCatBook(): ?Categoriebook { return $this->cat_book; }
+    public function setCatBook(?Categoriebook $cat_book): static { $this->cat_book = $cat_book; return $this; }
 
     public function getDispoBook(): ?string { return $this->dispo_book; }
     public function setDispoBook(string $dispo_book): static { $this->dispo_book = $dispo_book; return $this; }
