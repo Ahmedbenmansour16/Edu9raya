@@ -1,37 +1,46 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-
-
-
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id = null; // ✅ Use "id" instead of "idCat"
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 255)]
-    private ?string $nomCat = null;
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: 'Le nom de la catégorie est obligatoire.')]
+    #[Assert\Length(
+        min: 3,
+        max: 100,
+        minMessage: 'Le nom doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.'
+    )]
+    private ?string $nom = null;
 
     public function getId(): ?int
     {
-        return $this->id; // ✅ Use "getId()" instead of "getidCat()"
+        return $this->id;
     }
 
-    public function getNomCat(): ?string
+    public function getNom(): ?string
     {
-        return $this->nomCat;
+        return $this->nom;
     }
 
-    public function setNomCat(string $nomCat): self
+    public function setNom(string $nom): self
     {
-        $this->nomCat = $nomCat;
+        $this->nom = $nom;
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? ''; 
     }
 }
