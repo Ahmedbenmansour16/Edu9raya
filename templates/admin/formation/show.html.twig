@@ -229,6 +229,10 @@
             <div class="contenu-type">{{ contenu.type|upper }}</div>
             {% if contenu.type == 'description' %}
               <p>{{ contenu.description }}</p>
+            {% elseif contenu.type == 'youtube' %}
+              <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ contenu.youtubeId }}" allowfullscreen></iframe>
+              </div>
             {% else %}
               <a href="{{ asset('uploads/' ~ contenu.fichier) }}" class="contenu-link" target="_blank">
                 <i class="fas fa-external-link-alt"></i>

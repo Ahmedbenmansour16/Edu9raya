@@ -196,6 +196,46 @@ label {
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
+
+/* Style pour YouTube search results */
+.youtube-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.youtube-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.youtube-card.selected {
+  border-color: #3B82F6;
+}
+
+.embed-responsive {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.embed-responsive::before {
+  display: block;
+  content: "";
+  padding-top: 56.25%;
+}
+
+.embed-responsive-item {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 </style>
 {% endblock %}
 
@@ -364,7 +404,8 @@ function addContenu(niveauNumber) {
       <div class="form-group">
         <label>Type de contenu</label>
         <select name="niveaux[${niveauNumber}][contenus][${idx}][type]" class="form-control type-select" onchange="onTypeChange(this, ${niveauNumber}, ${idx})">
-          <option value="video">Vidéo</option>
+          <option value="video">Vidéo (upload)</option>
+          <option value="youtube">Vidéo YouTube</option>
           <option value="pdf">PDF</option>
           <option value="image">Image</option>
           <option value="description">Description</option>
@@ -381,6 +422,7 @@ function addContenu(niveauNumber) {
   `;
   container.insertAdjacentHTML('beforeend', html);
 }
+
 // Validation des informations de la formation
 function validateFormationInfo() {
     const nom = document.getElementById('nom').value.trim();
@@ -452,6 +494,12 @@ function validateNiveau(niveauNumber) {
             const description = block.querySelector('textarea').value.trim();
             if (description.length < 10) {
                 errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: La description doit contenir au moins 10 caractères`);
+                isValid = false;
+            }
+        } else if (type === 'youtube') {
+            const youtubeId = block.querySelector('input[type="text"]').value.trim();
+            if (youtubeId.length < 5) {
+                errors.push(`Niveau ${niveauNumber}, Contenu ${index + 1}: Veuillez entrer un ID ou URL YouTube valide`);
                 isValid = false;
             }
         } else {
@@ -601,6 +649,7 @@ document.getElementById('formationForm').addEventListener('submit', function(e) 
     // Si tout est valide, soumettre le formulaire
     this.submit();
 });
+
 function onTypeChange(selectEl, niveauNumber, idx) {
   const val = selectEl.value;
   const fieldsDiv = document.getElementById(`contenu-fields-${niveauNumber}-${idx}`);
@@ -612,6 +661,20 @@ function onTypeChange(selectEl, niveauNumber, idx) {
         <textarea name="niveaux[${niveauNumber}][contenus][${idx}][description]" class="form-control" rows="3"></textarea>
       </div>
     `;
+  } else if (val === 'youtube') {
+    fieldsDiv.innerHTML = `
+      <div class="form-group">
+        <label>URL ou ID de la vidéo YouTube</label>
+        <div class="input-group">
+          <input type="text" name="niveaux[${niveauNumber}][contenus][${idx}][youtubeId]" class="form-control" placeholder="https://www.youtube.com/watch?v=..." id="youtube-input-${niveauNumber}-${idx}">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-primary" onclick="searchYoutube(${niveauNumber}, ${idx})">Rechercher</button>
+          </div>
+        </div>
+      </div>
+      <div id="youtube-preview-${niveauNumber}-${idx}" class="mt-3"></div>
+      <div id="youtube-search-results-${niveauNumber}-${idx}" class="mt-3"></div>
+    `;
   } else {
     fieldsDiv.innerHTML = `
       <div class="form-group">
@@ -620,6 +683,86 @@ function onTypeChange(selectEl, niveauNumber, idx) {
       </div>
     `;
   }
+}
+
+// Fonction pour rechercher des vidéos YouTube
+function searchYoutube(niveauNumber, idx) {
+  const query = document.getElementById(`youtube-input-${niveauNumber}-${idx}`).value;
+  if (!query.trim()) {
+    alert('Veuillez entrer un terme de recherche');
+    return;
+  }
+  
+  const resultsContainer = document.getElementById(`youtube-search-results-${niveauNumber}-${idx}`);
+  
+  resultsContainer.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Chargement...</span></div></div>';
+  
+  fetch(`/admin/youtube/search?q=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        resultsContainer.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+        return;
+      }
+      
+      if (!data.items || data.items.length === 0) {
+        resultsContainer.innerHTML = `<div class="alert alert-info">Aucun résultat trouvé pour "${query}"</div>`;
+        return;
+      }
+      
+      let html = '<div class="row">';
+      data.items.forEach(item => {
+        html += `
+          <div class="col-md-4 mb-3">
+            <div class="card youtube-card" onclick="selectYoutubeVideo('${item.id.videoId}', ${niveauNumber}, ${idx})">
+              <img src="${item.snippet.thumbnails.medium.url}" class="card-img-top" alt="${item.snippet.title}">
+              <div class="card-body">
+                <h5 class="card-title" style="font-size: 14px;">${item.snippet.title}</h5>
+                <p class="card-text text-muted" style="font-size: 12px;">${item.snippet.channelTitle}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      
+      resultsContainer.innerHTML = html;
+    })
+    .catch(error => {
+      resultsContainer.innerHTML = `<div class="alert alert-danger">Erreur: ${error.message}</div>`;
+    });
+}
+
+// Fonction pour sélectionner une vidéo YouTube
+function selectYoutubeVideo(videoId, niveauNumber, idx) {
+  document.getElementById(`youtube-input-${niveauNumber}-${idx}`).value = videoId;
+  
+  const previewContainer = document.getElementById(`youtube-preview-${niveauNumber}-${idx}`);
+  previewContainer.innerHTML = `
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        Aperçu de la vidéo
+      </div>
+      <div class="card-body p-0">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">ID: ${videoId}</small>
+      </div>
+    </div>
+  `;
+  
+  // Optionnel: masquer les résultats de recherche après sélection
+  document.getElementById(`youtube-search-results-${niveauNumber}-${idx}`).innerHTML = '';
+}
+
+// Fonction pour extraire l'ID YouTube d'une URL
+function extractYoutubeId(url) {
+  const pattern = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(pattern);
+  return match ? match[1] : url;
 }
 
 // Initialiser le premier contenu pour chaque niveau
