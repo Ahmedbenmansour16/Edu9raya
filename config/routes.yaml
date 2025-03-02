@@ -1,6 +1,15 @@
-# config/routes.yaml
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
 
-# Route par défaut (homepage)
-app_home:
-    path: /
-    controller: App\Controller\HomeController::index
+student_reclamation:
+    resource: ../src/Controller/Student/ReclamationController.php
+    type: annotation
+    prefix: /student/reclamation
+
+admin_reclamation:
+    resource: ../src/Controller/Admin/ReclamationController.php
+    type: annotation
+    prefix: /admin/reclamation
