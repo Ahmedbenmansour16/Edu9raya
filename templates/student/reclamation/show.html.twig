@@ -1,0 +1,33 @@
+
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Détail de la réclamation{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Réclamation</h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">{{ reclamation.sujet }}</h5>
+            <small class="text-muted">Envoyée le {{ reclamation.createdAt|date('d/m/Y H:i') }}</small>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ reclamation.contenu }}</p>
+        </div>
+    </div>
+
+    {% if reclamation.reponse %}
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                Réponse de l'administration
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ reclamation.reponse }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <a href="{{ path('student_reclamation_index') }}" class="btn btn-secondary mt-3">Retour</a>
+</div>
+{% endblock %}

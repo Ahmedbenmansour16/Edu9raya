@@ -1,0 +1,430 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier la Formation{% endblock %}
+
+{% block stylesheets %}
+<style>
+.wizard-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.wizard-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.wizard-tabs::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #E5E7EB;
+  z-index: 1;
+}
+
+.wizard-tab {
+  width: 150px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.wizard-tab-circle {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #374151;
+  margin: 0 auto 10px;
+  font-weight: bold;
+  position: relative;
+  border: 2px solid #E5E7EB;
+}
+
+.wizard-tab.active .wizard-tab-circle {
+  background: #3B82F6;
+  color: #ffffff;
+  border-color: #3B82F6;
+}
+
+.wizard-tab.completed .wizard-tab-circle {
+  background: #EFF6FF;
+  color: #3B82F6;
+  border-color: #3B82F6;
+}
+
+.wizard-tab-label {
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.wizard-tab.active .wizard-tab-label {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.wizard-step {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  border: 2px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.form-control-file {
+  padding: 12px;
+  background: #F9FAFB;
+  border: 2px dashed #E5E7EB;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.current-image {
+  margin: 12px 0;
+  padding: 12px;
+  background: #F9FAFB;
+  border-radius: 8px;
+}
+
+.current-image img {
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  border: none;
+}
+
+.card-header {
+  background: #F9FAFB;
+  padding: 16px 24px;
+  border-bottom: 1px solid #E5E7EB;
+  font-weight: 600;
+  color: #374151;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.contenu-block {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #E5E7EB;
+}
+
+.question-block {
+  background: #F9FAFB;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #E5E7EB;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #3B82F6;
+  border: none;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #F3F4F6;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+}
+
+.btn-secondary:hover {
+  background: #E5E7EB;
+}
+
+.btn-success {
+  background: #059669;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-success:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+.btn-light {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+}
+
+.btn-light:hover {
+  background: #F9FAFB;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 32px;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 24px;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="wizard-container">
+  <h1>Modifier la Formation</h1>
+
+  <div class="wizard-tabs">
+    <div class="wizard-tab active" id="tab1">
+      <div class="wizard-tab-circle">1</div>
+      <div class="wizard-tab-label">Informations</div>
+    </div>
+    <div class="wizard-tab" id="tab2">
+      <div class="wizard-tab-circle">2</div>
+      <div class="wizard-tab-label">Niveaux</div>
+    </div>
+    <div class="wizard-tab" id="tab3">
+      <div class="wizard-tab-circle">3</div>
+      <div class="wizard-tab-label">Test</div>
+    </div>
+  </div>
+
+  <form id="formationForm" method="POST" enctype="multipart/form-data">
+    <!-- Étape 1 : Informations Générales -->
+    <div class="wizard-step" id="step1">
+      <h4>Informations de la Formation</h4>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" name="nom" id="nom" class="form-control" required value="{{ formation.nom }}">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" class="form-control" required>{{ formation.description }}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="imageFile">Image (upload)</label>
+        <input type="file" name="imageFile" id="imageFile" class="form-control-file">
+        {% if formation.image %}
+          <p>Image actuelle : <img src="{{ asset('uploads/' ~ formation.image) }}" alt="Image" width="150"></p>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="categorie">Catégorie</label>
+        <select name="categorie" id="categorie" class="form-control" required>
+          <option value="">-- Choisir --</option>
+          {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if formation.categorie.id == cat.id %}selected{% endif %}>{{ cat.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="button" class="btn btn-primary" onclick="goToStep(2)">Suivant</button>
+    </div>
+
+    <!-- Étape 2 : Modification des Niveaux et Contenus -->
+    <div class="wizard-step" id="step2" style="display:none;">
+      <h4>Modifier les Niveaux</h4>
+      <p>Modifiez les contenus pour chacun des 5 niveaux.</p>
+      {% for niveau in formation.niveaux %}
+        <div class="card mb-3">
+          <div class="card-header">
+            Niveau {{ niveau.ordre }}
+          </div>
+          <div class="card-body">
+            {% for contenu in niveau.contenus %}
+              <div class="contenu-block p-2 mb-2 border">
+                <p><strong>Type :</strong> {{ contenu.type }}</p>
+                {% if contenu.type == 'description' %}
+                  <label>Description</label>
+                  <textarea name="niveaux[{{ niveau.ordre }}][contenus][existing][{{ contenu.id }}][description]" class="form-control">{{ contenu.description }}</textarea>
+                {% else %}
+                  <label>Fichier actuel :</label>
+                  <p><a href="{{ asset('uploads/' ~ contenu.fichier) }}" target="_blank">Voir le fichier</a></p>
+                  <label>Uploader un nouveau fichier</label>
+                  <input type="file" name="niveaux[{{ niveau.ordre }}][contenus][existing][{{ contenu.id }}][file]" class="form-control-file">
+                {% endif %}
+                <input type="hidden" name="niveaux[{{ niveau.ordre }}][contenus][existing][{{ contenu.id }}][type]" value="{{ contenu.type }}">
+              </div>
+            {% else %}
+              <p>Aucun contenu pour ce niveau.</p>
+            {% endfor %}
+            <div id="contenus-container-{{ niveau.ordre }}">
+              <!-- On ajoutera dynamiquement de nouveaux contenus ici -->
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="addContenu({{ niveau.ordre }})">Ajouter un Contenu</button>
+          </div>
+        </div>
+      {% endfor %}
+      <button type="button" class="btn btn-light" onclick="goToStep(1)">Précédent</button>
+      <button type="button" class="btn btn-primary" onclick="goToStep(3)">Suivant</button>
+    </div>
+
+    <!-- Étape 3 : Modification du Test et des Questions -->
+    <div class="wizard-step" id="step3" style="display:none;">
+      <h4>Modifier le Test</h4>
+      <p>Modifiez les 10 questions du test associé.</p>
+      {% if formation.test is not null %}
+        {% for question in formation.test.questions %}
+          <div class="question-block mb-3 p-2 border">
+            <h5>Question {{ loop.index }}</h5>
+            <div class="form-group">
+              <label>Enoncé</label>
+              <textarea name="test[questions][existing][{{ question.id }}][enonce]" class="form-control">{{ question.enonce }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Réponse 1</label>
+              <input type="text" name="test[questions][existing][{{ question.id }}][answer1]" class="form-control" value="{{ question.answer1 }}">
+            </div>
+            <div class="form-group">
+              <label>Réponse 2</label>
+              <input type="text" name="test[questions][existing][{{ question.id }}][answer2]" class="form-control" value="{{ question.answer2 }}">
+            </div>
+            <div class="form-group">
+              <label>Réponse 3</label>
+              <input type="text" name="test[questions][existing][{{ question.id }}][answer3]" class="form-control" value="{{ question.answer3 }}">
+            </div>
+            <div class="form-group">
+              <label>Réponse 4</label>
+              <input type="text" name="test[questions][existing][{{ question.id }}][answer4]" class="form-control" value="{{ question.answer4 }}">
+            </div>
+            <div class="form-group">
+              <label>Bonne réponse (1, 2, 3 ou 4)</label>
+              <input type="number" name="test[questions][existing][{{ question.id }}][correct]" class="form-control" value="{{ question.correctAnswer }}" min="1" max="4">
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Aucun test défini.</p>
+      {% endif %}
+      <button type="button" class="btn btn-light" onclick="goToStep(2)">Précédent</button>
+      <button type="submit" class="btn btn-success">Enregistrer la Formation</button>
+    </div>
+  </form>
+</div>
+
+<!-- JavaScript pour la navigation et l'ajout dynamique de contenus -->
+<script>
+// Fonction de gestion des étapes du wizard
+function goToStep(stepNumber) {
+  const steps = document.querySelectorAll('.wizard-step');
+  steps.forEach(step => step.style.display = 'none');
+  document.getElementById('step' + stepNumber).style.display = 'block';
+}
+
+// Ajout dynamique de contenu pour un niveau
+let contenuIndex = {}; // ex: {1:0, 2:0, ...}
+{% for niveau in formation.niveaux %}
+  contenuIndex[{{ niveau.ordre }}] = 0;
+{% endfor %}
+
+function addContenu(niveauNumber) {
+  const container = document.getElementById('contenus-container-' + niveauNumber);
+  const idx = contenuIndex[niveauNumber]++;
+  
+  const html = `
+    <div class="contenu-block p-2 mb-2 border">
+      <label>Type de contenu</label>
+      <select name="niveaux[${niveauNumber}][contenus][new][${idx}][type]" class="form-control" onchange="onTypeChange(this, ${niveauNumber}, ${idx})">
+        <option value="video">Vidéo</option>
+        <option value="pdf">PDF</option>
+        <option value="image">Image</option>
+        <option value="description">Description</option>
+      </select>
+      <div class="mt-2" id="contenu-fields-${niveauNumber}-${idx}">
+        <label>Fichier</label>
+        <input type="file" name="niveaux[${niveauNumber}][contenus][new][${idx}][file]" class="form-control-file">
+      </div>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+function onTypeChange(selectEl, niveauNumber, idx) {
+  const val = selectEl.value;
+  const fieldsDiv = document.getElementById(`contenu-fields-${niveauNumber}-${idx}`);
+  fieldsDiv.innerHTML = '';
+  if (val === 'description') {
+    fieldsDiv.innerHTML = `
+      <label>Description</label>
+      <textarea name="niveaux[${niveauNumber}][contenus][new][${idx}][description]" class="form-control"></textarea>
+    `;
+  } else {
+    fieldsDiv.innerHTML = `
+      <label>Fichier</label>
+      <input type="file" name="niveaux[${niveauNumber}][contenus][new][${idx}][file]" class="form-control-file">
+    `;
+  }
+}
+</script>
+{% endblock %}
