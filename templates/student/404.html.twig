@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <style>
+   
+        
+.error-container {
+    text-align: center;
+    margin-top: 50px;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #4070f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    width:200px;
+    height:40px;
+               display: flex;
+       text-align: center;
+
+}
+.btn:hover {
+    background-color: #62b6cb;
+}
+
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+{% endblock %}
+
+{% block body %}
+
+
+
+        <div class="error-container">
+    <h1>404 - Page Introuvable</h1>
+    <p>Oups ! Le livre que vous cherchez n'existe pas.</p>
+    <div  class="btn">
+    <a href="{{ path('app_dhasbord') }}">🔙 Retour à la liste</a>
+    </div>
+</div>   
+
+
+
+ {% endblock %}
