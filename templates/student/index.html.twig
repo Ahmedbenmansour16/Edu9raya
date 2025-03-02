@@ -1,0 +1,89 @@
+{# templates/student/index.html.twig #}
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Liste des Formations{% endblock %}
+
+{% block stylesheets %}
+<style>
+  /* Styles spécifiques aux cartes de formations */
+  .formation-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .formation-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  .formation-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .formation-card .card-body {
+    padding: 20px;
+  }
+  .formation-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .formation-card-text {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  .formation-date {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 8px;
+    display: block;
+  }
+  .btn-primary {
+    background-color: #1c7ed6;
+    border-color: #1c7ed6;
+  }
+  .btn-primary:hover {
+    background-color: #0c5fb0;
+    border-color: #0c5fb0;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Nos Formations</h1>
+
+{% for category, formations in groupedFormations %}
+  <h2 class="mt-5 mb-4">{{ category }}</h2>
+  <div class="row">
+    {% for formation in formations %}
+      <div class="col-md-4 mb-4">
+        <div class="card formation-card">
+          {% if formation.image %}
+            <img src="{{ asset('uploads/' ~ formation.image) }}" alt="{{ formation.nom }}">
+          {% else %}
+            <img src="https://via.placeholder.com/350x150" alt="Pas d'image">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="formation-card-title">{{ formation.nom }}</h5>
+            <p class="formation-card-text">
+              {{ formation.description|length > 100
+                ? formation.description|slice(0,100) ~ '...'
+                : formation.description
+              }}
+            </p>
+            <span class="formation-date">
+              Créé le {{ formation.dateCreation|date('d/m/Y') }}
+            </span>
+            <a href="{{ path('student_formation_show', { id: formation.id }) }}"
+               class="btn btn-primary mt-3">
+              Voir la formation
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}

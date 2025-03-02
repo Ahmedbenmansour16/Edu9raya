@@ -1,0 +1,204 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Détails de la Catégorie{% endblock %}
+{% block stylesheets %}
+<style>
+  .category-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 24px;
+  }
+  
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 32px;
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .modern-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .modern-table th {
+    background: #F9FAFB;
+    padding: 16px 24px;
+    font-weight: 600;
+    color: #374151;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  
+  .modern-table td {
+    padding: 16px 24px;
+    color: #4B5563;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  
+  .modern-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .modern-table tr:hover {
+    background: #F9FAFB;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .btn-primary {
+    background: #3B82F6;
+    color: white;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background: #2563EB;
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background: #F3F4F6;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+  }
+  
+  .btn-secondary:hover {
+    background: #E5E7EB;
+  }
+  
+  .btn-success {
+    background: #059669;
+    color: white;
+    border: none;
+  }
+  
+  .btn-success:hover {
+    background: #047857;
+    transform: translateY(-1px);
+  }
+  
+  .btn-warning {
+    background: #FBBF24;
+    color: #92400E;
+    border: none;
+  }
+  
+  .btn-warning:hover {
+    background: #F59E0B;
+    transform: translateY(-1px);
+  }
+  
+  .btn-danger {
+    background: #EF4444;
+    color: white;
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+  }
+  
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+  }
+  
+  .detail-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .detail-label {
+    font-weight: 600;
+    color: #374151;
+    min-width: 100px;
+  }
+  
+  .detail-value {
+    color: #4B5563;
+  }
+  </style>
+{% endblock %}
+
+{% block body %}
+<div class="category-container">
+  <h1 class="page-title">Détails de la Catégorie</h1>
+  
+  <div class="card">
+    <div class="detail-row">
+      <span class="detail-label">ID :</span>
+      <span class="detail-value">{{ categorie.id }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Nom :</span>
+      <span class="detail-value">{{ categorie.nom }}</span>
+    </div>
+    
+    <div class="mt-4">
+      <a href="{{ path('admin_categorie_edit', { id: categorie.id }) }}" class="btn btn-warning">
+        <i class="fas fa-edit"></i> Modifier
+      </a>
+      <a href="{{ path('admin_categorie_index') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Retour
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

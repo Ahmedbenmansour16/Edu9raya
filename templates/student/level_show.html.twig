@@ -1,0 +1,112 @@
+{# templates/student/level_show.html.twig #}
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Niveau {{ niveau.ordre }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+  /* Header du niveau */
+  .niveau-header {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .niveau-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #1c7ed6; /* Couleur principale */
+  }
+
+  /* Section des contenus */
+  .contenus-section {
+    margin-top: 30px;
+  }
+  .contenus-section h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Carte pour chaque contenu */
+  .contenu-item {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-left: 4px solid #1c7ed6;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+    border-radius: 4px;
+  }
+  .contenu-item:hover {
+    border-left-color: #0c5fb0; /* Hover plus foncé */
+  }
+  .contenu-item strong {
+    color: #1c7ed6;
+  }
+  .contenu-item a {
+    color: #1c7ed6;
+    text-decoration: underline;
+  }
+  .contenu-item a:hover {
+    color: #0c5fb0;
+    text-decoration: none;
+  }
+
+  /* Message si aucun contenu */
+  .no-contenu {
+    font-style: italic;
+    color: #999;
+  }
+
+  /* Bouton de retour */
+  .btn-retour {
+    background-color: #6c757d; /* Couleur bootstrap .btn-secondary */
+    border-color: #6c757d;
+  }
+  .btn-retour:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="my-4">
+
+  <!-- En-tête du niveau -->
+  <div class="niveau-header">
+    <h1>Niveau {{ niveau.ordre }}</h1>
+  </div>
+
+  <!-- Contenus du niveau -->
+  <div class="contenus-section">
+    <h2>Contenus</h2>
+    {% if niveau.contenus|length > 0 %}
+      {% for contenu in niveau.contenus %}
+        <div class="contenu-item">
+          <p><strong>Type :</strong> {{ contenu.type }}</p>
+          {% if contenu.type == 'description' %}
+            <p>{{ contenu.description }}</p>
+          {% else %}
+            <p><a href="{{ asset('uploads/' ~ contenu.fichier) }}" target="_blank">Voir le fichier</a></p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-contenu">Aucun contenu pour ce niveau.</p>
+    {% endif %}
+  </div>
+
+  <!-- Bouton retour à la formation -->
+  <a href="{{ path('student_formation_show', { id: niveau.formation.id }) }}"
+     class="btn btn-retour mt-3">
+    Retour à la formation
+  </a>
+
+</div>
+{% endblock %}
