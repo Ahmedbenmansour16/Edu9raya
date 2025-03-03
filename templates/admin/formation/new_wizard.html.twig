@@ -313,45 +313,53 @@ label {
       </div>
     {% endfor %}
 
-    <!-- Étape 7 : Le Test (10 questions) -->
+    <!-- Étape 7 : Le Test (Questions) -->
     <div class="wizard-step" id="step7">
-      <h4 class="mb-3">Test (10 Questions)</h4>
+      <h4 class="mb-3">Test</h4>
+      <p>Ajoutez au moins 3 questions pour évaluer les connaissances acquises</p>
       <div id="questions-container">
-        {% for q in 1..10 %}
+        <!-- Les trois premières questions par défaut -->
+        {% for q in 1..3 %}
           <div class="question-block mb-3">
             <h5>Question {{ q }}</h5>
             <div class="form-group">
               <label>Énoncé</label>
-              <textarea name="test[questions][{{ q }}][enonce]" class="form-control" rows="2"></textarea>
+              <textarea name="test[questions][{{ q }}][enonce]" class="form-control" rows="2" required></textarea>
             </div>
 
             <div class="form-group">
               <label>Réponse 1</label>
-              <input type="text" name="test[questions][{{ q }}][answer1]" class="form-control">
+              <input type="text" name="test[questions][{{ q }}][answer1]" class="form-control" required>
             </div>
 
             <div class="form-group">
               <label>Réponse 2</label>
-              <input type="text" name="test[questions][{{ q }}][answer2]" class="form-control">
+              <input type="text" name="test[questions][{{ q }}][answer2]" class="form-control" required>
             </div>
 
             <div class="form-group">
               <label>Réponse 3</label>
-              <input type="text" name="test[questions][{{ q }}][answer3]" class="form-control">
+              <input type="text" name="test[questions][{{ q }}][answer3]" class="form-control" required>
             </div>
 
             <div class="form-group">
               <label>Réponse 4</label>
-              <input type="text" name="test[questions][{{ q }}][answer4]" class="form-control">
+              <input type="text" name="test[questions][{{ q }}][answer4]" class="form-control" required>
             </div>
 
             <div class="form-group">
               <label>Bonne réponse (1,2,3,4)</label>
-              <input type="number" name="test[questions][{{ q }}][correct]" class="form-control" value="1" min="1" max="4">
+              <input type="number" name="test[questions][{{ q }}][correct]" class="form-control" value="1" min="1" max="4" required>
             </div>
           </div>
         {% endfor %}
       </div>
+      
+      <!-- Bouton pour ajouter d'autres questions -->
+      <button type="button" class="btn btn-secondary mb-3" onclick="addQuestion()">
+        <i class='bx bx-plus'></i> Ajouter une Question
+      </button>
+      
       <div class="wizard-navigation">
         <button type="button" class="btn btn-light" onclick="goToStep(6)">Précédent</button>
         <button type="submit" class="btn btn-success">Enregistrer la Formation</button>
@@ -421,6 +429,57 @@ function addContenu(niveauNumber) {
     </div>
   `;
   container.insertAdjacentHTML('beforeend', html);
+}
+
+// Variable pour suivre l'index de la prochaine question
+let questionIndex = 4; // Commence à 4 car nous avons déjà 3 questions par défaut
+
+// Fonction pour ajouter une question
+function addQuestion() {
+  const container = document.getElementById('questions-container');
+  const questionBlock = document.createElement('div');
+  questionBlock.className = 'question-block mb-3';
+  
+  questionBlock.innerHTML = `
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5>Question ${questionIndex}</h5>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentNode.parentNode.remove()">
+        <i class='bx bx-trash'></i>
+      </button>
+    </div>
+    <div class="form-group">
+      <label>Énoncé</label>
+      <textarea name="test[questions][${questionIndex}][enonce]" class="form-control" rows="2" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Réponse 1</label>
+      <input type="text" name="test[questions][${questionIndex}][answer1]" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Réponse 2</label>
+      <input type="text" name="test[questions][${questionIndex}][answer2]" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Réponse 3</label>
+      <input type="text" name="test[questions][${questionIndex}][answer3]" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Réponse 4</label>
+      <input type="text" name="test[questions][${questionIndex}][answer4]" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Bonne réponse (1,2,3,4)</label>
+      <input type="number" name="test[questions][${questionIndex}][correct]" class="form-control" value="1" min="1" max="4" required>
+    </div>
+  `;
+  
+  container.appendChild(questionBlock);
+  questionIndex++;
 }
 
 // Validation des informations de la formation
@@ -547,6 +606,12 @@ function validateTest() {
     const questions = document.querySelectorAll('.question-block');
     let isValid = true;
     let errors = [];
+
+    // Vérifier qu'il y a au moins 3 questions
+    if (questions.length < 3) {
+        errors.push("Le test doit contenir au moins 3 questions");
+        isValid = false;
+    }
 
     questions.forEach((question, index) => {
         const enonce = question.querySelector('textarea').value.trim();
@@ -732,7 +797,6 @@ function searchYoutube(niveauNumber, idx) {
       resultsContainer.innerHTML = `<div class="alert alert-danger">Erreur: ${error.message}</div>`;
     });
 }
-
 // Fonction pour sélectionner une vidéo YouTube
 function selectYoutubeVideo(videoId, niveauNumber, idx) {
   document.getElementById(`youtube-input-${niveauNumber}-${idx}`).value = videoId;

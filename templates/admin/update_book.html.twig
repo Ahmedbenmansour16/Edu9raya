@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Modifier le Livre{% endblock %}
 
@@ -131,71 +131,6 @@
 {% endblock %}
 
 {% block body %}
-   <!-- ✅ Sidebar Navigation -->
-    	<section id="sidebar">
-		<div class="logo_items flex">
-            <span class="nav_image">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
-            </span>
-            <span class="logo_name">Edu9raya</span>
-		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('table_book') }}">
-					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">Mes Livres</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('list_categorie') }}">
-					<i class='bx bxs-doughnut-chart' ></i>
-					<span class="text">Liste Catégories</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('app_ajjouter') }}">
-					<i class='bx bxs-message-dots' ></i>
-					<span class="text">Ajouter Livres</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('add_categorie') }}">
-					<i class='bx bxs-group' ></i>
-					<span class="text">Ajouter Catégories</span>
-				</a>
-			</li>
-		</ul>
-	</section>
-	<!-- SIDEBAR -->
-
-	<!-- CONTENT -->
-	<section id="content">
-		<!-- NAVBAR -->
-		<nav>
-			<i class='bx bx-menu' ></i>
-			<a href="#" class="nav-link">Liste</a>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Rechercher...">
-					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
-				</div>
-			</form>
-		</nav>
-		<!-- NAVBAR -->
-
-		<!-- MAIN -->
-		<main>
-			<div class="head-title">
-				<div class="left">
-					<h1>Modifier un Livre</h1>
-				</div>
-			</div>
-		</main>
 
         <!-- ✅ Form Container -->
         <div class="form-container">

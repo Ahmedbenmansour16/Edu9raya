@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {# Icônes (ex. boxicons) si vous souhaitez les utiliser #}
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
 
     <style>
       .nav-menu .drop-down > a {
@@ -228,11 +229,11 @@
         </h1>
         <nav class="nav-menu d-none d-lg-block">
           <ul>
-            <li class="active"><a href="{{ path('student_index') }}">Home</a></li>
-            <li><a href="#about">formation</a></li>
+            <li class="active"><a href="{{ path('student_index') }}">Formation</a></li>
             <li class="active"><a href="{{ path('student_reclamation_index') }}">
               Mes réclamations
             </a></li>
+            <li class="active"><a href="{{ path('filtered_books_list') }}">Mes Books</a></li>
             {% if app.user %}
               <li class="drop-down">
                 <a href="#">

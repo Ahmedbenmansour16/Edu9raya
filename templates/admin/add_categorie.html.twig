@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Ajouter une Catégorie{% endblock %}
 
@@ -127,44 +127,7 @@
 {% endblock %}
 
 {% block body %}
-    <!-- ✅ Sidebar Navigation -->
-    <section id="sidebar">
-        <div class="logo_items flex">
-            <span class="nav_image">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
-            </span>
-            <span class="logo_name">Edu9raya</span>
-        </div>
 
-        <ul class="side-menu top">
-            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i><span>Dashboard</span></a></li>
-            <li><a href="{{ path('table_book') }}"><i class='bx bxs-shopping-bag-alt'></i><span>My books</span></a></li>
-            <li><a href="{{ path('list_categorie') }}"><i class='bx bxs-doughnut-chart'></i><span>List catégories</span></a></li>
-            <li><a href="{{ path('app_ajjouter') }}"><i class='bx bxs-message-dots'></i><span>Ajouter Livres</span></a></li>
-            <li><a href="{{ path('add_categorie') }}"><i class='bx bxs-group'></i><span>Ajouter Catégories</span></a></li>
-        </ul>
-    </section>
-
-    <!-- ✅ Content -->
-    <section id="content">
-        <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">List</a>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Rechercher...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-        </nav>
-
-        <main>
-            <div class="head-title">
-                <div class="left">
-                    <h1>Ajouter une Catégorie</h1>
-                </div>
-            </div>
-        </main>
 
         <!-- ✅ Form Container -->
         <div class="form-container">
@@ -192,5 +155,4 @@
 
             <a href="{{ path('list_categorie') }}" class="btn-secondary">Retour</a>
         </div>
-    </section>
 {% endblock %}

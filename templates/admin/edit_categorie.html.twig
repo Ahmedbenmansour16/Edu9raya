@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Modifier la Catégorie{% endblock %}
 
@@ -126,107 +126,6 @@
     <script src="{{ asset('js/script2.js') }}" defer></script>
 {% endblock %}
 {% block body %}
-    <!-- ✅ Sidebar Navigation -->
-    	<section id="sidebar">
-		<div class="logo_items flex">
-            <span class="nav_image">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="resized-logoimage">
-            </span>
-            <span class="logo_name">Edu9raya</span>
-		<ul class="side-menu top">
-			<li class="active">
-				<a href="#">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('table_book') }}">
-					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My books</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('list_categorie') }}">
-					<i class='bx bxs-doughnut-chart' ></i>
-					<span class="text">List categoories</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('app_ajjouter') }}">
-					<i class='bx bxs-message-dots' ></i>
-					<span class="text">Ajjouter Books</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('add_categorie') }}">
-					<i class='bx bxs-group' ></i>
-					<span class="text">Ajjouter Categories</span>
-				</a>
-			</li>
-		</ul>
-		<ul class="side-menu">
-			<li>
-				<a href="#">
-					<i class='bx bxs-cog' ></i>
-					<span class="text">Settings</span>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="logout">
-					<i class='bx bxs-log-out-circle' ></i>
-					<span class="text">Logout</span>
-				</a>
-			</li>
-		</ul>
-	</section>
-	<!-- SIDEBAR -->
-
-
-
-	<!-- CONTENT -->
-	<section id="content">
-		<!-- NAVBAR -->
-		<nav>
-			<i class='bx bx-menu' ></i>
-			<a href="#" class="nav-link">List</a>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
-				</div>
-			</form>
-			<input type="checkbox" id="switch-mode" hidden>
-			<label for="switch-mode" class="switch-mode"></label>
-			<a href="#" class="notification">
-				<i class='bx bxs-bell' ></i>
-				<span class="num">8</span>
-			</a>
-			<a href="#" class="profile">
-				<img src="img/people.png">
-			</a>
-		</nav>
-		<!-- NAVBAR -->
-
-		<!-- MAIN -->
-		<main>
-			<div class="head-title">
-				<div class="left">
-					<h1>Dashboard</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a href="#">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul>
-				</div>
-		
-		</main>
-
-        <h1>Modifier la Catégorie</h1>
 
        <!-- ✅ Form Container -->
             <div class="form-container">
