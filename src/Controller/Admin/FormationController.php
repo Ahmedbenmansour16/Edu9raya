@@ -271,11 +271,17 @@ class FormationController extends AbstractController
                 $formation->addNiveau($niveau);
             }
     
-            // 4) Créer le Test et ses 10 questions
+            // 4) Créer le Test et ses questions
             $test = new Test();
             $test->setFormation($formation);
             if (isset($testData['questions']) && is_array($testData['questions'])) {
+                $questionCount = 0;
                 foreach ($testData['questions'] as $qData) {
+                    // Vérifier que l'énoncé n'est pas vide
+                    if (empty($qData['enonce'])) {
+                        continue;
+                    }
+                    
                     $question = new Question();
                     $question->setEnonce($qData['enonce'] ?? '');
                     $question->setAnswer1($qData['answer1'] ?? '');
@@ -284,10 +290,16 @@ class FormationController extends AbstractController
                     $question->setAnswer4($qData['answer4'] ?? '');
                     $question->setCorrectAnswer((int)($qData['correct'] ?? 1));
                     $test->addQuestion($question);
+                    $questionCount++;
+                }
+                
+                // Vérifier qu'il y a au moins 3 questions
+                if ($questionCount < 3) {
+                    $this->addFlash('danger', 'Le test doit contenir au moins 3 questions.');
+                    return $this->redirectToRoute('admin_formation_new');
                 }
             }
             $formation->setTest($test);
-    
             // 5) Sauvegarder
             $em->persist($formation);
             $em->flush();

@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Niveau;
 use App\Entity\Formation;
 use App\Service\CertificateGenerator;
+use App\Service\YouTubeService;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/student')]
 class StudentController extends AbstractController
 {
-    // Affiche la liste des formations groupées par catégorie
     #[Route('/', name: 'student_index', methods: ['GET'])]
     public function index(FormationRepository $formationRepository): Response
     {
@@ -35,7 +35,6 @@ class StudentController extends AbstractController
         ]);
     }
 
-    // Affiche le détail d'une formation (ses 5 niveaux + lien vers le test)
     #[Route('/formation/{id}', name: 'student_formation_show', methods: ['GET'])]
     public function formationShow(Formation $formation): Response
     {
@@ -43,17 +42,24 @@ class StudentController extends AbstractController
             'formation' => $formation,
         ]);
     }
-
-    // Affiche le détail d'un niveau (les contenus du niveau)
     #[Route('/level/{id}', name: 'student_level_show', methods: ['GET'])]
-    public function levelShow(Niveau $niveau): Response
+    public function levelShow(Niveau $niveau, YouTubeService $youtubeService = null): Response
     {
+        if ($youtubeService) {
+            foreach ($niveau->getContenus() as $contenu) {
+                if ($contenu->getType() === 'youtube' && $contenu->getYoutubeId()) {
+                    try {
+                    } catch (\Exception $e) {
+                        $this->addFlash('warning', 'Impossible de récupérer toutes les informations des vidéos YouTube.');
+                    }
+                }
+            }
+        }
+        
         return $this->render('student/level_show.html.twig', [
             'niveau' => $niveau,
         ]);
     }
-
-    // Affiche le test de la formation et traite la soumission
     #[Route('/test/{formationId}', name: 'student_test', methods: ['GET', 'POST'])]
     public function test(Request $request, int $formationId, EntityManagerInterface $em): Response
     {
@@ -91,7 +97,6 @@ class StudentController extends AbstractController
         ]);
     }
 
-    // Affiche le certificat si le test est réussi
     #[Route('/certificate/{formationId}/{score}', name: 'student_certificate', methods: ['GET'])]
     public function certificate(int $formationId, float $score, EntityManagerInterface $em): Response
     {
@@ -104,8 +109,6 @@ class StudentController extends AbstractController
             'score' => $score,
         ]);
     }
-    
-    // Ajoutez cette nouvelle méthode pour le téléchargement PDF
     #[Route('/certificate/{formationId}/{score}/pdf', name: 'student_certificate_pdf', methods: ['GET'])]
     public function certificatePdf(
         int $formationId, 
@@ -119,7 +122,6 @@ class StudentController extends AbstractController
             throw $this->createNotFoundException('Formation non trouvée.');
         }
         
-        // Générer le PDF
         $pdf = $certificateGenerator->generateCertificatePdf(
             $formation,
             $this->getUser(),
@@ -127,10 +129,8 @@ class StudentController extends AbstractController
             new DateTime()
         );
         
-        // Créer une réponse avec le contenu binaire du PDF
         $response = new Response($pdf['binary']);
         
-        // Configurer les en-têtes pour le téléchargement
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             $pdf['filename']

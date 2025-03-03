@@ -14,7 +14,7 @@ class TimerController extends AbstractController
     #[Route('/start/{formationId}', name: 'api_timer_start', methods: ['POST'])]
     public function startTimer(int $formationId, SessionInterface $session): JsonResponse
     {
-        $endTime = time() + 60; // 60 secondes à partir de maintenant
+        $endTime = time() + 15; 
         $session->set("timer_$formationId", $endTime);
 
         return new JsonResponse(['end_time' => $endTime]);

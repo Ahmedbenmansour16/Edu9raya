@@ -37,4 +37,11 @@ class YouTubeController extends AbstractController
             return $this->json(['error' => 'Erreur lors de la récupération des détails de la vidéo: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    #[Route('/preview/{videoId}', name: 'admin_youtube_preview', methods: ['GET'])]
+    public function previewVideo(string $videoId): Response
+    {
+        return $this->render('admin/youtube/preview.html.twig', [
+            'videoId' => $videoId
+        ]);
+    }
 }
