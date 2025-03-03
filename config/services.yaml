@@ -6,6 +6,8 @@
 parameters:
     uploads_dir: '%kernel.project_dir%/public/uploads'
     app.youtube_api_key: '%env(YOUTUBE_API_KEY)%'
+    pdf_directory: '%kernel.project_dir%/public/uploads/pdf'
+    pictures_directory: '%kernel.project_dir%/public/uploads/pictures'
 
 services:
     # default configuration for services in *this* file
