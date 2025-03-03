@@ -1,0 +1,133 @@
+
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Inscription Étudiant{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5 mb-4">Formulaire d'Inscription Étudiant</h1>
+
+        {# Début du formulaire #}
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+            {# Champ Nom #}
+            <div class="mb-3">
+                {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            {# Champ Prénom #}
+            <div class="mb-3">
+                {{ form_label(form.prenom, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prenom) }}
+            </div>
+
+            {# Champ Date de Naissance #}
+            <div class="mb-3">
+                {{ form_label(form.date_naissance, 'Date de Naissance', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.date_naissance, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.date_naissance) }}
+            </div>
+
+            {# Champ Année #}
+            <div class="mb-3">
+                {{ form_label(form.annee, 'Année', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.annee) }}
+            </div>
+
+            {# Champ Spécialisation #}
+            <div class="mb-3">
+                {{ form_label(form.specialisation, 'Spécialisation', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.specialisation, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.specialisation) }}
+            </div>
+
+            {# Champ Téléphone #}
+            <div class="mb-3">
+                {{ form_label(form.telephone, 'Téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.telephone) }}
+            </div>
+
+            {# Champ Adresse #}
+            <div class="mb-3">
+                {{ form_label(form.adresse, 'Adresse', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.adresse) }}
+            </div>
+
+            {# Champ Photo #}
+            <div class="mb-3">
+                {{ form_label(form.photo, 'Photo', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.photo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.photo) }}
+            </div>
+
+            {# Champ Date d'Inscription #}
+            <div class="mb-3">
+                {{ form_label(form.date_inscription, 'Date d\'Inscription', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.date_inscription, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.date_inscription) }}
+            </div>
+
+            {# Champ Statut #}
+            <div class="mb-3">
+                {{ form_label(form.statut, 'Statut', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.statut) }}
+            </div>
+
+            {# Champ Moyenne #}
+            <div class="mb-3">
+                {{ form_label(form.moyenne, 'Moyenne', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.moyenne, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.moyenne) }}
+            </div>
+
+            {# Champ Cours #}
+            <div class="mb-3">
+                {{ form_label(form.cours, 'Cours', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.cours, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.cours) }}
+            </div>
+
+            {# Champ Sexe #}
+            <div class="mb-3">
+                {{ form_label(form.sexe, 'Sexe', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.sexe, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.sexe) }}
+            </div>
+
+            {# Champ CIN #}
+            <div class="mb-3">
+                {{ form_label(form.cin, 'CIN', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.cin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.cin) }}
+            </div>
+
+            {# Champ État de Paiement #}
+            <div class="mb-3">
+                {{ form_label(form.etat_paiement, 'Paiement Effectué', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.etat_paiement, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_errors(form.etat_paiement) }}
+            </div>
+
+            {# Champ LinkedIn #}
+            <div class="mb-3">
+                {{ form_label(form.linkdin, 'LinkedIn', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.linkdin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.linkdin) }}
+            </div>
+
+            {# Bouton de Soumission #}
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+            </div>
+
+        {# Fin du formulaire #}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

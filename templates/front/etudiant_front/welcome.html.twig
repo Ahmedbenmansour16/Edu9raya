@@ -1,0 +1,32 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Bienvenue Étudiant{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5">Bienvenue, {{ etudiant.prenom }} {{ etudiant.nom }} !</h1>
+        <p class="lead">Votre inscription a été enregistrée avec succès.</p>
+
+        {# Afficher les détails de l'étudiant #}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Détails de l'Étudiant</h5>
+                <p class="card-text">
+                    <strong>Date de Naissance :</strong> {{ etudiant.dateNaissance|date('d/m/Y') }}<br>
+                    <strong>Spécialisation :</strong> {{ etudiant.specialisation }}<br>
+                    <strong>Téléphone :</strong> {{ etudiant.telephone }}<br>
+                    <strong>Adresse :</strong> {{ etudiant.adresse }}<br>
+                    <strong>Statut :</strong> {{ etudiant.statut }}<br>
+                    <strong>Moyenne :</strong> {{ etudiant.moyenne }}<br>
+                    <strong>CIN :</strong> {{ etudiant.cin }}<br>
+                    <strong>Sexe :</strong> {{ etudiant.sexe }}<br>
+                    <strong>État de Paiement :</strong> {{ etudiant.etatPaiement ? 'Payé' : 'Non Payé' }}<br>
+                    <strong>LinkedIn :</strong> <a href="{{ etudiant.linkdin }}" target="_blank">{{ etudiant.linkdin }}</a><br>
+                </p>
+            </div>
+        </div>
+
+        {# Bouton pour retourner à la liste des étudiants #}
+        <a href="{{ path('etudiant_front_index') }}" class="btn btn-primary mt-3">Retour à la liste</a>
+    </div>
+{% endblock %}

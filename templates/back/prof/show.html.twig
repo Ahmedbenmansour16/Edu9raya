@@ -1,0 +1,66 @@
+{% extends 'back/prof/base.html.twig' %}
+
+{% block title %}Prof{% endblock %}
+
+{% block body %}
+    <h1>Prof</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ prof.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ prof.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Cin</th>
+                <td>{{ prof.cin }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ prof.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Matiere</th>
+                <td>{{ prof.matiere }}</td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td>{{ prof.grade }}</td>
+            </tr>
+            <tr>
+                <th>Date_recrutement</th>
+                <td>{{ prof.dateRecrutement ? prof.dateRecrutement|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ prof.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ prof.photo }}</td>
+            </tr>
+            <tr>
+                <th>Date_naissance</th>
+                <td>{{ prof.dateNaissance ? prof.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nbr_annees</th>
+                <td>{{ prof.nbrAnnees }}</td>
+            </tr>
+            <tr>
+                <th>Linkdin</th>
+                <td>{{ prof.linkdin }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_prof_index') }}">back to list</a>
+
+    <a href="{{ path('app_prof_edit', {'id': prof.id}) }}">edit</a>
+
+    {{ include('back/prof/_delete_form.html.twig') }}
+{% endblock %}

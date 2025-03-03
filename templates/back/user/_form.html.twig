@@ -1,0 +1,28 @@
+
+    {{ form_start(form) }} {# Début du formulaire #}
+
+    {# Champ email #}
+    <div class="form-group">
+        {{ form_label(form.email) }} {# Étiquette du champ email #}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }} {# Champ email #}
+        {{ form_errors(form.email) }} {# Affichage des erreurs pour le champ email #}
+    </div>
+
+    {# Champ password #}
+    <div class="form-group">
+        {{ form_label(form.password) }} {# Étiquette du champ password #}
+        {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }} {# Champ password #}
+        {{ form_errors(form.password) }} {# Affichage des erreurs pour le champ password #}
+    </div>
+
+    {# Champ roles #}
+    <div class="form-group">
+        {{ form_label(form.roles) }} {# Étiquette du champ roles #}
+        {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }} {# Champ roles #}
+        {{ form_errors(form.roles) }} {# Affichage des erreurs pour le champ roles #}
+    </div>
+
+    {# Bouton de soumission #}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+    {{ form_end(form) }} {# Fin du formulaire #}

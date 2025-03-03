@@ -1,0 +1,55 @@
+{% extends 'back/prof/base.html.twig' %}
+
+{% block title%} %Liste des Prof{% endblock %}
+
+{% block body %}
+    <h1>Prof index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Cin</th>
+                <th>Sexe</th>
+                <th>Matiere</th>
+                <th>Grade</th>
+                <th>Date_recrutement</th>
+                <th>Telephone</th>
+                <th>Photo</th>
+                <th>Date_naissance</th>
+                <th>Nbr_annees</th>
+                <th>Linkdin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prof in profs %}
+            <tr>
+                <td>{{ prof.nom }}</td>
+                <td>{{ prof.prenom }}</td>
+                <td>{{ prof.cin }}</td>
+                <td>{{ prof.sexe }}</td>
+                <td>{{ prof.matiere }}</td>
+                <td>{{ prof.grade }}</td>
+                <td>{{ prof.dateRecrutement ? prof.dateRecrutement|date('Y-m-d') : '' }}</td>
+                <td>{{ prof.telephone }}</td>
+                <td>{{ prof.photo }}</td>
+                <td>{{ prof.dateNaissance ? prof.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ prof.nbrAnnees }}</td>
+                <td>{{ prof.linkdin }}</td>
+                <td>
+                    <a href="{{ path('app_prof_show', {'id': prof.id}) }}">show</a>
+                    <a href="{{ path('app_prof_edit', {'id': prof.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_prof_new') }}">Create new</a>
+{% endblock %}

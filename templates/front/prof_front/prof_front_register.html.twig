@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Prof{% endblock %}
+
+{% block body %}
+    <h1>Formulaire d'Inscription Prof</h1>
+
+    {# Affiche le formulaire Prof #}
+    {{ form_start(form) }}
+        <div>
+            {{ form_row(form.email) }}  {# Affiche le champ email #}
+        </div>
+        <div>
+            {{ form_row(form.password) }}  {# Affiche le champ password #}
+        </div>
+        <div>
+            {{ form_row(form.roles) }}  {# Affiche les rôles (choix du rôle) #}
+        </div>
+        <div>
+            {{ form_row(form.nom) }}  {# Affiche le champ nom #}
+        </div>
+        <div>
+            {{ form_row(form.prenom) }}  {# Affiche le champ prénom #}
+        </div>
+        <!-- Ajoute d'autres champs si nécessaire -->
+        
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'back/etudiant/base.html.twig' %}
+
+{% block title %}Etudiant{% endblock %}
+
+{% block body %}
+    <h1>Etudiant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ etudiant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ etudiant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Date_naissance</th>
+                <td>{{ etudiant.dateNaissance ? etudiant.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Annee</th>
+                <td>{{ etudiant.annee }}</td>
+            </tr>
+            <tr>
+                <th>Specialisation</th>
+                <td>{{ etudiant.specialisation }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ etudiant.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ etudiant.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ etudiant.photo }}</td>
+            </tr>
+            <tr>
+                <th>Date_inscription</th>
+                <td>{{ etudiant.dateInscription ? etudiant.dateInscription|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ etudiant.statut }}</td>
+            </tr>
+            <tr>
+                <th>Moyenne</th>
+                <td>{{ etudiant.moyenne }}</td>
+            </tr>
+            <tr>
+                <th>Cours</th>
+                <td>{{ etudiant.cours }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ etudiant.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Cin</th>
+                <td>{{ etudiant.cin }}</td>
+            </tr>
+            <tr>
+                <th>Etat_paiement</th>
+                <td>{{ etudiant.etatPaiement ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Linkdin</th>
+                <td>{{ etudiant.linkdin }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_index') }}">back to list</a>
+
+    <a href="{{ path('app_etudiant_edit', {'id': etudiant.id}) }}">edit</a>
+
+    {{ include('back/etudiant/_delete_form.html.twig') }}
+{% endblock %}

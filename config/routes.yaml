@@ -3,3 +3,12 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+etudiant_register:
+    path: /inscription/etudiant/{userId}
+    controller: App\Controller\front\EtudiantFrontController::registerEtudiant
+
+etudiant_welcome:
+    path: /etudiant/welcome
+    controller: App\Controller\front\EtudiantFrontController::welcome
+    methods: [GET]

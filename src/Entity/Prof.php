@@ -1,57 +1,68 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\ProfRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfRepository::class)]
 class Prof
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false, unique: true, onDelete: "SET NULL")]
+    private ?User $user = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 20)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 20)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
-    private ?int $age = null;
-
     #[ORM\Column(length: 20)]
-    private ?string $matiere = null;
-
-    #[ORM\Column(length: 20)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 20)]
-    private ?string $adresse = null;
+    private ?string $cin = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $role = null;
+    private ?string $sexe = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $matiere = null;
 
-    public function __construct()
-    {
-        // Automatically set role to "PROF" for new instances
-        $this->role = 'PROF';
-    }
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $grade = null;
 
-    public function getRole(): string
-    {
-        return $this->role;
-    }
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_recrutement = null;
 
-    // No setter for role, making it read-only
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telephone = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_naissance = null;
+
+    #[ORM\Column]
+    private ?int $nbr_annees = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $linkdin = null;
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->user ? $this->user->getId() : null;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
+        return $this;
     }
 
     public function getNom(): ?string
@@ -62,7 +73,6 @@ class Prof
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -74,19 +84,28 @@ class Prof
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getCin(): ?string
     {
-        return $this->age;
+        return $this->cin;
     }
 
-    public function setAge(int $age): static
+    public function setCin(string $cin): static
     {
-        $this->age = $age;
+        $this->cin = $cin;
+        return $this;
+    }
 
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(string $sexe): static
+    {
+        $this->sexe = $sexe;
         return $this;
     }
 
@@ -95,43 +114,86 @@ class Prof
         return $this->matiere;
     }
 
-    public function setMatiere(string $matiere): static
+    public function setMatiere(?string $matiere): static
     {
         $this->matiere = $matiere;
-
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getGrade(): ?string
     {
-        return $this->email;
+        return $this->grade;
     }
 
-    public function setEmail(string $email): static
+    public function setGrade(?string $grade): static
     {
-        $this->email = $email;
-
+        $this->grade = $grade;
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getDateRecrutement(): ?\DateTimeInterface
     {
-        return $this->adresse;
+        return $this->date_recrutement;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setDateRecrutement(?\DateTimeInterface $date_recrutement): static
     {
-        $this->adresse = $adresse;
-
+        $this->date_recrutement = $date_recrutement;
         return $this;
     }
 
-    
-
-    public function setRole(string $role): static
+    public function getTelephone(): ?string
     {
-        $this->role = $role;
+        return $this->telephone;
+    }
 
+    public function setTelephone(?string $telephone): static
+    {
+        $this->telephone = $telephone;
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->date_naissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $date_naissance): static
+    {
+        $this->date_naissance = $date_naissance;
+        return $this;
+    }
+
+    public function getNbrAnnees(): ?int
+    {
+        return $this->nbr_annees;
+    }
+
+    public function setNbrAnnees(int $nbr_annees): static
+    {
+        $this->nbr_annees = $nbr_annees;
+        return $this;
+    }
+
+    public function getLinkdin(): ?string
+    {
+        return $this->linkdin;
+    }
+
+    public function setLinkdin(?string $linkdin): static
+    {
+        $this->linkdin = $linkdin;
         return $this;
     }
 }
