@@ -1,0 +1,85 @@
+package tn.esprit.models;
+
+public class Module {
+
+    private int id;
+    private String nom;
+    private String enseignant;
+    private int duree; // Changed to int (duration in hours)
+    private String coefficient;
+
+    // Constructeurs
+    public Module() {
+    }
+
+    public Module(String nom, String enseignant, int duree, String coefficient) {
+        this.nom = nom;
+        this.enseignant = enseignant;
+        this.duree = duree;
+        this.coefficient = coefficient;
+    }
+
+    public Module(int id, String nom, String enseignant, int duree, String coefficient) {
+        this.id = id;
+        this.nom = nom;
+        this.enseignant = enseignant;
+        this.duree = duree;
+        this.coefficient = coefficient;
+    }
+
+    public Module(int id) {
+        this.id = id;
+    }
+
+    // Getters et Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getEnseignant() {
+        return enseignant;
+    }
+
+    public void setEnseignant(String enseignant) {
+        this.enseignant = enseignant;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
+    }
+
+    public String getCoefficient() {
+        return coefficient;
+    }
+
+    public void setCoefficient(String coefficient) {
+        this.coefficient = coefficient;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", enseignant='" + enseignant + '\'' +
+                ", duree=" + duree + " hours" + // Added "hours" for clarity
+                ", coefficient='" + coefficient + '\'' +
+                '}';
+    }
+}

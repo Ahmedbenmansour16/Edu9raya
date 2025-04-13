@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #F5F5F5;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Modules.UpdateModule">
+    <children>
+        <!-- Sidebar -->
+        <fx:include source="../SideBar.fxml" />
+
+        <!-- Centered Form -->
+        <Pane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);"
+              layoutX="400.0" layoutY="50.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <!-- Form Title -->
+                <Label layoutX="180.0" layoutY="20.0" style="-fx-font-family: 'Nunito'; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #181D38;" text="Update a Module" />
+
+                <!-- Field for Module Name -->
+                <Label layoutX="31.0" layoutY="65.0" text="Name:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <TextField fx:id="nomTextField" layoutX="150.0" layoutY="55.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the module name"
+                           style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Teacher -->
+                <Label layoutX="31.0" layoutY="115.0" text="Teacher:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <TextField fx:id="enseignantTextField" layoutX="150.0" layoutY="105.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the teacher's name"
+                           style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Duration -->
+                <Label layoutX="31.0" layoutY="165.0" text="Duration (hours):" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <TextField fx:id="dureeTextField" layoutX="150.0" layoutY="155.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the duration in hours (e.g., 5)"
+                           style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Coefficient -->
+                <Label layoutX="31.0" layoutY="215.0" text="Coefficient:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <TextField fx:id="coefficientTextField" layoutX="150.0" layoutY="205.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the coefficient (e.g., 2)"
+                           style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Image -->
+                <Label layoutX="31.0" layoutY="265.0" text="Image:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <Pane layoutX="150.0" layoutY="255.0" prefHeight="120.0" prefWidth="400.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5;">
+                    <children>
+                        <ImageView fx:id="imageView" fitHeight="80.0" fitWidth="80.0" layoutX="10.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/downloadImage.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="choisirImageButton" layoutX="100.0" layoutY="45.0" onAction="#choisirImage" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;" text="Choose Image">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                </Pane>
+
+                <!-- Error Message Label -->
+                <Label fx:id="messageErreur" layoutX="150.0" layoutY="385.0" prefHeight="30.0" prefWidth="400.0" text="Error message" visible="false"
+                       style="-fx-text-fill: #FF4D4D; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" />
+
+                <!-- Update Button -->
+                <Button fx:id="updateButton" layoutX="430.0" layoutY="425.0" onAction="#btnUpdateModule" prefHeight="40.0" prefWidth="120.0" text="Update"
+                        style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
