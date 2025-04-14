@@ -1,0 +1,66 @@
+/* dddddstyle.css */
+
+/* Style global de l'application */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #ffffff;
+}
+
+/* Style de la sidebar */
+.sidebar {
+    -fx-background-color: #1E90FF; /* Bleu Dodger */
+    -fx-padding: 15;
+    -fx-spacing: 15;
+}
+
+/* Boutons de la sidebar */
+.sidebar-button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #1E90FF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: #1E90FF;
+    -fx-border-width: 1;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #F0F8FF; /* AliceBlue */
+}
+
+/* Zone de contenu */
+#contentPane {
+    -fx-background-color: #F8F8FF;
+}
+
+/* Titres */
+.label-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E90FF;
+}
+
+/* Boutons généraux */
+.button {
+    -fx-background-color: #1E90FF;
+    -fx-text-fill: #ffffff;
+}
+
+/* Labels généraux */
+.label {
+    -fx-text-fill: #333333;
+}
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 10;
+}
+
+.card-button {
+    -fx-background-color: #1E90FF;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+

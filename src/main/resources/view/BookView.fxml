@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.BookViewController" stylesheets="/css/style.css">
+    <children>
+        <VBox spacing="10.0" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <!-- Ligne 1: ID Book et Nom Book -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="ID Book:"/>
+                        <TextField fx:id="idBookField" promptText="Entrez l'ID Book"/>
+                        <Label text="Nom Book:"/>
+                        <TextField fx:id="nomBookField" promptText="Entrez le nom du Book"/>
+                    </children>
+                </HBox>
+                <!-- Ligne 2: Catégorie et Disponibilité -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Catégorie:"/>
+                        <ComboBox fx:id="catBookCombo" prefWidth="150.0"/>
+                        <Label text="Disponibilité:"/>
+                        <ComboBox fx:id="dispoBookCombo" prefWidth="80.0"/>
+                    </children>
+                </HBox>
+                <!-- Ligne 3: Description -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Description:"/>
+                        <TextArea fx:id="descriptionField" promptText="Entrez la description" prefRowCount="2"/>
+                    </children>
+                </HBox>
+                <!-- Ligne 4: Sélection du PDF -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="PDF File:"/>
+                        <Label fx:id="pdfFileLabel" text="Aucun fichier sélectionné"/>
+                        <Button text="Sélectionner PDF" onAction="#handleSelectPdfFile"/>
+                    </children>
+                </HBox>
+                <!-- Ligne 5: Sélection de l'image -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Picture:"/>
+                        <Label fx:id="pictureLabel" text="Aucune image sélectionnée"/>
+                        <Button text="Sélectionner Image" onAction="#handleSelectPictureFile"/>
+                    </children>
+                </HBox>
+                <!-- Ligne 6: Boutons d'opérations -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Button text="Ajouter Book" onAction="#handleAddBook"/>
+                        <Button text="Mettre à jour Book" onAction="#handleUpdateBook"/>
+                        <Button text="Supprimer Book" onAction="#handleDeleteBook"/>
+                    </children>
+                </HBox>
+                <!-- TableView pour l'affichage des books -->
+                <TableView fx:id="bookTable" prefHeight="300.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0"/>
+                        <TableColumn fx:id="idBookColumn" text="ID Book" prefWidth="100.0"/>
+                        <TableColumn fx:id="nomBookColumn" text="Nom Book" prefWidth="150.0"/>
+                        <TableColumn fx:id="catBookColumn" text="Catégorie" prefWidth="100.0"/>
+                        <TableColumn fx:id="dispoBookColumn" text="Disponibilité" prefWidth="80.0"/>
+                        <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150.0"/>
+                        <TableColumn fx:id="pdfFileColumn" text="PDF File" prefWidth="150.0"/>
+                        <TableColumn fx:id="fileIdColumn" text="File ID" prefWidth="100.0"/>
+                        <TableColumn fx:id="pictureColumn" text="Picture" prefWidth="150.0"/>
+                        <!-- Colonne de bouton "Voir détails" -->
+                        <TableColumn fx:id="detailsColumn" text="Voir détails" prefWidth="100.0"/>
+                    </columns>
+                </TableView>
+                <!-- Label de statut -->
+                <Label fx:id="statusLabel" text="Statut..."/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

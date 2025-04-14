@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.BookDetailsController"
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <children>
+        <Label text="Détails du Book" styleClass="label-title"/>
+
+        <Label text="ID Book:"/>
+        <Label fx:id="idBookLabel"/>
+
+        <Label text="Nom Book:"/>
+        <Label fx:id="nomBookLabel"/>
+
+        <Label text="Catégorie:"/>
+        <Label fx:id="catBookLabel"/>
+
+        <Label text="Disponibilité:"/>
+        <Label fx:id="dispoBookLabel"/>
+
+        <Label text="Description:"/>
+        <Label fx:id="descriptionLabel" wrapText="true"/>
+
+        <Label text="Fichier PDF:"/>
+        <Label fx:id="pdfFileLabel" wrapText="true"/>
+
+        <Label text="Image:"/>
+        <ImageView fx:id="bookImageView" fitWidth="200" preserveRatio="true"/>
+
+        <Button text="Télécharger PDF" onAction="#handleDownloadPdf" />
+    </children>
+</VBox>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.demoz.HelloController"
+            prefWidth="800" prefHeight="600" stylesheets="/css/style.css">
+    <!-- Sidebar à gauche -->
+    <left>
+        <VBox fx:id="sideBar" spacing="10" alignment="CENTER" styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <children>
+                <!-- Titre de la sidebar -->
+                <Label text="Menu" style="-fx-font-family: 'Nunito'; -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #181D38;"/>
+                <!-- Boutons de navigation -->
+                <Button text="Gestion Books" onAction="#onBookViewButtonClick" styleClass="sidebar-button">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <Button text="Gestion Catégories" onAction="#onCatViewButtonClick" styleClass="sidebar-button">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <!-- Bouton supplémentaire pour la page Front Book -->
+                <Button text="Book Front" onAction="#onFrontBookViewButtonClick" styleClass="sidebar-button">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+    <!-- Zone de contenu centrale -->
+    <center>
+        <AnchorPane fx:id="contentPane"/>
+    </center>
+</BorderPane>

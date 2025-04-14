@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.FrontBookController"
+            prefWidth="800" prefHeight="600">
+    <children>
+        <!-- FlowPane pour disposer dynamiquement les cartes -->
+        <FlowPane fx:id="bookContainer"
+                  hgap="20"
+                  vgap="20"
+                  AnchorPane.topAnchor="10.0"
+                  AnchorPane.leftAnchor="10.0"
+                  AnchorPane.rightAnchor="10.0"
+                  AnchorPane.bottomAnchor="10.0"/>
+    </children>
+</AnchorPane>
