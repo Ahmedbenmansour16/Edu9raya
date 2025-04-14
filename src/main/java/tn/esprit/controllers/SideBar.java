@@ -26,12 +26,20 @@ public class SideBar {
 
     @FXML
     private void showCourseList(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Cours/CoursList.fxml");
+=======
+        loadScene(event, "/Cours/ListeCours.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     @FXML
     private void showAddCourse(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Cours/AddCous.fxml");
+=======
+        loadScene(event, "/Cours/AjouterCours.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     private void loadScene(ActionEvent event, String fxmlPath) {

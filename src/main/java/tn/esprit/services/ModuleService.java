@@ -79,7 +79,11 @@ public class ModuleService implements IService<Module> {
 
     @Override
     public List<Module> retrieveAll() {
+<<<<<<< HEAD
         String req = "SELECT id, nom, enseigant, duree, coefficient, image FROM module order by id desc";
+=======
+        String req = "SELECT id, nom, enseigant, duree, coefficient, image FROM module";
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         List<Module> moduleList = new ArrayList<>();
 
         try {
@@ -104,6 +108,7 @@ public class ModuleService implements IService<Module> {
 
         return moduleList;
     }
+<<<<<<< HEAD
 
     public Module retrieveById(int id) {
         String req = "SELECT id, nom, enseigant, duree, coefficient, image FROM module WHERE id = ?";
@@ -127,4 +132,6 @@ public class ModuleService implements IService<Module> {
         }
         return null;
     }
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 }

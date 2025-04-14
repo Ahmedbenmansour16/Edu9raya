@@ -14,15 +14,24 @@ public class ModuleService implements IService<Module> {
 
     @Override
     public void add(Module module) {
+<<<<<<< HEAD
         String req = "INSERT INTO module (nom, enseigant, duree, coefficient, image) VALUES (?, ?, ?, ?, ?)";
+=======
+        String req = "INSERT INTO module (nom, enseigant, duree, coefficient) VALUES (?, ?, ?, ?)";
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 
         try {
             PreparedStatement ps = connection.prepareStatement(req);
             ps.setString(1, module.getNom());
             ps.setString(2, module.getEnseignant());
+<<<<<<< HEAD
             ps.setInt(3, module.getDuree());
             ps.setString(4, module.getCoefficient());
             ps.setString(5, module.getImage()); // Handle image field
+=======
+            ps.setInt(3, module.getDuree()); // Changed to setInt
+            ps.setString(4, module.getCoefficient());
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 
             ps.executeUpdate();
             System.out.println("Module added successfully!");
@@ -34,16 +43,26 @@ public class ModuleService implements IService<Module> {
 
     @Override
     public void update(Module module) {
+<<<<<<< HEAD
         String req = "UPDATE module SET nom = ?, enseigant = ?, duree = ?, coefficient = ?, image = ? WHERE id = ?";
+=======
+        String req = "UPDATE module SET nom = ?, enseigant = ?, duree = ?, coefficient = ? WHERE id = ?";
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 
         try {
             PreparedStatement ps = connection.prepareStatement(req);
             ps.setString(1, module.getNom());
             ps.setString(2, module.getEnseignant());
+<<<<<<< HEAD
             ps.setInt(3, module.getDuree());
             ps.setString(4, module.getCoefficient());
             ps.setString(5, module.getImage()); // Handle image field
             ps.setInt(6, module.getId());
+=======
+            ps.setInt(3, module.getDuree()); // Changed to setInt
+            ps.setString(4, module.getCoefficient());
+            ps.setInt(5, module.getId());
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
@@ -79,7 +98,11 @@ public class ModuleService implements IService<Module> {
 
     @Override
     public List<Module> retrieveAll() {
+<<<<<<< HEAD
         String req = "SELECT id, nom, enseigant, duree, coefficient, image FROM module";
+=======
+        String req = "SELECT id, nom, enseigant, duree, coefficient FROM module";
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         List<Module> moduleList = new ArrayList<>();
 
         try {
@@ -91,9 +114,14 @@ public class ModuleService implements IService<Module> {
                 module.setId(rs.getInt("id"));
                 module.setNom(rs.getString("nom"));
                 module.setEnseignant(rs.getString("enseigant"));
+<<<<<<< HEAD
                 module.setDuree(rs.getInt("duree"));
                 module.setCoefficient(rs.getString("coefficient"));
                 module.setImage(rs.getString("image")); // Retrieve image field
+=======
+                module.setDuree(rs.getInt("duree")); // Changed to getInt
+                module.setCoefficient(rs.getString("coefficient"));
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 
                 moduleList.add(module);
             }
@@ -104,6 +132,7 @@ public class ModuleService implements IService<Module> {
 
         return moduleList;
     }
+<<<<<<< HEAD
 
     public Module retrieveById(int id) {
         String req = "SELECT id, nom, enseigant, duree, coefficient, image FROM module WHERE id = ?";
@@ -127,4 +156,6 @@ public class ModuleService implements IService<Module> {
         }
         return null;
     }
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 }

@@ -1,5 +1,6 @@
 package tn.esprit.test;
 
+<<<<<<< HEAD
 import tn.esprit.models.Cour;
 import tn.esprit.models.Module;
 import tn.esprit.services.CourService;
@@ -11,5 +12,62 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
       
+=======
+import tn.esprit.models.Evenement;
+import tn.esprit.services.EvenementService;
+
+import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+        EvenementService es = new EvenementService();
+
+        // Test 1: Ajouter un événement
+        System.out.println("=== Test 1: Ajouter un événement ===");
+        Evenement evenement1 = new Evenement(
+                "Conférence IA",
+                LocalDate.of(2025, 5, 20),
+                "Tunis",
+                "Une conférence sur l'intelligence artificielle"
+        );
+        es.ajouter(evenement1);
+
+        // Test 2: Ajouter un deuxième événement
+        System.out.println("\n=== Test 2: Ajouter un deuxième événement ===");
+        Evenement evenement2 = new Evenement(
+                "Atelier Java",
+                LocalDate.of(2025, 6, 15),
+                "Sfax",
+                "Atelier pratique sur le développement Java"
+        );
+        es.ajouter(evenement2);
+
+        // Test 3: Afficher tous les événements
+        System.out.println("\n=== Test 3: Afficher tous les événements ===");
+        es.afficher().forEach(e -> System.out.println(e.toString()));
+
+        // Test 4: Modifier un événement
+        System.out.println("\n=== Test 4: Modifier un événement ===");
+        Evenement evenementModifie = new Evenement(
+                1, // Supposons que l'ID 1 est attribué au premier événement
+                "Conférence IA 2025",
+                LocalDate.of(2025, 5, 21),
+                "Tunis",
+                "Conférence mise à jour sur l'IA"
+        );
+        es.modifier(evenementModifie);
+
+        // Test 5: Afficher après modification
+        System.out.println("\n=== Test 5: Afficher après modification ===");
+        es.afficher().forEach(e -> System.out.println(e.toString()));
+
+        // Test 6: Supprimer un événement
+        System.out.println("\n=== Test 6: Supprimer un événement ===");
+        es.supprimer(2); // Supprime l'événement avec ID 2
+
+        // Test 7: Afficher après suppression
+        System.out.println("\n=== Test 7: Afficher après suppression ===");
+        es.afficher().forEach(e -> System.out.println(e.toString()));
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 }

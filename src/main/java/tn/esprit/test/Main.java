@@ -1,5 +1,6 @@
 package tn.esprit.test;
 
+<<<<<<< HEAD
 import tn.esprit.models.Cour;
 import tn.esprit.models.Module;
 import tn.esprit.services.CourService;
@@ -76,5 +77,12 @@ public class Main {
                 System.out.println(course);
             }
         }
+=======
+import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 }

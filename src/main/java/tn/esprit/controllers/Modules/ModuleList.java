@@ -8,8 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+<<<<<<< HEAD
 import javafx.scene.shape.Rectangle;
 import tn.esprit.controllers.Cours.ViewCoursByModule;
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 import tn.esprit.models.Module;
 import tn.esprit.services.ModuleService;
 import javafx.fxml.FXML;
@@ -90,11 +93,16 @@ public class ModuleList {
 
     private Pane createModuleCard(Module module) {
         Pane card = new Pane();
+<<<<<<< HEAD
         card.setPrefSize(420, 400);
+=======
+        card.setPrefSize(420, 400); // Increased height to accommodate image
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         card.setStyle("-fx-border-color: #34C759; -fx-border-radius: 5; -fx-background-color: #FFFFFF; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);");
 
         // Image
         ImageView imageView = new ImageView();
+<<<<<<< HEAD
         imageView.setFitWidth(380);
         imageView.setFitHeight(200);
         imageView.setPreserveRatio(true);
@@ -108,11 +116,20 @@ public class ModuleList {
         clip.setArcHeight(10);
         imageView.setClip(clip);
 
+=======
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(390);
+        imageView.setPreserveRatio(true);
+        imageView.setLayoutX(50);
+        imageView.setLayoutY(20);
+
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         // Load module image
         if (module.getImage() != null && !module.getImage().isEmpty()) {
             File imageFile = new File(IMAGE_DIRECTORY + module.getImage());
             if (imageFile.exists()) {
                 try {
+<<<<<<< HEAD
                     Image image = new Image(imageFile.toURI().toString(), 380, 200, true, true);
                     imageView.setImage(image);
                 } catch (Exception e) {
@@ -123,13 +140,30 @@ public class ModuleList {
             }
         } else {
             imageView.setImage(new Image(getClass().getResource("/images/downloadImage.png").toExternalForm(), 380, 200, true, true));
+=======
+                    Image image = new Image(imageFile.toURI().toString());
+                    imageView.setImage(image);
+                } catch (Exception e) {
+                    // Fallback to default image
+                    imageView.setImage(new Image(getClass().getResource("/images/downloadImage.png").toExternalForm()));
+                }
+            } else {
+                imageView.setImage(new Image(getClass().getResource("/images/downloadImage.png").toExternalForm()));
+            }
+        } else {
+            imageView.setImage(new Image(getClass().getResource("/images/downloadImage.png").toExternalForm()));
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         }
 
         // Name
         Label nameLabel = new Label(module.getNom());
         nameLabel.setLayoutX(20);
         nameLabel.setLayoutY(230);
+<<<<<<< HEAD
         nameLabel.setPrefWidth(380);
+=======
+        nameLabel.setPrefWidth(510);
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         nameLabel.setStyle("-fx-font-family: 'Nunito'; -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #181D38;");
         nameLabel.setWrapText(true);
 
@@ -137,7 +171,11 @@ public class ModuleList {
         Label teacherLabel = new Label("Teacher: " + module.getEnseignant());
         teacherLabel.setLayoutX(20);
         teacherLabel.setLayoutY(260);
+<<<<<<< HEAD
         teacherLabel.setPrefWidth(380);
+=======
+        teacherLabel.setPrefWidth(510);
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         teacherLabel.setStyle("-fx-font-family: 'Nunito'; -fx-font-size: 16px; -fx-text-fill: #181D38;");
         teacherLabel.setWrapText(true);
 
@@ -145,7 +183,11 @@ public class ModuleList {
         Label durationLabel = new Label("Duration: " + module.getDuree() + " hours");
         durationLabel.setLayoutX(20);
         durationLabel.setLayoutY(290);
+<<<<<<< HEAD
         durationLabel.setPrefWidth(380);
+=======
+        durationLabel.setPrefWidth(510);
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         durationLabel.setStyle("-fx-font-family: 'Nunito'; -fx-font-size: 16px; -fx-text-fill: #181D38;");
         durationLabel.setWrapText(true);
 
@@ -153,7 +195,11 @@ public class ModuleList {
         Label coefficientLabel = new Label("Coefficient: " + module.getCoefficient());
         coefficientLabel.setLayoutX(20);
         coefficientLabel.setLayoutY(320);
+<<<<<<< HEAD
         coefficientLabel.setPrefWidth(380);
+=======
+        coefficientLabel.setPrefWidth(510);
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         coefficientLabel.setStyle("-fx-font-family: 'Nunito'; -fx-font-size: 16px; -fx-text-fill: #181D38;");
         coefficientLabel.setWrapText(true);
 
@@ -199,20 +245,26 @@ public class ModuleList {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Modules/UpdateModule.fxml"));
             Parent root = loader.load();
             UpdateModule controller = loader.getController();
+<<<<<<< HEAD
             if (controller == null) {
                 throw new IOException("Controller for UpdateModule.fxml is null");
             }
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
             controller.initializeModule(module);
             Stage stage = (Stage) scrollPane.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             System.err.println("Error while loading UpdateModule.fxml: " + e.getMessage());
+<<<<<<< HEAD
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
             errorAlert.setHeaderText("Navigation Failed");
             errorAlert.setContentText("Unable to load the update page: " + e.getMessage());
             errorAlert.showAndWait();
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         }
     }
 
@@ -222,6 +274,10 @@ public class ModuleList {
         confirmationAlert.setHeaderText("Delete Module");
         confirmationAlert.setContentText("Are you sure you want to delete the module '" + module.getNom() + "'?");
 
+<<<<<<< HEAD
+=======
+        // Apply custom styles to match template CSS
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         DialogPane dialogPane = confirmationAlert.getDialogPane();
         dialogPane.setStyle("-fx-background-color: #F5F5F5; -fx-font-family: 'Nunito';");
         dialogPane.lookupButton(ButtonType.OK).setStyle(
@@ -235,13 +291,21 @@ public class ModuleList {
             if (response == ButtonType.OK) {
                 try {
                     moduleService.delete(module.getId());
+<<<<<<< HEAD
                     loadModules();
+=======
+                    loadModules(); // Refresh the module list
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
                 } catch (Exception e) {
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setTitle("Error");
                     errorAlert.setHeaderText("Deletion Failed");
                     errorAlert.setContentText("Error while deleting the module: " + e.getMessage());
 
+<<<<<<< HEAD
+=======
+                    // Style error alert
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
                     DialogPane errorDialogPane = errorAlert.getDialogPane();
                     errorDialogPane.setStyle("-fx-background-color: #F5F5F5; -fx-font-family: 'Nunito';");
                     errorDialogPane.lookupButton(ButtonType.OK).setStyle(
@@ -255,15 +319,26 @@ public class ModuleList {
     }
 
     private void handleViewCours(Module module) {
+<<<<<<< HEAD
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cours/ViewCoursByModule.fxml"));
             Parent root = loader.load();
             ViewCoursByModule controller = loader.getController();
             controller.initializeWithModule(module);
+=======
+        // Placeholder for view cours functionality
+        /*
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Cours/CoursList.fxml"));
+            Parent root = loader.load();
+            CoursList controller = loader.getController();
+            controller.setModuleId(module.getId());
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
             Stage stage = (Stage) scrollPane.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
+<<<<<<< HEAD
             System.err.println("Error while loading ViewCoursByModule.fxml: " + e.getMessage());
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
@@ -271,6 +346,11 @@ public class ModuleList {
             errorAlert.setContentText("Unable to load the courses page: " + e.getMessage());
             errorAlert.showAndWait();
         }
+=======
+            System.err.println("Error while loading CoursList.fxml: " + e.getMessage());
+        }
+        */
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     @FXML
@@ -284,11 +364,14 @@ public class ModuleList {
             stage.show();
         } catch (IOException e) {
             System.err.println("Error while loading ModuleList.fxml: " + e.getMessage());
+<<<<<<< HEAD
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
             errorAlert.setHeaderText("Navigation Failed");
             errorAlert.setContentText("Unable to load the module list page: " + e.getMessage());
             errorAlert.showAndWait();
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         }
     }
 
@@ -303,11 +386,14 @@ public class ModuleList {
             stage.show();
         } catch (IOException e) {
             System.err.println("Error while loading AddModule.fxml: " + e.getMessage());
+<<<<<<< HEAD
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
             errorAlert.setHeaderText("Navigation Failed");
             errorAlert.setContentText("Unable to load the add module page: " + e.getMessage());
             errorAlert.showAndWait();
+=======
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
         }
     }
 }

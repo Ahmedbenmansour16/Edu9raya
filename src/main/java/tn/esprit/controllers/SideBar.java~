@@ -16,22 +16,38 @@ public class SideBar {
 
     @FXML
     private void showModuleList(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Modules/ModuleList.fxml");
+=======
+        loadScene(event, "/Modules/ListeModule.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     @FXML
     private void showAddModule(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Modules/AddModule.fxml");
+=======
+        loadScene(event, "/Modules/AjouterModule.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     @FXML
     private void showCourseList(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Cours/CoursList.fxml");
+=======
+        loadScene(event, "/Cours/ListeCours.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     @FXML
     private void showAddCourse(ActionEvent event) {
+<<<<<<< HEAD
         loadScene(event, "/Cours/AddCours.fxml");
+=======
+        loadScene(event, "/Cours/AjouterCours.fxml");
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
     }
 
     private void loadScene(ActionEvent event, String fxmlPath) {

@@ -1,7 +1,11 @@
 package tn.esprit.controllers.Modules;
 
 import javafx.animation.FadeTransition;
+<<<<<<< HEAD
 import javafx.event.ActionEvent;x
+=======
+import javafx.event.ActionEvent;
+>>>>>>> 3995ed6bc298f7141ffba057c47f0d040947cff1
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
