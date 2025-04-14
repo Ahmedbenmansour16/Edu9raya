@@ -1,0 +1,137 @@
+package tn.esprit.services;
+
+import tn.esprit.models.Reclamation;
+import tn.esprit.utils.MyDataBase;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReclamationService implements IEvenementService<Reclamation> {
+
+    private Connection connection = MyDataBase.getInstance().getCnx();
+
+    @Override
+    public void ajouter(Reclamation reclamation) {
+        String req = "INSERT INTO reclamation (user_id, message, created_at) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(req);
+            ps.setInt(1, reclamation.getUserId());
+            ps.setString(2, reclamation.getMessage());
+            ps.setTimestamp(3, reclamation.getCreatedAt() != null ? Timestamp.valueOf(reclamation.getCreatedAt()) : null);
+
+            ps.executeUpdate();
+            System.out.println("Réclamation ajoutée avec succès !");
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'ajout de la réclamation : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void modifier(Reclamation reclamation) {
+        String req = "UPDATE reclamation SET user_id = ?, message = ?, created_at = ? WHERE id = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(req);
+            ps.setInt(1, reclamation.getUserId());
+            ps.setString(2, reclamation.getMessage());
+            ps.setTimestamp(3, reclamation.getCreatedAt() != null ? Timestamp.valueOf(reclamation.getCreatedAt()) : null);
+            ps.setInt(4, reclamation.getId());
+
+            int lignesModifiees = ps.executeUpdate();
+            if (lignesModifiees > 0) {
+                System.out.println("Réclamation mise à jour avec succès !");
+            } else {
+                System.out.println("Aucune réclamation trouvée avec cet ID !");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la modification de la réclamation : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void supprimer(int id) {
+        String deleteResponses = "DELETE FROM reponse_reclamation WHERE reclamation_id = ?";
+        String deleteReclamation = "DELETE FROM reclamation WHERE id = ?";
+
+        try {
+            // Delete related responses first
+            PreparedStatement psResponses = connection.prepareStatement(deleteResponses);
+            psResponses.setInt(1, id);
+            psResponses.executeUpdate();
+
+            // Delete the reclamation
+            PreparedStatement psReclamation = connection.prepareStatement(deleteReclamation);
+            psReclamation.setInt(1, id);
+            int lignesSupprimees = psReclamation.executeUpdate();
+
+            if (lignesSupprimees > 0) {
+                System.out.println("Réclamation supprimée avec succès !");
+            } else {
+                System.out.println("Aucune réclamation trouvée avec cet ID !");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la suppression de la réclamation : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Reclamation> afficher() {
+        String req = "SELECT id, user_id, message, created_at FROM reclamation";
+        List<Reclamation> listeReclamations = new ArrayList<>();
+
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(req);
+
+            while (rs.next()) {
+                Reclamation reclamation = new Reclamation();
+                reclamation.setId(rs.getInt("id"));
+                reclamation.setUserId(rs.getInt("user_id"));
+                reclamation.setMessage(rs.getString("message"));
+                reclamation.setCreatedAt(rs.getTimestamp("created_at") != null ?
+                        rs.getTimestamp("created_at").toLocalDateTime() : null);
+
+                listeReclamations.add(reclamation);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des réclamations : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return listeReclamations;
+    }
+
+    
+    public List<Reclamation> afficherByUserId(int userId) {
+        String req = "SELECT id, user_id, message, created_at FROM reclamation WHERE user_id = ? ORDER BY created_at DESC";
+        List<Reclamation> listeReclamations = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(req);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Reclamation reclamation = new Reclamation();
+                reclamation.setId(rs.getInt("id"));
+                reclamation.setUserId(rs.getInt("user_id"));
+                reclamation.setMessage(rs.getString("message"));
+                reclamation.setCreatedAt(rs.getTimestamp("created_at") != null ?
+                        rs.getTimestamp("created_at").toLocalDateTime() : null);
+
+                listeReclamations.add(reclamation);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des réclamations : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return listeReclamations;
+    }
+}

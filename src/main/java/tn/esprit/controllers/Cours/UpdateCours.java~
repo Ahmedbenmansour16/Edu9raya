@@ -1,0 +1,4 @@
+package tn.esprit.controllers.Cours;
+
+public class UpdateCours {
+}

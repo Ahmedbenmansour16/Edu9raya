@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Cours.AddCours">
+    <children>
+        <!-- Sidebar -->
+        <fx:include source="../SideBar.fxml" />
+
+        <!-- Centered Form -->
+        <Pane layoutX="400.0" layoutY="50.0" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <!-- Form Title -->
+                <Label layoutX="200.0" layoutY="20.0" style="-fx-font-family: 'Nunito'; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #181D38;" text="Add a Course" />
+
+                <!-- Field for Course Code -->
+                <Label layoutX="31.0" layoutY="65.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Code:" />
+                <TextField fx:id="codeCoursTextField" layoutX="150.0" layoutY="55.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the course code (e.g., CS101)" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Title -->
+                <Label layoutX="31.0" layoutY="115.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Title:" />
+                <TextField fx:id="titreTextField" layoutX="150.0" layoutY="105.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the course title" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Level -->
+                <Label layoutX="31.0" layoutY="165.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Level:" />
+                <TextField fx:id="niveauTextField" layoutX="150.0" layoutY="155.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the course level (e.g., Beginner)" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Category -->
+                <Label layoutX="31.0" layoutY="215.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Category:" />
+                <TextField fx:id="categorieTextField" layoutX="150.0" layoutY="205.0" prefHeight="40.0" prefWidth="400.0" promptText="Enter the course category (e.g., Programming)" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Module -->
+                <Label layoutX="31.0" layoutY="265.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Module:" />
+                <ComboBox fx:id="moduleComboBox" layoutX="150.0" layoutY="255.0" prefHeight="40.0" prefWidth="400.0" promptText="Select a module" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for Description -->
+                <Label layoutX="31.0" layoutY="315.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Description:" />
+                <TextArea fx:id="descriptionTextArea" layoutX="150.0" layoutY="305.0" prefHeight="80.0" prefWidth="400.0" promptText="Enter the course description" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+                <!-- Field for PDF -->
+                <Label layoutX="31.0" layoutY="395.0" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="PDF File:" />
+                <Pane layoutX="150.0" layoutY="395.0" prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5;">
+                    <children>
+                        <Label fx:id="pdfLabel" layoutX="8.0" layoutY="10.0" prefWidth="280.0" style="-fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-text-fill: #181D38;" text="No PDF selected" />
+                        <Button fx:id="choisirPdfButton" layoutX="270.0" layoutY="5.0" onAction="#choisirPdf" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;" text="Choose PDF">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+                </Pane>
+
+                <!-- Error Message Label -->
+                <Label fx:id="messageErreur" layoutX="150.0" layoutY="435.0" prefHeight="30.0" prefWidth="400.0" style="-fx-text-fill: #FF4D4D; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;" text="Error message" visible="false" />
+
+                <!-- Add Button -->
+                <Button layoutX="430.0" layoutY="475.0" onAction="#btnAjouterCours" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;" text="Add">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #F5F5F5;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Cours.ViewCoursByModule">
+    <children>
+        <!-- Sidebar -->
+        <fx:include source="../SideBar.fxml" />
+
+        <!-- Main Content -->
+        <VBox layoutX="250.0" layoutY="50.0" prefHeight="600.0" prefWidth="1100.0">
+            <children>
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Label text="Courses by Module"
+                               style="-fx-font-family: 'Nunito'; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #181D38;" />
+                        <ComboBox fx:id="moduleComboBox" prefHeight="40.0" prefWidth="300.0"
+                                  promptText="Select a module"
+                                  style="-fx-background-color: #FFFFFF; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                </HBox>
+
+                <!-- Course List -->
+                <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="500.0" style="-fx-background: #F5F5F5;">
+                    <content>
+                        <VBox fx:id="vboxContainer" spacing="20.0" style="-fx-background-color: #F5F5F5;">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
