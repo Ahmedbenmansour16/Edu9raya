@@ -35,6 +35,10 @@
         <Label text="Image:"/>
         <ImageView fx:id="bookImageView" fitWidth="200" preserveRatio="true"/>
 
-        <Button text="Télécharger PDF" onAction="#handleDownloadPdf" />
+        <!-- Nouvelle section pour le QR Code -->
+        <Label text="QR Code:"/>
+        <ImageView fx:id="qrCodeImageView" fitWidth="150" preserveRatio="true"/>
+
+        <Button text="Télécharger PDF" onAction="#handleDownloadPdf"/>
     </children>
 </VBox>

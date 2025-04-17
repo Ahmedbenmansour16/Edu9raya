@@ -36,6 +36,11 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
+                <Button text="Stat Book"
+                        onAction="#onStatBookViewClick"
+                        styleClass="sidebar-button">
+                    <cursor><Cursor fx:constant="HAND"/></cursor>
+                </Button>
             </children>
         </VBox>
     </left>

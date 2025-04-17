@@ -52,6 +52,13 @@
                         <Button text="Sélectionner PDF" onAction="#handleSelectPdfFile"/>
                     </children>
                 </HBox>
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="File ID:"/>
+                        <TextField fx:id="fileIdField" promptText="Scannez le QR pour récupérer l'ID"/>
+                        <Button text="Scanner QR" onAction="#handleScanQRCode" styleClass="button"/>
+                    </children>
+                </HBox>
                 <!-- Ligne 5: Sélection de l'image -->
                 <HBox spacing="10.0">
                     <children>

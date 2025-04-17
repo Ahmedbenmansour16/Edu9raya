@@ -19,6 +19,7 @@ import model.Book;
 import model.Categorie;
 import service.BookService;
 import service.CategorieService;
+import utils.QRCodeUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,11 @@ public class BookViewController {
     @FXML
     private TextArea descriptionField;
 
-    // ComboBox pour sélectionner la catégorie (rempli via CategorieService)
+    // Ajout d'un champ pour le File ID obtenu par QR code
+    @FXML
+    private TextField fileIdField;
+
+    // ComboBox pour la catégorie
     @FXML
     private ComboBox<Categorie> catBookCombo;
 
@@ -59,7 +64,6 @@ public class BookViewController {
     private TableColumn<Book, String> idBookColumn;
     @FXML
     private TableColumn<Book, String> nomBookColumn;
-    // Colonne de catégorie : affiche le nom via la liste des catégories
     @FXML
     private TableColumn<Book, String> catBookColumn;
     @FXML
@@ -72,7 +76,7 @@ public class BookViewController {
     private TableColumn<Book, String> fileIdColumn;
     @FXML
     private TableColumn<Book, String> pictureColumn;
-    // Nouvelle colonne pour le bouton "Voir détails"
+    // Colonne pour le bouton "Voir détails"
     @FXML
     private TableColumn<Book, Void> detailsColumn;
 
@@ -84,7 +88,7 @@ public class BookViewController {
 
     @FXML
     public void initialize() {
-        // Configuration des colonnes standards
+        // Configuration des colonnes
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idBookColumn.setCellValueFactory(new PropertyValueFactory<>("idBook"));
         nomBookColumn.setCellValueFactory(new PropertyValueFactory<>("nomBook"));
@@ -103,7 +107,7 @@ public class BookViewController {
         fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
         pictureColumn.setCellValueFactory(new PropertyValueFactory<>("picture"));
 
-        // Ajout de la colonne "Voir détails" (bouton)
+        // Ajout de la colonne "Voir détails"
         addDetailsButtonToTable();
 
         // Charger les catégories dans le ComboBox
@@ -113,7 +117,7 @@ public class BookViewController {
         dispoBookCombo.setItems(FXCollections.observableArrayList("oui", "non"));
         dispoBookCombo.getSelectionModel().selectFirst();
 
-        // Charger les books existants dans la TableView
+        // Charger les books dans la TableView
         loadBookData();
 
         // Listener sur la TableView pour charger les informations du book sélectionné dans les champs
@@ -125,7 +129,7 @@ public class BookViewController {
                 dispoBookCombo.setValue(newSelection.getDispoBook());
                 pdfFileLabel.setText(newSelection.getPdfFile());
                 pictureLabel.setText(newSelection.getPicture());
-                // Sélectionner la catégorie correspondante dans le ComboBox
+                fileIdField.setText(newSelection.getFileId());
                 for (Categorie c : categorieList) {
                     if (c.getId() == newSelection.getCatBook()) {
                         catBookCombo.setValue(c);
@@ -147,6 +151,7 @@ public class BookViewController {
                     private final Button btn = new Button("Voir détails");
 
                     {
+                        btn.setStyle("-fx-background-color: #1E90FF; -fx-text-fill: #FFFFFF;");
                         btn.setOnAction((ActionEvent event) -> {
                             Book book = getTableView().getItems().get(getIndex());
                             openBookDetails(book);
@@ -167,18 +172,16 @@ public class BookViewController {
             }
         };
         detailsColumn.setCellFactory(cellFactory);
-        // La colonne "detailsColumn" est déjà déclarée dans le FXML avec fx:id="detailsColumn"
     }
 
     /**
-     * Ouvre une nouvelle fenêtre affichant les détails du book grâce au fichier BookDetails.fxml.
+     * Ouvre la page de détails du book en chargeant BookDetails.fxml et en transmettant l'objet Book.
      */
     private void openBookDetails(Book book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BookDetails.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur de la vue détail et lui transmettre l'objet Book
             BookDetailsController controller = loader.getController();
             controller.setBook(book);
 
@@ -193,9 +196,6 @@ public class BookViewController {
         }
     }
 
-    /**
-     * Charge les catégories depuis la table "categorie" via le CategorieService dans le ComboBox.
-     */
     private void loadCategories() {
         List<Categorie> list = categorieService.getAllCategories();
         categorieList.setAll(list);
@@ -212,19 +212,14 @@ public class BookViewController {
         });
     }
 
-    /**
-     * Charge tous les books depuis la base via le BookService et les affiche dans la TableView.
-     */
     private void loadBookData() {
-        bookList.setAll(bookService.getAllBooks());
+        List<Book> books = bookService.getAllBooks();
+        bookList.setAll(books);
         bookTable.setItems(bookList);
         bookTable.refresh();
         statusLabel.setText("Données des books chargées.");
     }
 
-    /**
-     * Ouvre un FileChooser pour sélectionner un fichier PDF.
-     */
     @FXML
     private void handleSelectPdfFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -236,9 +231,6 @@ public class BookViewController {
         }
     }
 
-    /**
-     * Ouvre un FileChooser pour sélectionner une image.
-     */
     @FXML
     private void handleSelectPictureFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -250,9 +242,28 @@ public class BookViewController {
         }
     }
 
-    /**
-     * Gère l'insertion d'un nouveau book via le BookService.
-     */
+    @FXML
+    private void handleScanQRCode(ActionEvent event) {
+        // Utilisation d'un FileChooser pour sélectionner une image de QR code
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner l'image du QR code");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            try {
+                String qrText = utils.QRCodeUtil.decodeQRCode(file);
+                if (qrText != null) {
+                    fileIdField.setText(qrText);
+                    System.out.println("QR Code décodé : " + qrText);
+                } else {
+                    System.out.println("Aucun QR code trouvé dans l'image.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @FXML
     private void handleAddBook(ActionEvent event) {
         String idBook = idBookField.getText().trim();
@@ -261,13 +272,13 @@ public class BookViewController {
         String dispoBook = dispoBookCombo.getValue();
         String pdfFile = pdfFileLabel.getText();
         String picture = pictureLabel.getText();
+        String fileId = fileIdField.getText().trim(); // Le fichier fileId obtenu par QR
         Categorie selectedCategorie = catBookCombo.getValue();
 
-        // Vérifier que les champs obligatoires sont remplis
         if (idBook.isEmpty() || nomBook.isEmpty() || description.isEmpty() ||
                 dispoBook == null || pdfFile.isEmpty() || picture.isEmpty() ||
-                selectedCategorie == null) {
-            statusLabel.setText("Merci de remplir tous les champs obligatoires.");
+                selectedCategorie == null || fileId.isEmpty()) {
+            statusLabel.setText("Merci de remplir tous les champs obligatoires (incluant le File ID QR).");
             return;
         }
 
@@ -280,7 +291,7 @@ public class BookViewController {
         book.setDispoBook(dispoBook);
         book.setDescription(description);
         book.setPdfFile(pdfFile);
-        book.setFileId(""); // Vous pouvez ajouter la logique pour générer le file_id si nécessaire
+        book.setFileId(fileId);
         book.setPicture(picture);
 
         boolean success = bookService.createBook(book);
@@ -293,9 +304,6 @@ public class BookViewController {
         }
     }
 
-    /**
-     * Gère la mise à jour du book sélectionné via le BookService.
-     */
     @FXML
     private void handleUpdateBook(ActionEvent event) {
         Book selected = bookTable.getSelectionModel().getSelectedItem();
@@ -310,11 +318,12 @@ public class BookViewController {
         String dispoBook = dispoBookCombo.getValue();
         String pdfFile = pdfFileLabel.getText();
         String picture = pictureLabel.getText();
+        String fileId = fileIdField.getText().trim();
         Categorie selectedCategorie = catBookCombo.getValue();
 
         if (idBook.isEmpty() || nomBook.isEmpty() || description.isEmpty() ||
                 dispoBook == null || pdfFile.isEmpty() || picture.isEmpty() ||
-                selectedCategorie == null) {
+                selectedCategorie == null || fileId.isEmpty()) {
             statusLabel.setText("Merci de remplir tous les champs pour la mise à jour.");
             return;
         }
@@ -325,6 +334,7 @@ public class BookViewController {
         selected.setDispoBook(dispoBook);
         selected.setPdfFile(pdfFile);
         selected.setPicture(picture);
+        selected.setFileId(fileId);
         selected.setCatBook(selectedCategorie.getId());
 
         boolean success = bookService.updateBook(selected);
@@ -336,9 +346,6 @@ public class BookViewController {
         }
     }
 
-    /**
-     * Gère la suppression du book sélectionné via le BookService.
-     */
     @FXML
     private void handleDeleteBook(ActionEvent event) {
         Book selected = bookTable.getSelectionModel().getSelectedItem();

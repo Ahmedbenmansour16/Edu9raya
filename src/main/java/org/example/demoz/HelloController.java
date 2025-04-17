@@ -32,6 +32,10 @@ public class HelloController {
         // Cette méthode charge la page "Book Front" (par exemple FrontBookView.fxml)
         loadView("/view/FrontBookView.fxml");
     }
+    @FXML
+    private void onStatBookViewClick() {
+        loadView("/view/StatBookView.fxml");
+    }
 
     /**
      * Méthode utilitaire qui charge le fichier FXML spécifié dans la zone de contenu.

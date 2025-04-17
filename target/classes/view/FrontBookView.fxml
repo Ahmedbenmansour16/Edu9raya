@@ -1,19 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.FrontBookController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.FrontBookController"
             prefWidth="800" prefHeight="600">
     <children>
-        <!-- FlowPane pour disposer dynamiquement les cartes -->
-        <FlowPane fx:id="bookContainer"
-                  hgap="20"
-                  vgap="20"
-                  AnchorPane.topAnchor="10.0"
-                  AnchorPane.leftAnchor="10.0"
-                  AnchorPane.rightAnchor="10.0"
-                  AnchorPane.bottomAnchor="10.0"/>
+        <VBox spacing="10.0"
+              AnchorPane.topAnchor="10.0"
+              AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0"
+              AnchorPane.bottomAnchor="10.0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+
+                <!-- Barre de recherche -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Recherche par nom :"/>
+                        <TextField fx:id="searchField" promptText="Mot‑clé..." prefWidth="200"/>
+                    </children>
+                </HBox>
+
+                <!-- Ligne filtre + tri -->
+                <HBox spacing="15.0">
+                    <children>
+                        <Label text="Filtrer par catégorie :"/>
+                        <ComboBox fx:id="categoryFilterCombo" prefWidth="150.0"/>
+                        <Label text="Disponibilité :"/>
+                        <ComboBox fx:id="availabilityFilterCombo" prefWidth="100.0"/>
+                        <Label text="Trier par nom :"/>
+                        <ComboBox fx:id="sortOrderCombo" prefWidth="120.0"/>
+                    </children>
+                </HBox>
+
+                <!-- Cartes -->
+                <FlowPane fx:id="bookContainer"
+                          hgap="20" vgap="20"/>
+            </children>
+        </VBox>
     </children>
 </AnchorPane>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.StatBookController"
+            prefWidth="800" prefHeight="600">
+    <children>
+        <BarChart fx:id="barChart" title="Statistiques des Books"
+                  AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
+                  AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+            <xAxis>
+                <CategoryAxis fx:id="categoryAxis" label="Catégorie"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="numberAxis" label="Nombre de Books"/>
+            </yAxis>
+        </BarChart>
+    </children>
+</AnchorPane>

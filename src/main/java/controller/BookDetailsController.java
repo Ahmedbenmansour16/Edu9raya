@@ -1,5 +1,6 @@
 package controller;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,9 +9,15 @@ import javafx.scene.image.ImageView;
 import model.Book;
 
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 public class BookDetailsController {
 
@@ -26,9 +33,11 @@ public class BookDetailsController {
     private Label descriptionLabel;
     @FXML
     private Label pdfFileLabel;
-    // ImageView pour afficher l'image du book
     @FXML
     private ImageView bookImageView;
+    // Nouvelle ImageView pour afficher le QR Code
+    @FXML
+    private ImageView qrCodeImageView;
 
     private Book book;
 
@@ -40,13 +49,13 @@ public class BookDetailsController {
         this.book = book;
         idBookLabel.setText(book.getIdBook());
         nomBookLabel.setText(book.getNomBook());
-        // Ici, on affiche l'ID de la catégorie. Vous pouvez adapter pour afficher le nom si besoin.
+        // Affiche l'ID de la catégorie (adapter pour afficher le nom si nécessaire)
         catBookLabel.setText(String.valueOf(book.getCatBook()));
         dispoBookLabel.setText(book.getDispoBook());
         descriptionLabel.setText(book.getDescription());
         pdfFileLabel.setText(book.getPdfFile());
 
-        // Charger et afficher l'image à partir du chemin indiqué par book.getPicture()
+        // Charger et afficher l'image du book
         if (book.getPicture() != null && !book.getPicture().isEmpty()) {
             File imageFile = new File(book.getPicture());
             if (imageFile.exists()) {
@@ -61,7 +70,18 @@ public class BookDetailsController {
                 System.err.println("Fichier image introuvable : " + book.getPicture());
             }
         }
+
+
     }
+
+    /**
+     * Génère un QR code à partir d'une chaîne et l'affiche dans l'ImageView qrCodeImageView.
+     *
+     * @param data  La donnée à encoder dans le QR code (par exemple, un File ID ou URL).
+     * @param width  Largeur du QR code.
+     * @param height Hauteur du QR code.
+     */
+
 
     /**
      * Gère l'action du bouton "Télécharger PDF".
