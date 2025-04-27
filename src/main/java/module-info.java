@@ -5,6 +5,10 @@ module org.example.demoz {
     requires java.desktop;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires javafx.swing;
+    requires org.apache.pdfbox;
+    requires javafx.web;      // <— ajouter
+
 
 
     opens controller to javafx.fxml;

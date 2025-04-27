@@ -1,21 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.StatBookController"
-            prefWidth="800" prefHeight="600">
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.StatBookController"
+            prefWidth="800" prefHeight="500"
+            stylesheets="/css/style.css">
     <children>
-        <BarChart fx:id="barChart" title="Statistiques des Books"
-                  AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
-                  AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
-            <xAxis>
-                <CategoryAxis fx:id="categoryAxis" label="Catégorie"/>
-            </xAxis>
-            <yAxis>
-                <NumberAxis fx:id="numberAxis" label="Nombre de Books"/>
-            </yAxis>
-        </BarChart>
+        <HBox spacing="20"
+              AnchorPane.topAnchor="10"
+              AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10"
+              AnchorPane.bottomAnchor="10">
+
+            <!-- Gauche : carte unique contenant 2 graphiques -->
+            <VBox spacing="10" styleClass="card" prefWidth="480" prefHeight="480">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="Books par catégorie" styleClass="label-title"/>
+                <BarChart fx:id="categoryChart" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis" label="Catégorie"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" label="Nombre de books"/>
+                    </yAxis>
+                </BarChart>
+
+                <Label text="Books par disponibilité" styleClass="label-title"/>
+                <BarChart fx:id="availabilityChart" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis fx:id="availXAxis" label="Disponibilité"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="availYAxis" label="Nombre de books"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+
+            <!-- Droite : cartes de totaux -->
+            <VBox spacing="20">
+                <VBox alignment="CENTER" spacing="5" styleClass="card" prefWidth="240" prefHeight="160">
+                    <Label text="Total de books" styleClass="label-title"/>
+                    <Label fx:id="totalBooksLabel" style="-fx-font-size: 36px;"/>
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" styleClass="card" prefWidth="240" prefHeight="160">
+                    <Label text="Total de catégories" styleClass="label-title"/>
+                    <Label fx:id="totalCategoriesLabel" style="-fx-font-size: 36px;"/>
+                </VBox>
+            </VBox>
+        </HBox>
     </children>
 </AnchorPane>

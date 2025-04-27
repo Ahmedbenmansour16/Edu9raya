@@ -1,51 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.FrontBookController"
-            prefWidth="800" prefHeight="600">
+<AnchorPane prefHeight="700" prefWidth="1000" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FrontBookController">
+
     <children>
-        <VBox spacing="10.0"
-              AnchorPane.topAnchor="10.0"
-              AnchorPane.leftAnchor="10.0"
-              AnchorPane.rightAnchor="10.0"
-              AnchorPane.bottomAnchor="10.0">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <children>
 
-                <!-- Barre de recherche -->
-                <HBox spacing="10.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <!-- MenuBar at the top -->
+            <top>
+                <MenuBar>
+                    <Menu text="Menu">
+                        <MenuItem text="Accueil" />
+                        <MenuItem text="Paramètres" />
+                        <MenuItem text="Déconnexion" />
+                    </Menu>
+                </MenuBar>
+            </top>
+
+            <!-- Sidebar on the left -->
+            <left>
+                <VBox spacing="20">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                </VBox>
+            </left>
+
+            <!-- Main content in the center -->
+            <center>
+                <VBox spacing="20">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
                     <children>
-                        <Label text="Recherche par nom :"/>
-                        <TextField fx:id="searchField" promptText="Mot‑clé..." prefWidth="200"/>
-                    </children>
-                </HBox>
 
-                <!-- Ligne filtre + tri -->
-                <HBox spacing="15.0">
-                    <children>
-                        <Label text="Filtrer par catégorie :"/>
-                        <ComboBox fx:id="categoryFilterCombo" prefWidth="150.0"/>
-                        <Label text="Disponibilité :"/>
-                        <ComboBox fx:id="availabilityFilterCombo" prefWidth="100.0"/>
-                        <Label text="Trier par nom :"/>
-                        <ComboBox fx:id="sortOrderCombo" prefWidth="120.0"/>
-                    </children>
-                </HBox>
+                        <!-- Search Bar -->
+                        <HBox spacing="10">
+                            <children>
+                                <Label text="Recherche par nom :" />
+                                <TextField fx:id="searchField" prefWidth="250" promptText="Mot-clé..." />
+                            </children>
+                        </HBox>
 
-                <!-- Cartes -->
-                <FlowPane fx:id="bookContainer"
-                          hgap="20" vgap="20"/>
-            </children>
-        </VBox>
+                        <!-- Filters and Sort -->
+                        <HBox spacing="15">
+                            <children>
+                                <Label text="Filtrer par catégorie :" />
+                                <ComboBox fx:id="categoryFilterCombo" prefWidth="150" />
+
+                                <Label text="Disponibilité :" />
+                                <ComboBox fx:id="availabilityFilterCombo" prefWidth="120" />
+
+                                <Label text="Trier par nom :" />
+                                <ComboBox fx:id="sortOrderCombo" prefWidth="150" />
+                            </children>
+                        </HBox>
+
+                        <!-- Book Cards container -->
+                        <FlowPane fx:id="bookContainer" hgap="20" prefHeight="500" prefWidth="600" vgap="20" />
+                    </children>
+                </VBox>
+            </center>
+
+        </BorderPane>
+
     </children>
+
 </AnchorPane>

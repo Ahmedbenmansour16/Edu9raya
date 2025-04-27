@@ -6,37 +6,48 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-    // Static instance of the singleton
     private static SQLConnection instance;
-
-    // The Connection object
     private Connection connection;
 
-    // Constants for database connection
     private static final String URL = "jdbc:mysql://localhost:3306/edu9raya";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    // Private constructor to prevent external instantiation
     private SQLConnection() {
+        connect();
+    }
+
+    private void connect() {
         try {
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            if (connection != null && !connection.isClosed()) {
+                return;
+            }
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connected to database");
         } catch (SQLException e) {
             System.err.println("Connection error: " + e.getMessage());
         }
     }
 
-    // Provides global access to the single instance
+    /**
+     * Retourne une connexion valide (ouvre une nouvelle connexion si la précédente est fermée).
+     */
+    public synchronized Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connect();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking connection validity: " + e.getMessage());
+            connect();
+        }
+        return connection;
+    }
+
     public static synchronized SQLConnection getInstance() {
         if (instance == null) {
             instance = new SQLConnection();
         }
         return instance;
-    }
-
-    // Returns the established connection
-    public Connection getConnection() {
-        return connection;
     }
 }

@@ -11,10 +11,15 @@ public class Book {
     private String fileId;
     private String picture;
 
+    // Nouveaux champs pour le suivi de lecture et les annotations
+    private int lastPage;     // page la plus récemment lue
+    private String notes;     // annotations / surlignages
+
     public Book() {}
 
     public Book(int id, String idBook, String nomBook, int catBook, String dispoBook,
-                String description, String pdfFile, String fileId, String picture) {
+                String description, String pdfFile, String fileId, String picture,
+                int lastPage, String notes) {
         this.id = id;
         this.idBook = idBook;
         this.nomBook = nomBook;
@@ -24,9 +29,12 @@ public class Book {
         this.pdfFile = pdfFile;
         this.fileId = fileId;
         this.picture = picture;
+        this.lastPage = lastPage;
+        this.notes = notes;
     }
 
-    // Getters et setters
+    // ─── Getters / Setters ───────────────────────────────────────────────
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -54,6 +62,14 @@ public class Book {
     public String getPicture() { return picture; }
     public void setPicture(String picture) { this.picture = picture; }
 
+    public int getLastPage() { return lastPage; }
+    public void setLastPage(int lastPage) { this.lastPage = lastPage; }
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
+
+    // ─── toString() pour le debug ────────────────────────────────────────
+
     @Override
     public String toString() {
         return "Book{" +
@@ -66,6 +82,8 @@ public class Book {
                 ", pdfFile='" + pdfFile + '\'' +
                 ", fileId='" + fileId + '\'' +
                 ", picture='" + picture + '\'' +
+                ", lastPage=" + lastPage +
+                ", notes='" + notes + '\'' +
                 '}';
     }
 }
