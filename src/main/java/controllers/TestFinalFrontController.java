@@ -26,10 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import utils.MyDatabase;
 
 public class TestFinalFrontController {
@@ -65,13 +62,17 @@ public class TestFinalFrontController {
     private List<Question> questions = new ArrayList<>();
     private Map<Integer, ToggleGroup> questionGroups = new HashMap<>();
     private Map<Integer, Integer> userAnswers = new HashMap<>();
+    private Map<Integer, List<Integer>> answerShuffleMap = new HashMap<>();
 
     private TestService testService = new TestService();
     private Connection cnx = MyDatabase.getInstance().getCnx();
 
     // Variables pour le chronomètre
     private Timeline timeline;
-    private int timeSeconds = 15; // Durée de 15 secondes
+    private int timeSeconds = 60; // Durée de 15 secondes
+
+    // Nombre maximal de questions à afficher
+    private static final int MAX_QUESTIONS = 5;
 
     @FXML
     private void initialize() {
@@ -129,13 +130,16 @@ public class TestFinalFrontController {
                 return;
             }
 
-            // Récupérer les questions du test
-            questions = getQuestionsForTest(testId);
-            if (questions.isEmpty()) {
+            // Récupérer toutes les questions du test
+            List<Question> allQuestions = getQuestionsForTest(testId);
+            if (allQuestions.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Questions non disponibles",
                         "Aucune question n'est disponible pour ce test.");
                 return;
             }
+
+            // Sélectionner aléatoirement MAX_QUESTIONS questions (ou moins si pas assez disponibles)
+            questions = selectRandomQuestions(allQuestions, MAX_QUESTIONS);
 
             // Afficher les questions
             afficherQuestions();
@@ -144,6 +148,25 @@ public class TestFinalFrontController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des questions: " + e.getMessage());
         }
+    }
+
+    private List<Question> selectRandomQuestions(List<Question> allQuestions, int count) {
+        // Si on a moins de questions que demandé, on retourne toutes les questions
+        if (allQuestions.size() <= count) {
+            return new ArrayList<>(allQuestions);
+        }
+
+        // Sinon, on sélectionne aléatoirement 'count' questions
+        List<Question> randomQuestions = new ArrayList<>();
+        List<Question> copyQuestions = new ArrayList<>(allQuestions);
+        Random random = new Random();
+
+        for (int i = 0; i < count; i++) {
+            int randomIndex = random.nextInt(copyQuestions.size());
+            randomQuestions.add(copyQuestions.remove(randomIndex));
+        }
+
+        return randomQuestions;
     }
 
     private int getTestIdForFormation(int formationId) throws SQLException {
@@ -201,29 +224,34 @@ public class TestFinalFrontController {
         ToggleGroup group = new ToggleGroup();
         questionGroups.put(question.getId(), group);
 
-        RadioButton rb1 = new RadioButton(question.getAnswer1());
-        rb1.setToggleGroup(group);
-        rb1.setUserData(1);
-        rb1.getStyleClass().add("answer-option");
-        rb1.setWrapText(true);
+        // Créer un tableau d'indices mélangés (1-4)
+        List<Integer> shuffledIndices = Arrays.asList(1, 2, 3, 4);
+        Collections.shuffle(shuffledIndices);
 
-        RadioButton rb2 = new RadioButton(question.getAnswer2());
-        rb2.setToggleGroup(group);
-        rb2.setUserData(2);
-        rb2.getStyleClass().add("answer-option");
-        rb2.setWrapText(true);
+        // Stocker l'ordre de mélange pour cette question
+        answerShuffleMap.put(question.getId(), shuffledIndices);
 
-        RadioButton rb3 = new RadioButton(question.getAnswer3());
-        rb3.setToggleGroup(group);
-        rb3.setUserData(3);
-        rb3.getStyleClass().add("answer-option");
-        rb3.setWrapText(true);
+        // Créer les boutons radio dans l'ordre mélangé
+        Map<Integer, RadioButton> radioButtons = new HashMap<>();
 
-        RadioButton rb4 = new RadioButton(question.getAnswer4());
-        rb4.setToggleGroup(group);
-        rb4.setUserData(4);
-        rb4.getStyleClass().add("answer-option");
-        rb4.setWrapText(true);
+        for (int i = 0; i < 4; i++) {
+            int answerIndex = shuffledIndices.get(i);
+            String answerText = getAnswerText(question, answerIndex);
+
+            RadioButton rb = new RadioButton(answerText);
+            rb.setToggleGroup(group);
+            rb.setUserData(answerIndex);
+            rb.getStyleClass().add("answer-option");
+            rb.setWrapText(true);
+
+            radioButtons.put(answerIndex, rb);
+        }
+
+        // Ajouter les boutons radio dans l'ordre mélangé
+        for (int i = 0; i < 4; i++) {
+            int answerIndex = shuffledIndices.get(i);
+            questionBox.getChildren().add(radioButtons.get(answerIndex));
+        }
 
         // Listener pour enregistrer la réponse de l'utilisateur
         group.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
@@ -232,8 +260,18 @@ public class TestFinalFrontController {
             }
         });
 
-        questionBox.getChildren().addAll(questionLabel, rb1, rb2, rb3, rb4);
+        questionBox.getChildren().add(0, questionLabel);
         return questionBox;
+    }
+
+    private String getAnswerText(Question question, int index) {
+        switch (index) {
+            case 1: return question.getAnswer1();
+            case 2: return question.getAnswer2();
+            case 3: return question.getAnswer3();
+            case 4: return question.getAnswer4();
+            default: return "";
+        }
     }
 
     private void soumettreReponses() {

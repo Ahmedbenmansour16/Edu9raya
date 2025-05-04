@@ -4,12 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TestController">
     <children>
@@ -78,7 +75,7 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="80.0" styleClass="header-bar">
                             <children>
-                                <Label styleClass="page-title" text="Création de Test (5 questions)">
+                                <Label styleClass="page-title" text="Création de Test">
                                     <HBox.margin>
                                         <Insets left="25.0" />
                                     </HBox.margin>
@@ -89,165 +86,23 @@
                             <children>
                                 <VBox maxWidth="950.0" prefWidth="850.0" spacing="20.0" styleClass="content-container">
                                     <children>
-                                        <ScrollPane fitToWidth="true" styleClass="transparent-scroll-pane" VBox.vgrow="ALWAYS">
+                                        <ScrollPane fx:id="questionsScrollPane" fitToWidth="true" styleClass="transparent-scroll-pane" VBox.vgrow="ALWAYS">
                                             <content>
-                                                <VBox spacing="20">
+                                                <VBox fx:id="questionsContainer" spacing="20">
                                                     <padding>
                                                         <Insets top="10" right="10" bottom="10" left="10"/>
                                                     </padding>
-
-                                                    <!-- Question 1 -->
-                                                    <VBox spacing="10" styleClass="modern-question-box">
-                                                        <Label styleClass="form-section-title" text="Question 1"/>
-                                                        <TextArea fx:id="enonce1" prefHeight="60" promptText="Saisissez l'énoncé..." styleClass="search-input"/>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 1:"/>
-                                                                <TextField fx:id="answer1Q1" styleClass="search-input" promptText="Réponse 1" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 2:"/>
-                                                                <TextField fx:id="answer2Q1" styleClass="search-input" promptText="Réponse 2" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 3:"/>
-                                                                <TextField fx:id="answer3Q1" styleClass="search-input" promptText="Réponse 3" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 4:"/>
-                                                                <TextField fx:id="answer4Q1" styleClass="search-input" promptText="Réponse 4" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="10" alignment="CENTER_LEFT">
-                                                            <Label styleClass="info-label" text="Réponse correcte (1-4):"/>
-                                                            <TextField fx:id="correctQ1" prefWidth="60" styleClass="search-input" promptText="?"/>
-                                                        </HBox>
-                                                    </VBox>
-
-                                                    <!-- Question 2 -->
-                                                    <VBox spacing="10" styleClass="modern-question-box">
-                                                        <Label styleClass="form-section-title" text="Question 2"/>
-                                                        <TextArea fx:id="enonce2" prefHeight="60" promptText="Saisissez l'énoncé..." styleClass="search-input"/>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 1:"/>
-                                                                <TextField fx:id="answer1Q2" styleClass="search-input" promptText="Réponse 1" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 2:"/>
-                                                                <TextField fx:id="answer2Q2" styleClass="search-input" promptText="Réponse 2" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 3:"/>
-                                                                <TextField fx:id="answer3Q2" styleClass="search-input" promptText="Réponse 3" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 4:"/>
-                                                                <TextField fx:id="answer4Q2" styleClass="search-input" promptText="Réponse 4" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="10" alignment="CENTER_LEFT">
-                                                            <Label styleClass="info-label" text="Réponse correcte (1-4):"/>
-                                                            <TextField fx:id="correctQ2" prefWidth="60" styleClass="search-input" promptText="?"/>
-                                                        </HBox>
-                                                    </VBox>
-
-                                                    <!-- Question 3 -->
-                                                    <VBox spacing="10" styleClass="modern-question-box">
-                                                        <Label styleClass="form-section-title" text="Question 3"/>
-                                                        <TextArea fx:id="enonce3" prefHeight="60" promptText="Saisissez l'énoncé..." styleClass="search-input"/>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 1:"/>
-                                                                <TextField fx:id="answer1Q3" styleClass="search-input" promptText="Réponse 1" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 2:"/>
-                                                                <TextField fx:id="answer2Q3" styleClass="search-input" promptText="Réponse 2" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 3:"/>
-                                                                <TextField fx:id="answer3Q3" styleClass="search-input" promptText="Réponse 3" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 4:"/>
-                                                                <TextField fx:id="answer4Q3" styleClass="search-input" promptText="Réponse 4" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="10" alignment="CENTER_LEFT">
-                                                            <Label styleClass="info-label" text="Réponse correcte (1-4):"/>
-                                                            <TextField fx:id="correctQ3" prefWidth="60" styleClass="search-input" promptText="?"/>
-                                                        </HBox>
-                                                    </VBox>
-
-                                                    <!-- Question 4 -->
-                                                    <VBox spacing="10" styleClass="modern-question-box">
-                                                        <Label styleClass="form-section-title" text="Question 4"/>
-                                                        <TextArea fx:id="enonce4" prefHeight="60" promptText="Saisissez l'énoncé..." styleClass="search-input"/>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 1:"/>
-                                                                <TextField fx:id="answer1Q4" styleClass="search-input" promptText="Réponse 1" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 2:"/>
-                                                                <TextField fx:id="answer2Q4" styleClass="search-input" promptText="Réponse 2" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 3:"/>
-                                                                <TextField fx:id="answer3Q4" styleClass="search-input" promptText="Réponse 3" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 4:"/>
-                                                                <TextField fx:id="answer4Q4" styleClass="search-input" promptText="Réponse 4" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="10" alignment="CENTER_LEFT">
-                                                            <Label styleClass="info-label" text="Réponse correcte (1-4):"/>
-                                                            <TextField fx:id="correctQ4" prefWidth="60" styleClass="search-input" promptText="?"/>
-                                                        </HBox>
-                                                    </VBox>
-
-                                                    <!-- Question 5 -->
-                                                    <VBox spacing="10" styleClass="modern-question-box">
-                                                        <Label styleClass="form-section-title" text="Question 5"/>
-                                                        <TextArea fx:id="enonce5" prefHeight="60" promptText="Saisissez l'énoncé..." styleClass="search-input"/>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 1:"/>
-                                                                <TextField fx:id="answer1Q5" styleClass="search-input" promptText="Réponse 1" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 2:"/>
-                                                                <TextField fx:id="answer2Q5" styleClass="search-input" promptText="Réponse 2" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="15">
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 3:"/>
-                                                                <TextField fx:id="answer3Q5" styleClass="search-input" promptText="Réponse 3" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                                                <Label styleClass="info-label" text="Réponse 4:"/>
-                                                                <TextField fx:id="answer4Q5" styleClass="search-input" promptText="Réponse 4" HBox.hgrow="ALWAYS"/>
-                                                            </VBox>
-                                                        </HBox>
-                                                        <HBox spacing="10" alignment="CENTER_LEFT">
-                                                            <Label styleClass="info-label" text="Réponse correcte (1-4):"/>
-                                                            <TextField fx:id="correctQ5" prefWidth="60" styleClass="search-input" promptText="?"/>
-                                                        </HBox>
-                                                    </VBox>
+                                                    <!-- Les questions seront ajoutées ici dynamiquement -->
                                                 </VBox>
                                             </content>
                                         </ScrollPane>
+                                        <HBox alignment="CENTER" spacing="10" prefHeight="50.0">
+                                            <Button fx:id="addQuestionButton" prefHeight="40.0" prefWidth="200.0" styleClass="add-button" text="Ajouter une question">
+                                                <graphic>
+                                                    <Label styleClass="button-icon" text="➕" />
+                                                </graphic>
+                                            </Button>
+                                        </HBox>
                                         <HBox alignment="CENTER_RIGHT" spacing="10" prefHeight="50.0">
                                             <Button fx:id="enregistrerTest" onAction="#enregistrerTest" prefHeight="40.0" prefWidth="180.0" styleClass="search-button" text="Enregistrer le Test">
                                                 <graphic>

@@ -19,7 +19,33 @@
 
     -fx-background-color: white;
 }
+/* Ajoutez ces styles à votre fichier CSS existant */
 
+.delete-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #ff0000;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.delete-button:hover {
+    -fx-background-color: #ffebee;
+}
+
+.add-button {
+    -fx-background-color: #e0f2f1;
+    -fx-text-fill: #00695c;
+    -fx-font-weight: bold;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.add-button:hover {
+    -fx-background-color: #b2dfdb;
+}
 /* Sidebar Styles */
 .sidebar {
     -fx-background-color: linear-gradient(to bottom, -primary-color, -primary-dark);
