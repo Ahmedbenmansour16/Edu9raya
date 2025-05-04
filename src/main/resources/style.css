@@ -3,6 +3,7 @@
     -fx-font-family: 'Segoe UI', Arial, sans-serif;
     -fx-background-color: #f8fafc;
 }
+
 .stats-summary {
     -fx-spacing: 20px;
 }
@@ -757,4 +758,131 @@
     -fx-background-position: center;
     -fx-background-size: 60%;
     -fx-background-opacity: 0.1;
+}
+
+
+.main-content {
+    -fx-background-color: #ecf0f1;
+}
+
+.title-bar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.content-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+.reclamation-row {
+    -fx-padding: 15px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ecf0f1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-spacing: 10px;
+}
+
+.reclamation-row:hover {
+    -fx-background-color: #f9fbfc;
+    -fx-transition: all 0.3s ease;
+}
+
+.status-label {
+    -fx-text-fill: #f1c40f;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 10px;
+    -fx-background-color: #fef9e7;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.voir-formation-btn {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 20px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.voir-formation-btn:hover {
+    -fx-background-color: #2980b9;
+    -fx-transition: all 0.3s ease;
+}
+
+.success-message {
+    -fx-background-color: #d4edda;
+    -fx-text-fill: #155724;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.close-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #721c24;
+    -fx-cursor: hand;
+}
+
+.close-btn:hover {
+    -fx-text-fill: #c0392b;
+    -fx-transition: all 0.3s ease;
+}
+
+.detail-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #34495e;
+    -fx-padding: 5px 0;
+}
+
+TextField, TextArea {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+TextField:focused, TextArea:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-transition: all 0.3s ease;
+}
+
+Button {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #34495e;
+    -fx-padding: 8px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-transition: all 0.3s ease;
+}
+
+ImageView {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+/* Centered Content Container */
+.content-container {
+    -fx-max-width: 800px; /* Limit the width of the content */
+    -fx-min-width: 600px; /* Ensure a minimum width for readability */
+    -fx-padding: 20px;
 }

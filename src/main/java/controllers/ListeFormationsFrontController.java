@@ -141,7 +141,7 @@ public class ListeFormationsFrontController {
 
     private void naviguerVersReclamations() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/MesReclamations.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/Reclamation.fxml"));
             Stage stage = (Stage) reclamationsBtn.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
