@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.VoirFormationController">
+    <children>
+        <HBox prefHeight="700.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox id="sidebar" prefHeight="700.0" prefWidth="220.0" styleClass="sidebar">
+                    <children>
+                        <Label styleClass="app-title" text="Edu9raya">
+                            <VBox.margin>
+                                <Insets bottom="30.0" top="30.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label styleClass="sidebar-section" text="Formations">
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Liste des formations">
+                            <VBox.margin>
+                                <Insets bottom="8.0" top="5.0" />
+                            </VBox.margin>
+                            <graphic>
+                                <Label styleClass="button-icon" text="📋" />
+                            </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Ajouter formation">
+                            <VBox.margin>
+                                <Insets bottom="8.0" top="5.0" />
+                            </VBox.margin>
+                            <graphic>
+                                <Label styleClass="button-icon" text="➕" />
+                            </graphic>
+                        </Button>
+                        <Label styleClass="sidebar-section" text="Catégories">
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="20.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Liste des catégories">
+                            <VBox.margin>
+                                <Insets bottom="8.0" top="5.0" />
+                            </VBox.margin>
+                            <graphic>
+                                <Label styleClass="button-icon" text="🗂️" />
+                            </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Ajouter catégorie">
+                            <VBox.margin>
+                                <Insets bottom="8.0" top="5.0" />
+                            </VBox.margin>
+                            <graphic>
+                                <Label styleClass="button-icon" text="➕" />
+                            </graphic>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets left="15.0" right="15.0" />
+                    </padding>
+                </VBox>
+                <VBox prefHeight="700.0" prefWidth="980.0" styleClass="main-content" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" styleClass="header-bar">
+                            <children>
+
+                                    <VBox fx:id="vboxDetails" maxWidth="800.0" prefWidth="750.0" spacing="25.0" styleClass="content-container">
+                                        <!-- Structure pour l'affichage des détails -->
+                                        <VBox spacing="20.0" styleClass="form-container">
+                                            <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                                                <ImageView fx:id="imageFormation" fitHeight="250.0" fitWidth="400.0" preserveRatio="true" />
+                                            </HBox>
+
+                                            <VBox spacing="15.0">
+                                                <Label styleClass="form-section-title" text="Informations générales" />
+
+                                                <HBox styleClass="info-row" spacing="10.0">
+                                                    <Label styleClass="info-label" text="Nom:" minWidth="120.0" style="-fx-text-fill: #000000;" />
+                                                    <Label fx:id="nomFormation" styleClass="info-value" text="Nom de la formation" wrapText="true" style="-fx-text-fill: #000000;" />
+                                                </HBox>
+
+                                                <HBox styleClass="info-row" spacing="10.0">
+                                                    <Label styleClass="info-label" text="Catégorie:" minWidth="120.0" style="-fx-text-fill: #000000;" />
+                                                    <Label fx:id="categorieFormation" styleClass="info-value" text="Nom de la catégorie" style="-fx-text-fill: #000000;" />
+                                                </HBox>
+
+                                                <HBox styleClass="info-row" spacing="10.0">
+                                                    <Label styleClass="info-label" text="Date:" minWidth="120.0" style="-fx-text-fill: #000000;" />
+                                                    <Label fx:id="dateFormation" styleClass="info-value" text="01/01/2023" style="-fx-text-fill: #000000;" />
+                                                </HBox>
+
+                                                <VBox spacing="10.0" styleClass="description-box">
+                                                    <Label styleClass="info-label" text="Description:" style="-fx-text-fill: #000000;" />
+                                                    <Label fx:id="descriptionFormation" styleClass="info-value" text="Description complète de la formation..." wrapText="true" style="-fx-text-fill: #000000;" />
+                                                </VBox>
+
+                                            </VBox>
+
+                                            <HBox alignment="CENTER_RIGHT" spacing="20.0" prefHeight="60.0">
+                                                <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="160.0" styleClass="search-button" text="Retour à la liste" onAction="#retourner">
+                                                    <graphic>
+                                                        <Label styleClass="button-icon" text="↩" />
+                                                    </graphic>
+                                                </Button>
+                                            </HBox>
+                                        </VBox>
+                                        <padding>
+                                            <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                                        </padding>
+                                    </VBox>
+                            </children>
+                        </HBox>
+
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

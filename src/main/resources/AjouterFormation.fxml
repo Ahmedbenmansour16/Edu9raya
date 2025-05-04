@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterFormation">
+   <children>
+      <HBox prefHeight="700.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox id="sidebar" prefHeight="700.0" prefWidth="220.0" styleClass="sidebar">
+               <children>
+                  <Label styleClass="app-title" text="Edu9raya">
+                     <VBox.margin>
+                        <Insets bottom="30.0" top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="sidebar-section" text="Formations">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Liste des formations">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <Label styleClass="button-icon" text="📋" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="ajouterFormationBtn" mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Ajouter formation">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <Label styleClass="button-icon" text="➕" />
+                     </graphic>
+                  </Button>
+                  <Label styleClass="sidebar-section" text="Catégories">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Liste des catégories">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <Label styleClass="button-icon" text="🗂️" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="220.0" styleClass="sidebar-button" text="Ajouter catégorie">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <Label styleClass="button-icon" text="➕" />
+                     </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="700.0" prefWidth="980.0" styleClass="main-content" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="80.0" styleClass="header-bar">
+                     <children>
+                        <Label styleClass="page-title" text="Créer une Formation">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="620.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox maxWidth="900.0" prefWidth="800.0" spacing="20.0" styleClass="content-container">
+                           <children>
+                              <VBox spacing="20" styleClass="search-box">
+                                 <Label styleClass="form-section-title" text="Informations de la Formation" />
+
+                                 <VBox spacing="5">
+                                    <Label styleClass="info-label" text="Nom de Formation" />
+                                    <TextField fx:id="nomformation" styleClass="search-input" promptText="Entrez le nom de la formation"/>
+                                 </VBox>
+
+                                 <VBox spacing="5">
+                                    <Label styleClass="info-label" text="Description" />
+                                    <TextField fx:id="descriptionformation" styleClass="search-input" prefHeight="80.0" promptText="Entrez la description de la formation"/>
+                                 </VBox>
+
+                                 <VBox spacing="5">
+                                    <Label styleClass="info-label" text="Image" />
+                                    <HBox spacing="10" alignment="CENTER_LEFT">
+                                       <Button fx:id="choisirimage" mnemonicParsing="false" onAction="#choisirImage" styleClass="search-button" text="Choisir un fichier">
+                                          <graphic>
+                                             <Label styleClass="button-icon" text="📂" />
+                                          </graphic>
+                                       </Button>
+                                       <TextField fx:id="textimage" styleClass="search-input" prefHeight="40.0" promptText="Aucun fichier sélectionné" editable="false" HBox.hgrow="ALWAYS"/>
+                                    </HBox>
+                                 </VBox>
+
+                                 <VBox spacing="5">
+                                    <Label styleClass="info-label" text="Catégorie" />
+                                    <ComboBox fx:id="choisircategorie" prefHeight="40.0" prefWidth="400.0" promptText="Sélectionnez une catégorie" styleClass="search-input"/>
+                                 </VBox>
+
+                                 <HBox alignment="CENTER_RIGHT" spacing="10" prefHeight="50.0">
+                                    <Button prefHeight="40.0" prefWidth="150.0" styleClass="search-button"  text="Retour" onAction="#retournerALaListe" />
+                                    <Button fx:id="enregistrer" onAction="#enregistrerFormation" prefHeight="40.0" prefWidth="150.0" styleClass="search-button" text="Enregistrer">
+                                       <graphic>
+                                          <Label styleClass="button-icon" text="💾" />
+                                       </graphic>
+                                    </Button>
+                                 </HBox>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
