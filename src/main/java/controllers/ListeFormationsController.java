@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Formation;
+import entities.Reclamation;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +14,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import services.FormationService;
+import services.ReclamationService;
 import utils.MyDatabase;
 import java.io.IOException;
 import java.sql.Connection;
@@ -47,9 +54,21 @@ public class ListeFormationsController {
     private Button btnAjouterFormation;
     @FXML
     private Button logoutBtn;
+    @FXML
+    private Button notificationBtn;
+    @FXML
+    private Label notificationCount;
+    @FXML
+    private VBox notificationBox;
+    @FXML
+    private VBox reclamationList;
+    @FXML
+    private AnchorPane mainPane;
 
     private FormationService formationService = new FormationService();
+    private ReclamationService reclamationService = new ReclamationService();
     private ObservableList<Formation> formationList = FXCollections.observableArrayList();
+    private boolean notificationBoxVisible = false;
 
     @FXML
     private void initialize() {
@@ -65,52 +84,37 @@ public class ListeFormationsController {
         colCategorie.setCellValueFactory(cellData ->
                 new ReadOnlyStringWrapper(cellData.getValue().getCategorie().getNom())
         );
+
         // Configure the actions column
-        colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button btnView = new Button("Voir");
-            private final Button btnEdit = new Button("Modifier");
-            private final Button btnDelete = new Button("Supprimer");
-            private final HBox pane = new HBox(5);
-
-            {
-                btnView.getStyleClass().add("btn-view");
-                btnEdit.getStyleClass().add("btn-edit");
-                btnDelete.getStyleClass().add("btn-delete");
-
-                btnView.setOnAction(event -> {
-                    Formation formation = getTableView().getItems().get(getIndex());
-                    openFormationDetails(formation);
-                });
-
-                btnEdit.setOnAction(event -> {
-                    Formation formation = getTableView().getItems().get(getIndex());
-                    openModifierFormation(formation);
-                });
-
-                btnDelete.setOnAction(event -> {
-                    Formation formation = getTableView().getItems().get(getIndex());
-                    deleteFormation(formation);
-                });
-
-                pane.getChildren().addAll(btnView, btnEdit, btnDelete);
-                pane.setAlignment(Pos.CENTER_LEFT);
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : pane);
-            }
-        });
-
-        // Ajout de la colonne Action
         addButtonToTable();
+
+        // Position the notification box properly under the notification icon
+        if (notificationBox != null) {
+            AnchorPane.setTopAnchor(notificationBox, 80.0);
+            AnchorPane.setRightAnchor(notificationBox, 25.0);
+            notificationBox.setVisible(false);
+            notificationBox.setManaged(false);
+
+            // Make sure the notification box is on top layer
+            notificationBox.setViewOrder(-1);
+
+            // Position relative to notification button at runtime
+            notificationBtn.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+                double buttonX = notificationBtn.localToScene(0, 0).getX();
+                double notificationBoxWidth = notificationBox.getPrefWidth();
+                AnchorPane.setRightAnchor(notificationBox, 25.0);
+            });
+        }
 
         // Configurer le bouton de déconnexion
         logoutBtn.setOnAction(event -> handleLogout());
 
-        // Charger les formations
+        // Configurer le bouton de notification
+        notificationBtn.setOnAction(event -> toggleNotificationBox());
+
+        // Charger les formations et le compte des notifications
         loadFormations();
+        updateNotificationCount();
     }
 
     private void handleLogout() {
@@ -141,9 +145,124 @@ public class ListeFormationsController {
         }
     }
 
+    private void updateNotificationCount() {
+        try {
+            List<Reclamation> reclamations = reclamationService.recuperer();
+            long count = reclamations.stream()
+                    .filter(r -> r.getStatut().equals("en attente"))
+                    .count();
+
+            // Update the notification count label
+            notificationCount.setText(String.valueOf(count));
+
+            // Update the badge visibility
+            if (count > 0) {
+                notificationCount.setVisible(true);
+                notificationCount.getStyleClass().add("notification-badge");
+            } else {
+                notificationCount.setVisible(false);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du comptage des réclamations.");
+        }
+    }
+
+    private void toggleNotificationBox() {
+        if (notificationBox.isVisible()) {
+            notificationBox.setVisible(false);
+            notificationBox.setManaged(false);
+            notificationBoxVisible = false;
+        } else {
+            loadNewReclamations();
+            notificationBox.setVisible(true);
+            notificationBox.setManaged(true);
+            notificationBoxVisible = true;
+
+            // Make sure it appears on top
+            notificationBox.toFront();
+        }
+    }
+
+    private void loadNewReclamations() {
+        try {
+            reclamationList.getChildren().clear();
+
+            // Add a header to the notification box
+            Label headerLabel = new Label("Notifications");
+            headerLabel.getStyleClass().add("notification-header");
+            reclamationList.getChildren().add(headerLabel);
+
+            List<Reclamation> reclamations = reclamationService.recuperer();
+            List<Reclamation> newReclamations = reclamations.stream()
+                    .filter(r -> r.getStatut().equals("en attente"))
+                    .toList();
+
+            if (newReclamations.isEmpty()) {
+                Label noReclamations = new Label("Aucune nouvelle réclamation.");
+                noReclamations.getStyleClass().add("no-notifications");
+                reclamationList.getChildren().add(noReclamations);
+            } else {
+                for (Reclamation reclamation : newReclamations) {
+                    // Create container for each notification
+                    VBox notificationItem = new VBox(5);
+                    notificationItem.getStyleClass().add("notification-item");
+
+                    // Create subject label
+                    Label subjectLabel = new Label(reclamation.getSujet());
+                    subjectLabel.getStyleClass().add("notification-text");
+
+                    // Create date label
+                    Label dateLabel = new Label("Envoyé le: " +
+                            reclamation.getDateEnvoi().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                    dateLabel.getStyleClass().add("notification-date");
+
+                    // Add click handler to open reclamation details
+                    notificationItem.setOnMouseClicked(event -> openReclamationDetails(reclamation));
+
+                    // Add to notification item
+                    notificationItem.getChildren().addAll(subjectLabel, dateLabel);
+                    reclamationList.getChildren().add(notificationItem);
+                }
+            }
+
+            // Add "View All" link at the bottom
+            Label viewAllLabel = new Label("Voir toutes les réclamations");
+            viewAllLabel.getStyleClass().add("notification-view-all");
+            viewAllLabel.setOnMouseClicked(event -> {
+                ouvrirListeReclamations();
+                toggleNotificationBox(); // Close notification box
+            });
+            reclamationList.getChildren().add(viewAllLabel);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des réclamations.");
+        }
+    }
+
+    private void openReclamationDetails(Reclamation reclamation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReclamationDetailsAdmin.fxml"));
+            Parent root = loader.load();
+
+            // Set the reclamation to the controller if needed
+            // ReclamationDetailsAdminController controller = loader.getController();
+            // controller.setReclamation(reclamation);
+
+            Stage stage = (Stage) tableFormation.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir les détails de la réclamation.");
+        }
+    }
+
     @FXML
     private void refreshFormations() {
         loadFormations();
+        updateNotificationCount();
     }
 
     @FXML
@@ -200,6 +319,7 @@ public class ListeFormationsController {
             Stage stage = (Stage) tableFormation.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+            updateNotificationCount(); // Refresh notification count after viewing reclamations
         } catch (IOException ex) {
             ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la gestion des réclamations");

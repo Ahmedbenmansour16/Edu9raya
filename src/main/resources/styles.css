@@ -503,3 +503,98 @@
     -fx-background-color: #bdc3c7;
     -fx-transition: all 0.3s ease;
 }
+
+
+
+/* Notification Button and Badge Styles */
+.notification-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.notification-btn:hover {
+    -fx-background-color: rgba(220, 220, 220, 0.3);
+}
+
+.notification-icon {
+    -fx-font-size: 18px;
+}
+
+.notification-badge {
+    -fx-background-color: #ff0000;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-padding: 2px 6px;
+    -fx-alignment: center;
+}
+
+/* Notification Dropdown Styles */
+.notification-dropdown {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-max-width: 300px;
+    -fx-min-width: 250px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: auto;
+    -fx-max-height: 400px;
+}
+
+.notification-text {
+    -fx-padding: 8px;
+    -fx-background-color: #f9f9f9;
+    -fx-background-radius: 4px;
+    -fx-border-color: #eaeaea;
+    -fx-border-radius: 4px;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+    -fx-max-width: 280px;
+    -fx-cursor: hand;
+}
+
+.notification-text:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.notification-header {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 5px 0;
+    -fx-border-color: transparent transparent #eaeaea transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.no-notifications {
+    -fx-text-fill: #888;
+    -fx-font-style: italic;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+.notification-item {
+    -fx-spacing: 5px;
+    -fx-padding: 5px;
+}
+
+.notification-date {
+    -fx-font-size: 10px;
+    -fx-text-fill: #888;
+}
+
+.notification-view-all {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3366cc;
+    -fx-cursor: hand;
+    -fx-padding: 5px 0;
+    -fx-border-color: transparent transparent #eaeaea transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-alignment: center;
+}
