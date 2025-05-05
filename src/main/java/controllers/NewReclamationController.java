@@ -15,6 +15,7 @@ import services.ReclamationService;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class NewReclamationController {
     @FXML
@@ -85,7 +86,8 @@ public class NewReclamationController {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs.");
             return;
         }
-        Reclamation reclamation = new Reclamation(sujet, justification, imagePath);
+        // Set dateEnvoi to current time and statut to "en attente"
+        Reclamation reclamation = new Reclamation(sujet, justification, imagePath, LocalDateTime.now(), "en attente");
         try {
             reclamationService.ajouter(reclamation);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Réclamation envoyée avec succès.");

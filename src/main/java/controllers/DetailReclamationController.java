@@ -25,6 +25,10 @@ public class DetailReclamationController {
     @FXML
     private ImageView imageView;
     @FXML
+    private Label adminResponseLabel;
+    @FXML
+    private TextArea adminResponseArea;
+    @FXML
     private Button backBtn;
     @FXML
     private Button homeBtn;
@@ -66,6 +70,11 @@ public class DetailReclamationController {
             if (reclamation.getImagePath() != null && !reclamation.getImagePath().isEmpty()) {
                 imageView.setImage(new Image("file:" + reclamation.getImagePath()));
             }
+            if (reclamation.getAdminResponse() != null && !reclamation.getAdminResponse().isEmpty()) {
+                adminResponseLabel.setVisible(true);
+                adminResponseArea.setVisible(true);
+                adminResponseArea.setText(reclamation.getAdminResponse());
+            }
         }
     }
 
@@ -90,7 +99,7 @@ public class DetailReclamationController {
 
     private void naviguerVersFormation() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ListeFormationsfront.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ListeFormations.fxml"));
             Stage stage = (Stage) formationBtn.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

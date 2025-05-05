@@ -2,13 +2,17 @@ package controllers;
 
 import entities.Reclamation;
 import entities.User;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import services.ReclamationService;
 import java.io.IOException;
@@ -18,7 +22,15 @@ import java.util.List;
 
 public class ReclamationFrontController {
     @FXML
-    private VBox reclamationsContainer;
+    private TableView<Reclamation> reclamationsTable;
+    @FXML
+    private TableColumn<Reclamation, String> colSujet;
+    @FXML
+    private TableColumn<Reclamation, String> colDate;
+    @FXML
+    private TableColumn<Reclamation, String> colStatut;
+    @FXML
+    private TableColumn<Reclamation, Void> colActions;
     @FXML
     private Button newReclamationBtn;
     @FXML
@@ -40,6 +52,7 @@ public class ReclamationFrontController {
 
     private ReclamationService reclamationService = new ReclamationService();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private ObservableList<Reclamation> reclamationList = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
@@ -52,6 +65,7 @@ public class ReclamationFrontController {
         }
 
         setupNavigation();
+        setupTableColumns();
         chargerReclamations();
         closeSuccessBtn.setOnAction(e -> successMessage.setVisible(false));
     }
@@ -62,6 +76,50 @@ public class ReclamationFrontController {
         profileBtn.setOnAction(event -> naviguerVersProfile());
         logoutBtn.setOnAction(event -> handleLogout());
         newReclamationBtn.setOnAction(event -> naviguerVersNewReclamation());
+    }
+
+    private void setupTableColumns() {
+        colSujet.setCellValueFactory(new PropertyValueFactory<>("sujet"));
+        colDate.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(
+                cellData.getValue().getDateEnvoi().format(formatter)
+        ));
+        colStatut.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        colStatut.setCellFactory(column -> new TableCell<Reclamation, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("en attente")) {
+                        setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                    } else if (item.equals("Traité")) {
+                        setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
+
+        colActions.setCellFactory(param -> new TableCell<>() {
+            private final Button viewBtn = new Button("Voir");
+
+            {
+                viewBtn.getStyleClass().add("voir-formation-btn");
+                viewBtn.setOnAction(e -> {
+                    Reclamation reclamation = getTableView().getItems().get(getIndex());
+                    ouvrirDetailReclamation(reclamation);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : viewBtn);
+                setAlignment(Pos.CENTER);
+            }
+        });
     }
 
     private void naviguerVersHome() {
@@ -114,21 +172,9 @@ public class ReclamationFrontController {
 
     private void chargerReclamations() {
         try {
-            reclamationsContainer.getChildren().clear();
             List<Reclamation> reclamations = reclamationService.recuperer();
-            for (Reclamation reclamation : reclamations) {
-                HBox row = new HBox(10);
-                row.getStyleClass().add("reclamation-row");
-                Label sujetLabel = new Label(reclamation.getSujet());
-                Label dateLabel = new Label(reclamation.getDateEnvoi().format(formatter));
-                Label statutLabel = new Label(reclamation.getStatut());
-                statutLabel.getStyleClass().add("status-label");
-                Button viewBtn = new Button("Voir");
-                viewBtn.getStyleClass().add("voir-formation-btn");
-                viewBtn.setOnAction(e -> ouvrirDetailReclamation(reclamation));
-                row.getChildren().addAll(sujetLabel, dateLabel, statutLabel, viewBtn);
-                reclamationsContainer.getChildren().add(row);
-            }
+            reclamationList.setAll(reclamations);
+            reclamationsTable.setItems(reclamationList);
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des réclamations.");
@@ -141,7 +187,7 @@ public class ReclamationFrontController {
             Parent root = loader.load();
             DetailReclamationController controller = loader.getController();
             controller.setReclamation(reclamation);
-            Stage stage = (Stage) reclamationsContainer.getScene().getWindow();
+            Stage stage = (Stage) reclamationsTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -158,7 +204,7 @@ public class ReclamationFrontController {
     private void redirectToLogin() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-            Stage stage = (Stage) reclamationsContainer.getScene().getWindow();
+            Stage stage = (Stage) reclamationsTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

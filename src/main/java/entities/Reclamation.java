@@ -9,22 +9,13 @@ public class Reclamation {
     private String imagePath;
     private LocalDateTime dateEnvoi;
     private String statut;
+    private String adminResponse; // New field for admin's response
 
+    // Constructors
     public Reclamation() {
-        this.dateEnvoi = LocalDateTime.now();
-        this.statut = "En attente";
     }
 
-    public Reclamation(String sujet, String justification, String imagePath) {
-        this.sujet = sujet;
-        this.justification = justification;
-        this.imagePath = imagePath;
-        this.dateEnvoi = LocalDateTime.now();
-        this.statut = "En attente";
-    }
-
-    public Reclamation(int id, String sujet, String justification, String imagePath, LocalDateTime dateEnvoi, String statut) {
-        this.id = id;
+    public Reclamation(String sujet, String justification, String imagePath, LocalDateTime dateEnvoi, String statut) {
         this.sujet = sujet;
         this.justification = justification;
         this.imagePath = imagePath;
@@ -32,6 +23,7 @@ public class Reclamation {
         this.statut = statut;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -80,6 +72,14 @@ public class Reclamation {
         this.statut = statut;
     }
 
+    public String getAdminResponse() {
+        return adminResponse;
+    }
+
+    public void setAdminResponse(String adminResponse) {
+        this.adminResponse = adminResponse;
+    }
+
     @Override
     public String toString() {
         return "Reclamation{" +
@@ -89,6 +89,7 @@ public class Reclamation {
                 ", imagePath='" + imagePath + '\'' +
                 ", dateEnvoi=" + dateEnvoi +
                 ", statut='" + statut + '\'' +
+                ", adminResponse='" + adminResponse + '\'' +
                 '}';
     }
 }

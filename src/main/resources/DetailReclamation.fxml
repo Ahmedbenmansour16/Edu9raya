@@ -84,6 +84,8 @@
                         <Label fx:id="statutLabel" styleClass="detail-label" />
                         <TextArea fx:id="justificationArea" editable="false" prefHeight="200.0" />
                         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />
+                        <Label fx:id="adminResponseLabel" styleClass="detail-label" text="Réponse de l'admin:" visible="false" />
+                        <TextArea fx:id="adminResponseArea" editable="false" prefHeight="200.0" visible="false" />
                         <HBox spacing="10.0">
                             <Button fx:id="backBtn" mnemonicParsing="false" styleClass="logout-btn" text="Retour" />
                         </HBox>

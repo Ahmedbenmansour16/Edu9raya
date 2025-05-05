@@ -78,19 +78,16 @@ public class ListeFormationsController {
                 btnDelete.getStyleClass().add("btn-delete");
 
                 btnView.setOnAction(event -> {
-                    // Handle view action
                     Formation formation = getTableView().getItems().get(getIndex());
                     openFormationDetails(formation);
                 });
 
                 btnEdit.setOnAction(event -> {
-                    // Handle edit action
                     Formation formation = getTableView().getItems().get(getIndex());
                     openModifierFormation(formation);
                 });
 
                 btnDelete.setOnAction(event -> {
-                    // Handle delete action
                     Formation formation = getTableView().getItems().get(getIndex());
                     deleteFormation(formation);
                 });
@@ -117,7 +114,6 @@ public class ListeFormationsController {
     }
 
     private void handleLogout() {
-        // Déconnexion de l'utilisateur
         SessionController.getInstance().logout();
         redirectToLogin();
     }
@@ -147,26 +143,18 @@ public class ListeFormationsController {
 
     @FXML
     private void refreshFormations() {
-        // Simplement recharger les données
         loadFormations();
     }
 
     @FXML
     private void searchFormation(ActionEvent event) {
-        // Récupérer le texte saisi en minuscule et enlever les espaces
         String keyword = searchField.getText().toLowerCase().trim();
-
-        // Si aucun mot-clé n'est entré, afficher la liste complète
         if (keyword.isEmpty()) {
             tableFormation.setItems(formationList);
             return;
         }
-
-        // Créer une nouvelle liste filtrée
         ObservableList<Formation> filteredList = FXCollections.observableArrayList();
-
         for (Formation formation : formationList) {
-            // On teste si le nom, la description ou la catégorie contient le mot-clé (en minuscule)
             if (formation.getNom().toLowerCase().contains(keyword)
                     || formation.getDescription().toLowerCase().contains(keyword)
                     || formation.getCategorie().getNom().toLowerCase().contains(keyword)) {
@@ -205,12 +193,24 @@ public class ListeFormationsController {
     }
 
     @FXML
+    private void ouvrirListeReclamations() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeReclamationsAdmin.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) tableFormation.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la gestion des réclamations");
+        }
+    }
+
+    @FXML
     private void ajouterFormation() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
             Parent root = loader.load();
-
-            // Récupérer la fenêtre actuelle
             Stage stage = (Stage) tableFormation.getScene().getWindow();
             stage.setTitle("Ajouter Formation");
             stage.setScene(new Scene(root));
@@ -229,7 +229,6 @@ public class ListeFormationsController {
             private final HBox pane = new HBox(5, btnVoir, btnModifier, btnSupprimer);
 
             {
-                // Fixer la largeur de chaque bouton
                 btnVoir.setPrefWidth(60);
                 btnModifier.setPrefWidth(60);
                 btnSupprimer.setPrefWidth(60);
@@ -264,8 +263,6 @@ public class ListeFormationsController {
             Parent root = loader.load();
             VoirFormationController controller = loader.getController();
             controller.setFormation(formation);
-
-            // Récupérer la fenêtre actuelle
             Stage stage = (Stage) tableFormation.getScene().getWindow();
             stage.setTitle("Détails Formation");
             stage.setScene(new Scene(root));
@@ -282,8 +279,6 @@ public class ListeFormationsController {
             Parent root = loader.load();
             ModifierFormationController controller = loader.getController();
             controller.setFormation(formation);
-
-            // Récupérer la fenêtre actuelle
             Stage stage = (Stage) tableFormation.getScene().getWindow();
             stage.setTitle("Modifier Formation");
             stage.setScene(new Scene(root));
@@ -299,19 +294,11 @@ public class ListeFormationsController {
         confirm.setTitle("Confirmation");
         if (confirm.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
             try {
-                // Supprimer d'abord les contenus associés aux niveaux de cette formation
                 supprimerContenusAssocies(formation.getId());
-
-                // Ensuite supprimer les niveaux associés à cette formation
                 supprimerNiveauxAssocies(formation.getId());
-
-                // Finalement supprimer la formation
                 formationService.supprimer(formation);
-
-                // Mettre à jour l'interface
                 formationList.remove(formation);
                 tableFormation.refresh();
-
                 showAlert(Alert.AlertType.INFORMATION, "Succès", "Formation supprimée avec succès.");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -320,10 +307,8 @@ public class ListeFormationsController {
         }
     }
 
-    // Méthode pour supprimer les contenus associés aux niveaux
     private void supprimerContenusAssocies(int formationId) throws SQLException {
         Connection cnx = MyDatabase.getInstance().getCnx();
-        // Cette requête supprime tous les contenus associés aux niveaux de cette formation
         String sql = "DELETE FROM contenu WHERE niveau_id IN (SELECT id FROM niveau WHERE formation_id = ?)";
         try (PreparedStatement ps = cnx.prepareStatement(sql)) {
             ps.setInt(1, formationId);
@@ -332,7 +317,6 @@ public class ListeFormationsController {
         }
     }
 
-    // Méthode pour supprimer les niveaux associés
     private void supprimerNiveauxAssocies(int formationId) throws SQLException {
         Connection cnx = MyDatabase.getInstance().getCnx();
         String sql = "DELETE FROM niveau WHERE formation_id = ?";

@@ -451,3 +451,55 @@
 .btn-primary .button-icon, .btn-next .button-icon {
     -fx-text-fill: white;
 }
+/* New styles for reclamation management */
+.btn-reply {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.btn-reply:hover {
+    -fx-background-color: #2980b9;
+    -fx-transition: all 0.3s ease;
+}
+
+.btn-view {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.btn-view:hover {
+    -fx-background-color: #27ae60;
+    -fx-transition: all 0.3s ease;
+}
+
+.btn-save {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 20px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.btn-save:hover {
+    -fx-background-color: #2980b9;
+    -fx-transition: all 0.3s ease;
+}
+
+.btn-back {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #34495e;
+    -fx-padding: 8px 20px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.btn-back:hover {
+    -fx-background-color: #bdc3c7;
+    -fx-transition: all 0.3s ease;
+}
