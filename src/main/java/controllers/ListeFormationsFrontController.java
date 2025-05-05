@@ -60,6 +60,12 @@ public class ListeFormationsFrontController {
     private VBox categoriesContainer;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
+    private ComboBox<String> categoryFilter;
+
+    @FXML
     private Button homeBtn;
 
     @FXML
@@ -90,21 +96,31 @@ public class ListeFormationsFrontController {
         if (currentUser != null) {
             userNameLabel.setText(currentUser.getPrenom() + " " + currentUser.getNom());
         } else {
-            // Rediriger vers la page de connexion si aucun utilisateur n'est connecté
             redirectToLogin();
             return;
         }
+
+        // Charger les catégories dans le ComboBox
+        try {
+            List<Categorie> categories = categorieService.recuperer();
+            categoryFilter.setItems(FXCollections.observableArrayList(categories.stream().map(Categorie::getNom).collect(Collectors.toList())));
+            categoryFilter.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> chargerFormations());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des catégories.");
+        }
+
+        // Ajouter un listener pour la recherche
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> chargerFormations());
 
         chargerFormations();
         setupNavigation();
 
         // Configurer le bouton de déconnexion
         logoutBtn.setOnAction(event -> handleLogout());
-
     }
 
     private void handleLogout() {
-        // Déconnexion de l'utilisateur
         SessionController.getInstance().logout();
         redirectToLogin();
     }
@@ -166,8 +182,17 @@ public class ListeFormationsFrontController {
     private void chargerFormations() {
         try {
             List<Formation> formations = formationService.recuperer();
+            String searchText = searchField.getText().toLowerCase().trim();
+            String selectedCategory = categoryFilter.getValue();
+
+            // Filtrer par recherche et catégorie
+            List<Formation> filteredFormations = formations.stream()
+                    .filter(f -> (searchText.isEmpty() || f.getNom().toLowerCase().contains(searchText) || f.getDescription().toLowerCase().contains(searchText)))
+                    .filter(f -> (selectedCategory == null || selectedCategory.isEmpty() || f.getCategorie().getNom().equals(selectedCategory)))
+                    .collect(Collectors.toList());
+
             // Grouper les formations par catégorie
-            Map<String, List<Formation>> formationsParNomCategorie = formations.stream()
+            Map<String, List<Formation>> formationsParNomCategorie = filteredFormations.stream()
                     .collect(Collectors.groupingBy(f -> f.getCategorie().getNom()));
 
             // Vider le conteneur pour éviter les doublons

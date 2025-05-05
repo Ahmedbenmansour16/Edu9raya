@@ -917,3 +917,40 @@ ImageView {
     -fx-alignment: center-left;
     -fx-padding: 10px;
 }
+/* Search and Filter Styles */
+.search-filter-container {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.search-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 300px;
+}
+
+.search-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+.filter-combo {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 200px;
+}
+
+.filter-combo:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
