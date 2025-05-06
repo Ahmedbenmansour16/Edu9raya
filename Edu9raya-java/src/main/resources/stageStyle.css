@@ -1,0 +1,43 @@
+.root {
+    -fx-background-color: #3f3f3f; /* dark background */
+}
+
+.label {
+    -fx-text-fill: #1e3d24;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.label.header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c5f2d;
+}
+
+.button {
+    -fx-padding: 6 20 6 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+}
+
+.green-button {
+    -fx-background-color: #2d6a4f;
+}
+
+.red-button {
+    -fx-background-color: #b02a2a;
+}
+
+.blue_button {
+    -fx-background-color: blue;
+}
+
+.vbox {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+}
