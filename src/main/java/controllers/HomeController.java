@@ -1,6 +1,6 @@
 package controllers;
 
-import entities.ClassementEtudiant;
+import  entities.ClassementEtudiant;
 import entities.StatistiqueTest;
 import entities.User;
 import javafx.fxml.FXML;
@@ -217,9 +217,9 @@ public class HomeController {
                 @Override
                 public String toString(StatistiqueTest stat) {
                     if (stat == null) {
-                        return null;
+                        return "";
                     }
-                    return stat.getTestNom() + " (ID: " + stat.getTestId() + ")";
+                    return stat.getFormationNom(); // Display the formation name only
                 }
 
                 @Override
@@ -281,22 +281,20 @@ public class HomeController {
 
             data.getNode().setStyle("-fx-bar-fill: " + color + ";");
 
-            // Afficher la valeur au-dessus de la barre -
-            // Utilisez le StackPane (nœud de donnée) pour ajouter le label
+            // Afficher la valeur au-dessus de la barre
             Label scoreLabel = new Label(df.format(data.getYValue()));
             scoreLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: black;");
 
-            // Positionnez le label au-dessus de la barre
             StackPane.setAlignment(scoreLabel, Pos.TOP_CENTER);
             StackPane.setMargin(scoreLabel, new Insets(-25, 0, 0, 0));
 
-            // Ajoutez le label au nœud de la barre (c'est généralement un StackPane)
             Node node = data.getNode();
             if (node instanceof StackPane) {
                 ((StackPane) node).getChildren().add(scoreLabel);
             }
         }
     }
+
     private void afficherTopEtudiants(List<ClassementEtudiant> topPerformers) {
         topStudentsContainer.getChildren().clear();
 
@@ -309,15 +307,11 @@ public class HomeController {
             return;
         }
 
-        // Créer un HBox pour contenir les podiums
         HBox podiumContainer = new HBox(50);
         podiumContainer.setAlignment(Pos.CENTER);
         podiumContainer.setPadding(new Insets(10));
 
-        // Calculer la taille du podium en fonction du nombre d'étudiants
         int size = Math.min(topPerformers.size(), 3);
-
-        // Définir l'ordre d'affichage : 2ème (gauche), 1er (milieu), 3ème (droite)
         int[] order = {1, 0, 2};
 
         for (int i = 0; i < size; i++) {
@@ -326,27 +320,22 @@ public class HomeController {
 
             ClassementEtudiant etudiant = topPerformers.get(position);
 
-            // Créer un VBox pour chaque étudiant
             VBox studentBox = new VBox(10);
             studentBox.setAlignment(Pos.TOP_CENTER);
             studentBox.setMinWidth(120);
             studentBox.setMaxWidth(120);
 
-            // Icône du trophée
             ImageView trophyIcon = new ImageView(new Image("file:src/main/resources/images/trophy.jpg"));
             trophyIcon.setFitHeight(24);
             trophyIcon.setFitWidth(24);
             trophyIcon.setPreserveRatio(true);
 
-            // Photo de profil dans un cadre coloré
             StackPane photoContainer = new StackPane();
 
-            // Cadre coloré
             Rectangle frame = new Rectangle(100, 100);
             String borderColor;
             String rankText;
 
-            // Appliquer des couleurs et textes spécifiques selon le rang
             if (position == 0) {
                 borderColor = "#FFD700"; // Or
                 rankText = "#1";
@@ -364,7 +353,6 @@ public class HomeController {
             frame.setArcHeight(10);
             frame.setArcWidth(10);
 
-            // Photo de profil
             ImageView profilePic = new ImageView(new Image("file:src/main/resources/images/profile.jpg"));
             profilePic.setFitHeight(90);
             profilePic.setFitWidth(90);
@@ -372,18 +360,15 @@ public class HomeController {
 
             photoContainer.getChildren().addAll(frame, profilePic);
 
-            // Nom de l'étudiant
             Label nameLabel = new Label(etudiant.getEtudiant().getPrenom() + " " + etudiant.getEtudiant().getNom());
             nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-alignment: center; -fx-wrap-text: true;");
             nameLabel.setWrapText(true);
             nameLabel.setTextAlignment(TextAlignment.CENTER);
             nameLabel.setMaxWidth(110);
 
-            // Score
             Label scoreLabel = new Label(df.format(etudiant.getScore()) + " pts");
             scoreLabel.setStyle("-fx-font-size: 14px;");
 
-            // Badge de rang
             Label rankLabel = new Label(rankText);
             rankLabel.setStyle("-fx-background-color: " + borderColor + "; -fx-text-fill: white; -fx-font-weight: bold; " +
                     "-fx-padding: 3 10; -fx-background-radius: 12;");
@@ -425,19 +410,16 @@ public class HomeController {
             return;
         }
 
-        // Ajouter chaque étudiant dans le classement
         for (ClassementEtudiant etudiant : classement) {
             HBox item = new HBox(10);
             item.setAlignment(Pos.CENTER_LEFT);
             item.setPadding(new Insets(10));
             item.getStyleClass().add("classement-item");
 
-            // Rang
             Label rankLabel = new Label("#" + etudiant.getRank());
             rankLabel.setMinWidth(40);
             rankLabel.getStyleClass().add("rank-label");
 
-            // Appliquer un style spécial aux 3 premiers
             if (etudiant.getRank() == 1) {
                 rankLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: gold;");
             } else if (etudiant.getRank() == 2) {
@@ -446,24 +428,20 @@ public class HomeController {
                 rankLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #CD7F32;"); // Bronze
             }
 
-            // Image de profil
             ImageView profileImg = new ImageView(new Image("file:src/main/resources/images/profile.jpg"));
             profileImg.setFitHeight(30);
             profileImg.setFitWidth(30);
             profileImg.setPreserveRatio(true);
 
-            // Nom de l'étudiant
             Label nameLabel = new Label(etudiant.getEtudiant().getPrenom() + " " + etudiant.getEtudiant().getNom());
             HBox.setHgrow(nameLabel, Priority.ALWAYS);
             nameLabel.setStyle("-fx-font-weight: bold;");
 
-            // Score
             Label scoreLabel = new Label(df.format(etudiant.getScore()) + " pts");
             scoreLabel.setStyle("-fx-font-weight: bold;");
 
             item.getChildren().addAll(rankLabel, profileImg, nameLabel, scoreLabel);
 
-            // Ajouter un effet hover
             item.setOnMouseEntered(e -> item.setStyle("-fx-background-color: #f0f0f0;"));
             item.setOnMouseExited(e -> item.setStyle("-fx-background-color: transparent;"));
 

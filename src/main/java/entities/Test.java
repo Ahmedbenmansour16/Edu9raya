@@ -3,7 +3,6 @@ package entities;
 public class Test {
     private int id;
     private int formationId;
-    private String nom; // Ajout de l'attribut nom
 
     public Test() {
     }
@@ -20,7 +19,6 @@ public class Test {
     public Test(int id, int formationId, String nom) {
         this.id = id;
         this.formationId = formationId;
-        this.nom = nom;
     }
 
     public int getId() {
@@ -35,11 +33,5 @@ public class Test {
         this.formationId = formationId;
     }
 
-    public String getNom() {
-        return nom;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 }

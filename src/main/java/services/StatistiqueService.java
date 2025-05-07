@@ -48,6 +48,31 @@ public class StatistiqueService {
             }
         }
 
+        // Récupérer le formationId à partir de la table Test
+        String sqlFormationId = "SELECT formation_id FROM test WHERE id = ?";
+        int formationId = -1;
+        try (PreparedStatement ps = cnx.prepareStatement(sqlFormationId)) {
+            ps.setInt(1, testId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    formationId = rs.getInt("formation_id");
+                }
+            }
+        }
+
+        // Récupérer le nom de la formation à partir de la table Formation
+        if (formationId != -1) {
+            String sqlFormationNom = "SELECT nom FROM formation WHERE id = ?";
+            try (PreparedStatement ps = cnx.prepareStatement(sqlFormationNom)) {
+                ps.setInt(1, formationId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        stats.setFormationNom(rs.getString("nom"));
+                    }
+                }
+            }
+        }
+
         // Récupérer le meilleur étudiant
         String sqlMeilleur = "SELECT user_id FROM certificat WHERE test_id = ? AND score = ? LIMIT 1";
         try (PreparedStatement ps = cnx.prepareStatement(sqlMeilleur)) {

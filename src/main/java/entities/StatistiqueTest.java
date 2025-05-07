@@ -3,6 +3,7 @@ package entities;
 public class StatistiqueTest {
     private int testId;
     private String testNom;
+    private String formationNom; // Add this field to store the formation name
     private double scoreMaximum;
     private double scoreMoyen;
     private int nombreParticipants;
@@ -19,7 +20,16 @@ public class StatistiqueTest {
         this.nombreParticipants = nombreParticipants;
     }
 
-    // Getters et Setters
+    // Add getter and setter for formationNom
+    public String getFormationNom() {
+        return formationNom;
+    }
+
+    public void setFormationNom(String formationNom) {
+        this.formationNom = formationNom;
+    }
+
+    // Existing getters and setters
     public int getTestId() {
         return testId;
     }
