@@ -1,0 +1,152 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}{{ formation.nom }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .formation-container {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .formation-header {
+        background: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 2rem;
+    }
+
+    .formation-image {
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .formation-image:hover {
+        transform: scale(1.02);
+    }
+
+    .badge-custom {
+        background: #6c757d;
+        color: white;
+        padding: 0.5em 1em;
+        border-radius: 20px;
+        font-size: 0.9em;
+    }
+
+    .levels-grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .level-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .level-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .level-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: #4e73df;
+        transition: width 0.3s ease;
+    }
+
+    .level-card:hover::before {
+        width: 8px;
+    }
+
+    .test-section {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .btn-test {
+        background: #4e73df;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-test:hover {
+        padding-right: 3rem;
+        background: #375ab9;
+    }
+
+    .btn-test:hover::after {
+        content: '→';
+        position: absolute;
+        right: 1.5rem;
+        transition: all 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="formation-container">
+        <div class="formation-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold mb-3">{{ formation.nom }}</h1>
+                    <div class="d-flex gap-2 mb-3">
+                        <span class="badge-custom">{{ formation.categorie.nom }}</span>
+                        <span class="badge-custom">Créé le {{ formation.dateCreation|date('d/m/Y') }}</span>
+                    </div>
+                    <p class="lead text-muted">{{ formation.description }}</p>
+                </div>
+                {% if formation.image %}
+                <div class="col-md-4">
+                    <img src="{{ asset('uploads/' ~ formation.image) }}" 
+                         alt="{{ formation.nom }}" 
+                         class="formation-image img-fluid">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="p-4">
+            <h2 class="h4 fw-bold mb-4">Niveaux de formation</h2>
+            <div class="levels-grid">
+                {% for niveau in formation.niveaux %}
+                <a href="{{ path('student_level_show', { id: niveau.id }) }}" 
+                   class="level-card text-decoration-none text-dark">
+                    <h3 class="h5 fw-bold">Niveau {{ niveau.ordre }}</h3>
+                    <p class="text-muted mb-0">Cliquez pour commencer</p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="test-section">
+                <h2 class="h4 fw-bold mb-3">Test final</h2>
+                <p class="text-muted mb-4">Débloquez le test après avoir terminé les 5 niveaux</p>
+                <a href="{{ path('student_test', { formationId: formation.id }) }}" 
+                   class="btn-test">
+                    Passer le test final
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

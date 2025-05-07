@@ -1,0 +1,155 @@
+{# templates/student/certificate_pdf.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Certificat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fa;
+        }
+
+        .certificate-frame {
+            background: #fff;
+            border: 15px solid #2c3e50;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .certificate-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            color: #2c3e50;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .certificate-title::before,
+        .certificate-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 100px;
+            height: 2px;
+            background: #e74c3c;
+        }
+
+        .certificate-title::before {
+            left: -120px;
+        }
+
+        .certificate-title::after {
+            right: -120px;
+        }
+
+        .certificate-content {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .success-badge {
+            background: #27ae60;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .score-display {
+            font-size: 36px;
+            color: #2980b9;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .decoration-emblem {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+        }
+
+        .watermark {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 150px;
+            transform: rotate(-30deg);
+            z-index: 0;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: 'Great Vibes', cursive;
+            color: #2c3e50;
+        }
+
+        p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        h2 {
+            margin: 15px 0;
+            font-size: 24px;
+        }
+
+        .attribution {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-frame">
+        <div class="watermark">Certificat</div>
+        <div class="decoration-emblem">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        
+        <div class="certificate-header">
+            <h1 class="certificate-title">Certificat de Réussite</h1>
+        </div>
+
+        <div class="certificate-content">
+            <div class="success-badge">
+                Félicitations !
+            </div>
+
+            <p class="lead">Formation validée :</p>
+            <h2>{{ formation.nom }}</h2>
+
+            <div class="score-display">
+                Score : {{ score|round(2) }}%
+            </div>
+
+            <div class="attribution">
+                <p>Attribué à : <strong>{{ user.fullName }}</strong></p>
+                <p>Date d'obtention : {{ date|date("d/m/Y") }}</p>
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

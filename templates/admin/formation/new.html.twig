@@ -1,0 +1,14 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer une Formation{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h1 class="mb-4">Créer une Formation</h1>
+  {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success mt-3" type="submit">Enregistrer la Formation</button>
+  {{ form_end(form) }}
+  <a href="{{ path('admin_formation_index') }}" class="btn btn-secondary mt-3">Retour</a>
+</div>
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Certificat{% endblock %}
+
+{% block stylesheets %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
+
+    .certificate-container {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        padding: 3rem;
+    }
+
+    .certificate-frame {
+        background: #fff;
+        border: 15px solid #2c3e50;
+        border-radius: 20px;
+        padding: 4rem;
+        position: relative;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.15);
+        max-width: 800px;
+        margin: 2rem auto;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .certificate-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .certificate-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3.5rem;
+        color: #2c3e50;
+        margin: 1rem 0;
+        position: relative;
+    }
+
+    .certificate-title::before,
+    .certificate-title::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 100px;
+        height: 2px;
+        background: #e74c3c;
+    }
+
+    .certificate-title::before {
+        left: -120px;
+    }
+
+    .certificate-title::after {
+        right: -120px;
+    }
+
+    .certificate-content {
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .success-badge {
+        background: #27ae60;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        display: inline-block;
+        margin: 2rem 0;
+        font-size: 1.2rem;
+        box-shadow: 0 5px 15px rgba(39,174,96,0.3);
+    }
+
+    .score-display {
+        font-size: 2.5rem;
+        color: #2980b9;
+        font-weight: 600;
+        margin: 1rem 0;
+    }
+
+    .decoration-emblem {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: #e74c3c;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 0 20px rgba(231,76,60,0.3);
+    }
+
+    .watermark {
+        position: absolute;
+        opacity: 0.1;
+        font-size: 15rem;
+        transform: rotate(-30deg);
+        pointer-events: none;
+        z-index: 0;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-30deg);
+        font-family: 'Great Vibes', cursive;
+        color: #2c3e50;
+    }
+
+    .btn-return {
+        background: #2c3e50;
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-return:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(44,62,80,0.3);
+        padding-right: 3.5rem;
+    }
+
+    .btn-return:hover::after {
+        content: '→';
+        position: absolute;
+        right: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media print {
+        .certificate-frame {
+            border: none;
+            box-shadow: none;
+            padding: 2rem;
+        }
+        .btn-return {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="certificate-container">
+    <div class="certificate-frame">
+        <div class="watermark">Certificat</div>
+        <div class="decoration-emblem">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        
+        <div class="certificate-header">
+            <h1 class="certificate-title">Certificat de Réussite</h1>
+        </div>
+
+        <div class="certificate-content">
+            <div class="success-badge">
+                Félicitations !
+            </div>
+
+            <p class="lead">Formation validée :</p>
+            <h2 class="h3">{{ formation.nom }}</h2>
+
+            <div class="score-display mt-4">
+                Score : {{ score|round(2) }}%
+            </div>
+
+            <div class="mt-5">
+                <p>Attribué à : <strong>{{ app.user.fullName }}</strong></p>
+                <p>Date d'obtention : {{ "now"|date("d/m/Y") }}</p>
+            </div>  
+        </div>
+    </div>
+
+{# Dans student/certificate.html.twig #}
+<div class="text-center mt-4">
+    <a href="{{ path('student_index') }}" class="btn btn-return">
+        Retour aux formations
+    </a>
+    <a href="{{ path('student_certificate_pdf', {'formationId': formation.id, 'score': score}) }}" class="btn btn-primary">
+        <i class="fas fa-download"></i> Télécharger en PDF
+    </a>
+</div>
+</div>
+{% endblock %}
