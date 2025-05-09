@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="700.0" prefWidth="1400.0" spacing="20.0" style="-fx-background-color: #F5F5F5;"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.controllers.Modules.UpdateModule">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <children>
+        <!-- Form Title -->
+        <Label text="Update Module" style="-fx-font-family: 'Nunito'; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #181D38;"/>
+
+        <!-- Field for Name -->
+        <Label text="Name:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="nomTextField" promptText="Enter the module name"
+                   style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+        <!-- Field for Teacher -->
+        <Label text="Teacher:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="enseignantTextField" promptText="Enter the teacher name"
+                   style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+        <!-- Field for Duration -->
+        <Label text="Duration (hours):" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="dureeTextField" promptText="Enter the duration"
+                   style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+        <!-- Field for Coefficient -->
+        <Label text="Coefficient:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <TextField fx:id="coefficientTextField" promptText="Enter the coefficient"
+                   style="-fx-background-color: #F5F5F5; -fx-border-color: #34C759; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-font-family: 'Nunito';" />
+
+        <!-- Field for Image -->
+        <Label text="Image:" style="-fx-text-fill: #181D38; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="200.0" preserveRatio="true"/>
+        <Button fx:id="choisirImageButton" onAction="#choisirImage" text="Choose Image"
+                style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+
+        <!-- Error Message Label -->
+        <Label fx:id="messageErreur" style="-fx-text-fill: #FF4D4D; -fx-font-family: 'Nunito'; -fx-font-size: 14px; -fx-font-weight: bold;"
+               text="Error message" visible="false" />
+
+        <!-- Buttons -->
+        <Button fx:id="updateButton" onAction="#btnUpdateModule" text="Update"
+                style="-fx-background-color: #34C759; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button onAction="#showModuleList" text="Back"
+                style="-fx-background-color: #181D38; -fx-background-radius: 8; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-family: 'Nunito'; -fx-font-weight: 600;">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </children>
+</VBox>
