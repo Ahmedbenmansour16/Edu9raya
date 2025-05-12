@@ -37,7 +37,7 @@ class Reclamation
     private ?User $user = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $adminReponse = null;
+    private ?string $adminResponse = null;
 
     public function __construct()
     {
@@ -63,6 +63,6 @@ class Reclamation
     public function getUser(): ?User { return $this->user; }
     public function setUser(?User $user): self { $this->user = $user; return $this; }
 
-    public function getAdminReponse(): ?string { return $this->adminReponse; }
-    public function setAdminReponse(?string $adminReponse): self { $this->adminReponse = $adminReponse; return $this; }
+    public function getAdminResponse(): ?string { return $this->adminResponse; }
+    public function setAdminResponse(?string $adminResponse): self { $this->adminResponse = $adminResponse; return $this; }
 }

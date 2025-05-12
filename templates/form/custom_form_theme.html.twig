@@ -1,0 +1,64 @@
+{% use 'form_div_layout.html.twig' %}
+
+{# Customize form row #}
+{% block form_row -%}
+    <div class="form-group">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        {% if form.vars.help is defined and form.vars.help is not empty %}
+            <div class="form-text">{{ form.vars.help }}</div>
+        {% endif %}
+    </div>
+{%- endblock form_row %}
+
+{# Customize form label #}
+{% block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' form-label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label %}
+
+{# Customize form widget #}
+{% block form_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_widget %}
+
+{# Customize textarea widget #}
+{% block textarea_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+{# Customize choice widget #}
+{% block choice_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-select')|trim}) -%}
+    {{- parent() -}}
+{%- endblock choice_widget %}
+
+{# Customize checkbox widget #}
+{% block checkbox_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+    <div class="form-check">
+        {{- parent() -}}
+        {{- form_label(form, null, { label_attr: {class: 'form-check-label'} }) -}}
+    </div>
+{%- endblock checkbox_widget %}
+
+{# Customize radio widget #}
+{% block radio_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+    <div class="form-check">
+        {{- parent() -}}
+        {{- form_label(form, null, { label_attr: {class: 'form-check-label'} }) -}}
+    </div>
+{%- endblock radio_widget %}
+
+{# Customize form errors #}
+{% block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- for error in errors -%}
+            <div class="invalid-feedback d-block">{{ error.message }}</div>
+        {%- endfor -%}
+    {%- endif -%}
+{%- endblock form_errors %}

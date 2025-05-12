@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Feedback{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .card {
+            background: var(--light);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .card-header {
+            margin-bottom: 20px;
+            padding: 0;
+            background: none;
+            border: none;
+        }
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .info-group {
+            margin-bottom: 1.5rem;
+        }
+        .info-group label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .info-group p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        .btn-group {
+            gap: 0.5rem;
+        }
+        .fa-star {
+            font-size: 1.2rem;
+        }
+        .bg-light {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Détails du Feedback</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>ID Feedback</label>
+                                        <p>{{ feedback.id }}</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Note</label>
+                                        <p>
+                                            {% for i in 1..5 %}
+                                                {% if i <= feedback.note %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star text-warning"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            ({{ feedback.note }}/5)
+                                        </p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>ID Participant</label>
+                                        <p>{{ feedback.idParticipant }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Date du Feedback</label>
+                                        <p>{{ feedback.dateFeedback ? feedback.dateFeedback|date('d/m/Y H:i') : '' }}</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Événement</label>
+                                        <p>
+                                            {% if feedback.idEvent %}
+                                                <a href="{{ path('app_evenement_show', {'id': feedback.idEvent.id}) }}">
+                                                    {{ feedback.idEvent.titre }}
+                                                </a>
+                                            {% else %}
+                                                Non spécifié
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group mt-4">
+                                <label>Remarque</label>
+                                <div class="p-3 bg-light rounded">
+                                    {{ feedback.remarque|nl2br }}
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="{{ path('app_feedback_index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                                </a>
+                                {{ include('feedback/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Events - Edu9raya{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section id="hero" class="d-flex justify-content-center align-items-center" style="background: url('{{ asset('assets/img/hero-bg.jpg') }}') top center; background-size: cover; height: 60vh;">
+        <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
+            <h1>Learning Today,<br>Leading Tomorrow</h1>
+            <h2>Discover exciting educational events and workshops</h2>
+            <a href="#events" class="btn-get-started">View Events</a>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="events" style="padding: 60px 0;">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title text-center mb-5">
+                <h2>Events</h2>
+                <p>Upcoming Educational Events</p>
+            </div>
+
+            <div class="row">
+                {% for evenement in evenements %}
+                    <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-4">
+                        <div class="card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                            <img src="{{ asset('assets/img/event-default.jpg') }}" class="card-img-top" alt="{{ evenement.titre }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ evenement.titre }}</h5>
+                                <p class="card-text">{{ evenement.description|slice(0, 100) }}...</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar"></i> {{ evenement.dateDebut ? evenement.dateDebut|date('Y-m-d') : '' }}
+                                    </small>
+                                    <a href="{{ path('app_front_event_show', {'id': evenement.id}) }}" class="btn btn-sm btn-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

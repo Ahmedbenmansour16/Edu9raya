@@ -1,0 +1,10 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Metre a jour Module{% endblock %}
+
+{% block body %}
+
+    {{ include('module/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('module/_delete_form.html.twig') }}
+{% endblock %}

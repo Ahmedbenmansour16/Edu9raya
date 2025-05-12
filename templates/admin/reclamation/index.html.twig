@@ -83,14 +83,15 @@
                                             </div>
                                         {% endif %}
                                         <form action="{{ path('admin_reclamation_repondre', {'id': reclamation.id}) }}" method="post">
+                                            <input type="hidden" name="token" value="{{ csrf_token('repondre_reclamation_' ~ reclamation.id) }}">
                                             <div class="mb-3">
                                                 <label for="reponse{{ reclamation.id }}" class="form-label">Votre réponse :</label>
                                                 <textarea class="form-control" 
                                                           id="reponse{{ reclamation.id }}" 
-                                                          name="reponse" 
+                                                          name="response" 
                                                           rows="5" 
                                                           required
-                                                          placeholder="Saisissez votre réponse ici...">{{ reclamation.adminReponse }}</textarea>
+                                                          placeholder="Saisissez votre réponse ici...">{{ reclamation.adminResponse|default('') }}</textarea>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

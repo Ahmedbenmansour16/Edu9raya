@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    {% for field in form %}
+        <div class="mb-3">
+            {{ form_label(field) }}
+            {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+            {% if field.vars.errors|length > 0 %}
+                <div class="text-danger">
+                    {{ form_errors(field) }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+    <a class="btn btn-success" href="{{ path('app_cour_index') }}">Retour a la liste</a>
+
+{{ form_end(form) }}

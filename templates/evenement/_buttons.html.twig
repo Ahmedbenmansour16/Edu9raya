@@ -1,0 +1,15 @@
+<div class="button-group" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-start;">
+    {% if edit_mode is defined and edit_mode %}
+        <button type="submit" class="btn btn-primary" form="{{ form.vars.id }}">Mettre à jour</button>
+    {% endif %}
+    <a href="{{ path('app_evenement_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    {% if evenement is defined and edit_mode is defined and edit_mode %}
+        <form method="post" action="{{ path('app_evenement_delete', {'id': evenement.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ evenement.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+        </form>
+    {% endif %}
+    {% if evenement is defined and (edit_mode is not defined or not edit_mode) %}
+        <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" class="btn btn-primary">Modifier</a>
+    {% endif %}
+</div>

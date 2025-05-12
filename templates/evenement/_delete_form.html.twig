@@ -1,0 +1,5 @@
+{{ form_start(form, {'attr': {'class': 'form-container', 'onsubmit': 'return confirm("Are you sure you want to delete this item?");'}}) }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+{{ form_end(form) }}

@@ -5,6 +5,7 @@ namespace App\Controller\Student;
 use DateTime;
 use App\Entity\Niveau;
 use App\Entity\Formation;
+use App\Entity\UserAnswer;
 use App\Service\CertificateGenerator;
 use App\Service\YouTubeService;
 use App\Repository\FormationRepository;
@@ -42,6 +43,7 @@ class StudentController extends AbstractController
             'formation' => $formation,
         ]);
     }
+
     #[Route('/level/{id}', name: 'student_level_show', methods: ['GET'])]
     public function levelShow(Niveau $niveau, YouTubeService $youtubeService = null): Response
     {
@@ -49,6 +51,7 @@ class StudentController extends AbstractController
             foreach ($niveau->getContenus() as $contenu) {
                 if ($contenu->getType() === 'youtube' && $contenu->getYoutubeId()) {
                     try {
+                        // Placeholder for YouTube service logic
                     } catch (\Exception $e) {
                         $this->addFlash('warning', 'Impossible de récupérer toutes les informations des vidéos YouTube.');
                     }
@@ -60,6 +63,7 @@ class StudentController extends AbstractController
             'niveau' => $niveau,
         ]);
     }
+
     #[Route('/test/{formationId}', name: 'student_test', methods: ['GET', 'POST'])]
     public function test(Request $request, int $formationId, EntityManagerInterface $em): Response
     {
@@ -71,18 +75,37 @@ class StudentController extends AbstractController
         if (!$test) {
             throw $this->createNotFoundException('Test non défini pour cette formation.');
         }
-        
+
+        // Get all questions and randomize them
+        $questions = $test->getQuestions()->toArray();
+        if (count($questions) < 5) {
+            throw $this->createNotFoundException('Le test doit contenir au moins 5 questions.');
+        }
+
+        // Shuffle questions and take only the first 5
+        shuffle($questions);
+        $selectedQuestions = array_slice($questions, 0, 5);
+
         if ($request->isMethod('POST')) {
             $submittedAnswers = $request->request->all('answers') ?? [];
-            $total = count($test->getQuestions());
+            $total = count($selectedQuestions);
             $correct = 0;
-            foreach ($test->getQuestions() as $question) {
+            $user = $this->getUser();
+            foreach ($selectedQuestions as $question) {
                 $qId = $question->getId();
                 $submitted = $submittedAnswers[$qId] ?? null;
                 if ($submitted !== null && (int)$submitted === $question->getCorrectAnswer()) {
                     $correct++;
                 }
+                // Save user answer
+                $userAnswer = new UserAnswer();
+                $userAnswer->setUser($user);
+                $userAnswer->setTest($test);
+                $userAnswer->setQuestion($question);
+                $userAnswer->setSelectedAnswer($submitted !== null ? (int)$submitted : 0);
+                $em->persist($userAnswer);
             }
+            $em->flush();
             $score = ($total > 0) ? ($correct / $total) * 100 : 0;
             if ($score >= 50) {
                 return $this->redirectToRoute('student_certificate', ['formationId' => $formationId, 'score' => $score]);
@@ -94,6 +117,7 @@ class StudentController extends AbstractController
         
         return $this->render('student/test.html.twig', [
             'test' => $test,
+            'selectedQuestions' => $selectedQuestions,
         ]);
     }
 
@@ -109,6 +133,7 @@ class StudentController extends AbstractController
             'score' => $score,
         ]);
     }
+
     #[Route('/certificate/{formationId}/{score}/pdf', name: 'student_certificate_pdf', methods: ['GET'])]
     public function certificatePdf(
         int $formationId, 
@@ -139,5 +164,35 @@ class StudentController extends AbstractController
         $response->headers->set('Content-Disposition', $disposition);
         
         return $response;
+    }
+
+    #[Route('/test-answers/{formationId}', name: 'student_test_answers', methods: ['GET'])]
+    public function showTestAnswers(int $formationId, EntityManagerInterface $em): Response
+    {
+        $formation = $em->getRepository(Formation::class)->find($formationId);
+        if (!$formation) {
+            throw $this->createNotFoundException('Formation non trouvée.');
+        }
+        $test = $formation->getTest();
+        if (!$test) {
+            throw $this->createNotFoundException('Test non défini pour cette formation.');
+        }
+
+        $user = $this->getUser();
+        $userAnswers = $em->getRepository(UserAnswer::class)->findBy([
+            'user' => $user,
+            'test' => $test,
+        ]);
+        $questions = $test->getQuestions()->toArray();
+        $answersMap = [];
+        foreach ($userAnswers as $ua) {
+            $answersMap[$ua->getQuestion()->getId()] = $ua->getSelectedAnswer();
+        }
+
+        return $this->render('student/test_answers.html.twig', [
+            'formation' => $formation,
+            'questions' => $questions,
+            'userAnswers' => $answersMap,
+        ]);
     }
 }

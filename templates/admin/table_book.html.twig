@@ -135,11 +135,11 @@
                     <th>ID</th>
                     <th>Special ID</th>
                     <th>Nom du Livre</th>
-                    <th>Catégorie</th>
+               
                     <th>Disponibilité</th>
                     <th>update</th>
                       <th>delete</th>
-                       <th>file</th>
+      
                 </tr>
             </thead>
        <tbody>
@@ -148,7 +148,7 @@
             <td>{{ book.id }}</td>
             <td>{{ book.idBook }}</td>
             <td>{{ book.nomBook }}</td>
-            <td>{{ book.getCategoryName() }}</td>  {# ✅ Fix: Use getCategoryName() to avoid errors #}
+{# ✅ Fix: Use getCategoryName() to avoid errors #}
             <td>{{ book.dispoBook}}</td>
             <td>
                 <a href="{{ path('update_book', { 'id': book.id }) }}" class="btn-danger">
@@ -160,13 +160,7 @@
                     <button type="submit" class="btn-danger">Supprimer</button>
                 </form>
             </td>
-            <td>
-    {% if book.pdfFile %}
-        <a href="{{ asset('uploads/pdf/' ~ book.pdfFile) }}" target="_blank">📄 Télécharger</a>
-    {% else %}
-        Aucun fichier
-    {% endif %}
-</td>
+ 
         </tr>
     {% else %}
         <tr>

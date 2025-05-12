@@ -1,0 +1,98 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Feedback Details - {{ feedback.idEvent.titre }}{% endblock %}
+
+{% block body %}
+    <!-- Page Title Section -->
+    <section class="page-title" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('assets/img/hero-bg.jpg') }}') center/cover; padding: 100px 0;">
+        <div class="container" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center text-white">
+                    <h1>Feedback Details</h1>
+                    <h4 class="mt-3">{{ feedback.idEvent.titre }}</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Details Section -->
+    <section class="feedback-details" style="padding: 60px 0;">
+        <div class="container" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <!-- Event Info -->
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title mb-0">{{ feedback.idEvent.titre }}</h3>
+                                    <span class="badge bg-primary fs-5">{{ feedback.note }}/5</span>
+                                </div>
+                                <p class="text-muted mt-2">
+                                    <i class="fas fa-calendar me-2"></i>
+                                    Feedback given on {{ feedback.dateFeedback|date('d M Y') }}
+                                </p>
+                            </div>
+
+                            <!-- Feedback Content -->
+                            <div class="mb-4">
+                                <h5>Comments</h5>
+                                <p class="lead">{{ feedback.remarque ?: 'No additional comments provided.' }}</p>
+                            </div>
+
+                            <!-- Event Details -->
+                            <div class="mb-4">
+                                <h5>Event Details</h5>
+                                <div class="event-meta">
+                                    <p class="mb-2">
+                                        <i class="fas fa-calendar-alt text-primary"></i>
+                                        Event Date: {{ feedback.idEvent.dateDebut|date('d M Y, H:i') }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                        Location: {{ feedback.idEvent.lieu }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-user text-primary"></i>
+                                        Participant ID: {{ feedback.idParticipant }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="btn-group">
+                                    <a href="{{ path('app_front_feedbacks') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-arrow-left me-2"></i> Back to Feedbacks
+                                    </a>
+                                    <a href="{{ path('app_front_event_show', {'id': feedback.idEvent.id}) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye me-2"></i> View Event
+                                    </a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="{{ path('app_front_feedback_edit', {'id': feedback.id}) }}" class="btn btn-primary">
+                                        <i class="fas fa-edit me-2"></i> Edit
+                                    </a>
+                                    {{ include('front/feedback/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .event-meta i {
+            width: 24px;
+            margin-right: 8px;
+        }
+        .badge {
+            padding: 0.5em 1em;
+        }
+        .lead {
+            font-size: 1.1rem;
+        }
+    </style>
+{% endblock %}

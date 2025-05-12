@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250507031044 extends AbstractMigration
+final class Version20250511085722 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,10 +24,12 @@ final class Version20250507031044 extends AbstractMigration
         $this->addSql('CREATE TABLE categorie (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE categoriebook (id INT AUTO_INCREMENT NOT NULL, nom_cat VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE contenu (id INT AUTO_INCREMENT NOT NULL, niveau_id INT NOT NULL, type VARCHAR(50) NOT NULL, fichier VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, youtube_id VARCHAR(255) DEFAULT NULL, INDEX IDX_89C2003FB3E9C81 (niveau_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE cour (id INT AUTO_INCREMENT NOT NULL, module_id INT NOT NULL, code_cours VARCHAR(255) NOT NULL, titre LONGTEXT NOT NULL, niveau LONGTEXT NOT NULL, categorie LONGTEXT NOT NULL, INDEX IDX_A71F964FAFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE formation (id INT AUTO_INCREMENT NOT NULL, categorie_id INT NOT NULL, nom VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, image VARCHAR(255) DEFAULT NULL, date_creation DATETIME NOT NULL, INDEX IDX_404021BFBCF5E72D (categorie_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE module (id INT AUTO_INCREMENT NOT NULL, nom LONGTEXT NOT NULL, enseigant LONGTEXT NOT NULL, duree VARCHAR(255) NOT NULL, coefficient VARCHAR(10) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE niveau (id INT AUTO_INCREMENT NOT NULL, formation_id INT NOT NULL, ordre INT NOT NULL, INDEX IDX_4BDFF36B5200282E (formation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE question (id INT AUTO_INCREMENT NOT NULL, test_id INT NOT NULL, enonce LONGTEXT NOT NULL, answer1 VARCHAR(255) DEFAULT NULL, answer2 VARCHAR(255) DEFAULT NULL, answer3 VARCHAR(255) DEFAULT NULL, answer4 VARCHAR(255) DEFAULT NULL, correct_answer INT NOT NULL, INDEX IDX_B6F7494E1E5D0459 (test_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE reclamation (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, sujet VARCHAR(255) NOT NULL, justification LONGTEXT NOT NULL, image_path VARCHAR(255) DEFAULT NULL, date_envoi DATETIME NOT NULL, statut VARCHAR(50) NOT NULL, admin_reponse LONGTEXT DEFAULT NULL, INDEX IDX_CE606404A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE reclamation (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, sujet VARCHAR(255) NOT NULL, justification LONGTEXT NOT NULL, image_path VARCHAR(255) DEFAULT NULL, date_envoi DATETIME NOT NULL, statut VARCHAR(50) NOT NULL, admin_response LONGTEXT DEFAULT NULL, INDEX IDX_CE606404A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE role (id INT AUTO_INCREMENT NOT NULL, libelle VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE test (id INT AUTO_INCREMENT NOT NULL, formation_id INT NOT NULL, UNIQUE INDEX UNIQ_D87F7E0C5200282E (formation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(100) NOT NULL, password VARCHAR(255) NOT NULL, nom VARCHAR(50) NOT NULL, prenom VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -35,6 +37,7 @@ final class Version20250507031044 extends AbstractMigration
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE book ADD CONSTRAINT FK_CBE5A331D6D65480 FOREIGN KEY (cat_book) REFERENCES categoriebook (id)');
         $this->addSql('ALTER TABLE contenu ADD CONSTRAINT FK_89C2003FB3E9C81 FOREIGN KEY (niveau_id) REFERENCES niveau (id)');
+        $this->addSql('ALTER TABLE cour ADD CONSTRAINT FK_A71F964FAFC2B591 FOREIGN KEY (module_id) REFERENCES module (id)');
         $this->addSql('ALTER TABLE formation ADD CONSTRAINT FK_404021BFBCF5E72D FOREIGN KEY (categorie_id) REFERENCES categorie (id)');
         $this->addSql('ALTER TABLE niveau ADD CONSTRAINT FK_4BDFF36B5200282E FOREIGN KEY (formation_id) REFERENCES formation (id)');
         $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494E1E5D0459 FOREIGN KEY (test_id) REFERENCES test (id)');
@@ -49,6 +52,7 @@ final class Version20250507031044 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE book DROP FOREIGN KEY FK_CBE5A331D6D65480');
         $this->addSql('ALTER TABLE contenu DROP FOREIGN KEY FK_89C2003FB3E9C81');
+        $this->addSql('ALTER TABLE cour DROP FOREIGN KEY FK_A71F964FAFC2B591');
         $this->addSql('ALTER TABLE formation DROP FOREIGN KEY FK_404021BFBCF5E72D');
         $this->addSql('ALTER TABLE niveau DROP FOREIGN KEY FK_4BDFF36B5200282E');
         $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494E1E5D0459');
@@ -60,7 +64,9 @@ final class Version20250507031044 extends AbstractMigration
         $this->addSql('DROP TABLE categorie');
         $this->addSql('DROP TABLE categoriebook');
         $this->addSql('DROP TABLE contenu');
+        $this->addSql('DROP TABLE cour');
         $this->addSql('DROP TABLE formation');
+        $this->addSql('DROP TABLE module');
         $this->addSql('DROP TABLE niveau');
         $this->addSql('DROP TABLE question');
         $this->addSql('DROP TABLE reclamation');

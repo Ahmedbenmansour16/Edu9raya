@@ -53,7 +53,7 @@ final class BookController extends AbstractController
             return $this->redirectToRoute('table_book');
         }
 
-        return $this->render('book/confirm_delete.html.twig', [
+        return $this->render('book/confirm_delete.html.twig', [ 
             'book' => $book,
         ]);
     }

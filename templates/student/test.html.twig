@@ -107,35 +107,27 @@
 
   <h1 class="test-title">Test de la formation</h1>
   <form method="POST" id="testForm">
-    {% for question in test.questions %}
+    {% for question in selectedQuestions %}
+      {% set answers = [
+        { 'value': 1, 'text': question.answer1 },
+        { 'value': 2, 'text': question.answer2 },
+        { 'value': 3, 'text': question.answer3 },
+        { 'value': 4, 'text': question.answer4 }
+      ] %}
+      {% set shuffledAnswers = answers | shuffle %}
+
       <div class="question-card">
         <div class="question-text">
           Question {{ loop.index }} : {{ question.enonce }}
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_1" value="1">
-          <label class="form-check-label" for="q{{ question.id }}_1">
-            {{ question.answer1 }}
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_2" value="2">
-          <label class="form-check-label" for="q{{ question.id }}_2">
-            {{ question.answer2 }}
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_3" value="3">
-          <label class="form-check-label" for="q{{ question.id }}_3">
-            {{ question.answer3 }}
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_4" value="4">
-          <label class="form-check-label" for="q{{ question.id }}_4">
-            {{ question.answer4 }}
-          </label>
-        </div>
+        {% for answer in shuffledAnswers %}
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="answers[{{ question.id }}]" id="q{{ question.id }}_{{ answer.value }}" value="{{ answer.value }}">
+            <label class="form-check-label" for="q{{ question.id }}_{{ answer.value }}">
+              {{ answer.text }}
+            </label>
+          </div>
+        {% endfor %}
       </div>
     {% endfor %}
     <div class="text-center">
@@ -165,6 +157,5 @@
           });
   }
   updateTimer();
-  
 </script>
 {% endblock %}

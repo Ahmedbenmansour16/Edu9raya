@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Feedback{% endblock %}
+
+{% block body %}
+    <h1>Create new Feedback</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.idParticipant) }}
+        {{ form_row(form.note) }}
+        {{ form_row(form.remarque) }}
+        {{ form_row(form.dateFeedback) }}
+        {{ form_row(form.idEvent) }}
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_feedback_index') }}" class="btn btn-secondary">Back to list</a>
+{% endblock %}

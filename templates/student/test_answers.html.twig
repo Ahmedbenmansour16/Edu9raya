@@ -1,0 +1,128 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Réponses du Test{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .answers-container {
+        background: linear-gradient(135deg, #f6f9fc, #e9eff5);
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-top: 30px;
+        position: relative;
+    }
+
+    .answers-title {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #1c7ed6;
+        margin-bottom: 30px;
+    }
+
+    .answer-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .answer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .question-text {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .user-answer.correct {
+        font-size: 1rem;
+        color: #28a745;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+
+    .user-answer.correct::before {
+        content: '✓';
+        margin-right: 5px;
+    }
+
+    .user-answer.incorrect {
+        font-size: 1rem;
+        color: #dc3545;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+
+    .user-answer.incorrect::before {
+        content: '✗';
+        margin-right: 5px;
+    }
+
+    .correct-answer {
+        font-size: 1rem;
+        color: #6c757d;
+        font-style: italic;
+        margin-top: 5px;
+    }
+
+    .btn-back {
+        background: #6c757d;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 30px;
+        font-size: 1rem;
+        transition: background 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background: #5a6268;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-4 answers-container">
+    <h1 class="answers-title">Réponses du Test</h1>
+    <h3 class="text-center mb-4">Formation : {{ formation.nom }}</h3>
+    {% for question in questions %}
+        <div class="answer-card">
+            <div class="question-text">
+                Question {{ loop.index }} : {{ question.enonce }}
+            </div>
+            {% set userAnswer = userAnswers[question.id] ?? 0 %}
+            {% set isCorrect = userAnswer == question.correctAnswer %}
+            <div class="user-answer {{ isCorrect ? 'correct' : 'incorrect' }}">
+                Votre réponse : {{ {
+                    1: question.answer1,
+                    2: question.answer2,
+                    3: question.answer3,
+                    4: question.answer4
+                }[userAnswer] ?? 'Non répondu' }}
+            </div>
+            <div class="correct-answer">
+                Réponse correcte : {{ {
+                    1: question.answer1,
+                    2: question.answer2,
+                    3: question.answer3,
+                    4: question.answer4
+                }[question.correctAnswer] }}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="text-center mt-4">
+        <a href="{{ path('student_certificate', {'formationId': formation.id, 'score': 0}) }}" class="btn btn-back">
+            Retour au Certificat
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Postuler à un Stage{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Postuler au Stage : {{ stage.titre }}</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="mb-3">
+        <label class="form-label">Stage</label>
+        <input type="text" class="form-control" value="{{ stage.titre }}" readonly>
+        {{ form_widget(form.stage, {'attr': {'class': 'd-none'}}) }}
+        {{ form_errors(form.stage) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.filename) }}
+        {{ form_widget(form.filename) }}
+        {{ form_errors(form.filename) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Postuler</button>
+    <a href="{{ path('student_stage_index') }}" class="btn btn-secondary">Annuler</a>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
